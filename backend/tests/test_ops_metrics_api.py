@@ -15,7 +15,12 @@ from app.core.dependencies import get_db
 from app.core.dependencies_auth import get_current_user
 from app.main import create_app
 from app.models.schemas.auth import UserMe
-from app.models.schemas.ops_report import OpsMetricsResponse, OpsPeriod
+from app.models.schemas.ops_report import (
+    MailboxVolume,
+    OpsMetricsResponse,
+    OpsPeriod,
+    RejectThemeCount,
+)
 
 
 @pytest.fixture
@@ -66,16 +71,25 @@ def _metrics() -> OpsMetricsResponse:
     end = datetime(2026, 8, 9, tzinfo=UTC)
     return OpsMetricsResponse(
         period=OpsPeriod(date_from=start, date_to=end),
-        volume_by_mailbox=[],
-        total_volume=0,
-        spam_filtered=0,
-        approvals=0,
-        rejects=0,
-        approval_rate=0.0,
-        top_reject_themes=[],
-        avg_resolve_hours=None,
-        resolve_sample_count=0,
-        generated_at=datetime.now(UTC),
+        volume_by_mailbox=[
+            MailboxVolume(
+                mailbox="sales",
+                email="sales@example.com",
+                thread_volume=4,
+                awaiting_action=2,
+                stale=1,
+            )
+        ],
+        total_volume=5,
+        spam_filtered=3,
+        drafts_generated=5,
+        approvals=2,
+        rejects=3,
+        approval_rate=0.4,
+        top_reject_themes=[RejectThemeCount(reason_code="tone", count=2)],
+        avg_resolve_hours=15.0,
+        resolve_sample_count=2,
+        generated_at=datetime(2026, 8, 12, 16, 0, tzinfo=UTC),
     )
 
 
@@ -149,10 +163,17 @@ async def test_ops_metrics_ok(app) -> None:
             )
     assert resp.status_code == 200
     body = resp.json()
-    assert body["total_volume"] == 0
+    assert body["total_volume"] == 5
+    assert body["spam_filtered"] == 3
+    assert body["approvals"] == 2
+    assert body["rejects"] == 3
+    assert body["approval_rate"] == pytest.approx(0.4)
+    assert body["avg_resolve_hours"] == pytest.approx(15.0)
+    assert body["resolve_sample_count"] == 2
+    assert body["volume_by_mailbox"][0]["mailbox"] == "sales"
+    assert body["top_reject_themes"][0] == {"reason_code": "tone", "count": 2}
     assert "from" in body["period"]
     assert "to" in body["period"]
-    assert body["approval_rate"] == 0.0
 
 
 @pytest.mark.asyncio
