@@ -10,7 +10,7 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 from app.core.dependencies import get_db
-from app.repositories.reply_embedding_repo import ReplyEmbeddingSchema
+from app.repositories.reply_embedding_repo import ReplyMemoryListItem
 
 
 @pytest.fixture
@@ -18,18 +18,26 @@ def api_user_role() -> str:
     return "admin"
 
 
-def _reply(**overrides: object) -> ReplyEmbeddingSchema:
+def _reply(**overrides: object) -> ReplyMemoryListItem:
     base = {
         "id": uuid.uuid4(),
         "draft_id": uuid.uuid4(),
+        "thread_id": uuid.uuid4(),
         "mailbox": "elise@example.com",
         "reply_text": "Thanks — sending the packet today.",
+        "preview_line": "Thanks — sending the packet today.",
+        "draft_subject": "Re: Packet",
+        "sender_email": "client@example.com",
+        "receiver_email": "elise@example.com",
+        "reason_code": "similar",
+        "reason_text": "Keep this tone",
         "original_email_preview": "Need drug screen results",
+        "learning_note": "Keep this tone",
         "is_excluded": False,
         "created_at": datetime.now(UTC),
     }
     base.update(overrides)
-    return ReplyEmbeddingSchema.model_validate(base)
+    return ReplyMemoryListItem.model_validate(base)
 
 
 @pytest.mark.asyncio
@@ -46,6 +54,8 @@ async def test_list_reply_memory(app) -> None:
     body = response.json()
     assert len(body) == 2
     assert body[0]["reply_text"] == rows[0].reply_text
+    assert body[0]["sender_email"] == "client@example.com"
+    assert body[0]["draft_subject"] == "Re: Packet"
     assert body[1]["is_excluded"] is True
 
 
@@ -80,6 +90,7 @@ async def test_exclude_reply_memory(app) -> None:
 @pytest.mark.asyncio
 async def test_exclude_reply_memory_not_found(app) -> None:
     session = AsyncMock()
+    session.commit = AsyncMock()
 
     async def override_db():
         yield session
