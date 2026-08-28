@@ -3,12 +3,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { ErrorPage } from "@/components/error-page"
-import { StatusBadge } from "@/components/status-badge"
-import { Button } from "@/components/ui/button"
+import { MemoryPreviewRow } from "@/components/memory-preview-row"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useAuthState } from "@/features/auth/use-auth"
 import { api } from "@/lib/api-client"
-import { formatReviewerDateTime } from "@/lib/dates"
 import type { ReplyMemoryResponse } from "@/lib/types"
 
 export const ToneMemorySection = () => {
@@ -46,90 +45,78 @@ export const ToneMemorySection = () => {
   const replies = replyMemory ?? []
 
   return (
-    <section className="mt-10" aria-labelledby="tone-memory-heading">
-      <div className="mb-5">
-        <h2
-          id="tone-memory-heading"
-          className="text-xl font-semibold text-gray-900 dark:text-gray-100"
-        >
+    <Card aria-labelledby="tone-memory-heading">
+      <CardHeader>
+        <CardTitle id="tone-memory-heading" className="text-lg">
           Tone memory
-        </h2>
-        <p className="mt-1 text-sm text-gray-500">
+        </CardTitle>
+        <CardDescription>
           Approved replies used as tone references when drafting. Exclude any that should not
-          influence future drafts.
-        </p>
+          influence future drafts. Click a preview to read the full draft.
+        </CardDescription>
         {!isAdmin ? (
-          <p className="mt-1 text-sm text-amber-700 dark:text-amber-400">
+          <p className="text-sm text-amber-700 dark:text-amber-400">
             View only — an admin account is required to exclude tone references.
           </p>
         ) : null}
-      </div>
-
-      <div className="bg-card ring-foreground/10 overflow-hidden rounded-xl ring-1">
-        {replyMemoryLoading ? (
-          <div className="space-y-3 p-4">
-            <Skeleton className="h-16 w-full" />
-            <Skeleton className="h-16 w-full" />
-          </div>
-        ) : replyMemoryError ? (
-          <div className="p-4">
-            <ErrorPage
-              error={replyMemoryErr}
-              onRetry={() => {
-                void refetchReplyMemory()
-              }}
-            />
-          </div>
-        ) : replies.length === 0 ? (
-          <p className="p-6 text-sm text-gray-500">
-            No approved replies yet. Approve a draft to start building tone memory.
-          </p>
-        ) : (
-          <ul className="divide-y divide-gray-100 dark:divide-gray-800">
-            {replies.map((item) => (
-              <li key={item.id} className="flex flex-wrap items-start justify-between gap-3 p-4">
-                <div className="min-w-0 flex-1 space-y-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <StatusBadge
-                      label={item.is_excluded ? "Excluded" : "Included"}
-                      tone={item.is_excluded ? "neutral" : "green"}
-                    />
-                    <StatusBadge label={item.mailbox} tone="neutral" />
-                    <span className="text-xs text-gray-500">
-                      Approved {formatReviewerDateTime(item.created_at)}
-                    </span>
-                  </div>
-                  {item.original_email_preview ? (
-                    <p className="text-sm text-gray-500">Re: {item.original_email_preview}</p>
-                  ) : null}
-                  <p className="line-clamp-3 text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300">
-                    {item.reply_text}
-                  </p>
-                </div>
-                {isAdmin ? (
-                  <div className="flex shrink-0">
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="outline"
-                      tabIndex={0}
-                      aria-label={
-                        item.is_excluded
-                          ? "Include this reply in tone memory"
-                          : "Exclude this reply from tone memory"
-                      }
-                      disabled={excludeMutation.isPending}
-                      onClick={() => handleToggleExclude(item)}
-                    >
-                      {item.is_excluded ? "Include" : "Exclude"}
-                    </Button>
-                  </div>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </section>
+      </CardHeader>
+      <CardContent>
+        <div className="ring-foreground/10 overflow-hidden rounded-lg ring-1">
+          {replyMemoryLoading ? (
+            <div className="space-y-3 p-4">
+              <Skeleton className="h-16 w-full" />
+              <Skeleton className="h-16 w-full" />
+            </div>
+          ) : replyMemoryError ? (
+            <div className="p-4">
+              <ErrorPage
+                error={replyMemoryErr}
+                onRetry={() => {
+                  void refetchReplyMemory()
+                }}
+              />
+            </div>
+          ) : replies.length === 0 ? (
+            <p className="p-6 text-sm text-gray-500">
+              No approved replies yet. Approve a draft to start building tone memory.
+            </p>
+          ) : (
+            <ul className="divide-y divide-gray-100 dark:divide-gray-800">
+              {replies.map((item) => (
+                <MemoryPreviewRow
+                  key={item.id}
+                  isExcluded={item.is_excluded}
+                  canExclude={isAdmin}
+                  excludePending={excludeMutation.isPending}
+                  excludeLabelInclude="Include this reply in tone memory"
+                  excludeLabelExclude="Exclude this reply from tone memory"
+                  onToggleExclude={() => handleToggleExclude(item)}
+                  item={{
+                    id: item.id,
+                    title: item.draft_subject ?? item.original_email_preview,
+                    senderEmail: item.sender_email ?? null,
+                    receiverEmail: item.receiver_email ?? item.mailbox,
+                    reasonCode: item.reason_code ?? null,
+                    reasonText: item.reason_text ?? item.learning_note ?? null,
+                    dateIso: item.created_at,
+                    previewLine: item.preview_line ?? null,
+                    fullBody: item.reply_text,
+                    threadId: item.thread_id ?? null,
+                    datePrefix: "Approved",
+                    badges: [
+                      {
+                        label: item.is_excluded ? "Excluded" : "Included",
+                        tone: item.is_excluded ? "neutral" : "green",
+                      },
+                      { label: item.mailbox, tone: "neutral" },
+                    ],
+                  }}
+                />
+              ))}
+            </ul>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   )
 }
