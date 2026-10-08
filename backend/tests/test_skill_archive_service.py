@@ -89,7 +89,7 @@ def test_parse_fixture_samplelab_rebilling_zip() -> None:
     assert paths == {
         "references/client_rules.md",
         "references/output_format.md",
-        "references/harmeyer_departments.csv",
+        "references/samplepartner_departments.csv",
     }
 
 

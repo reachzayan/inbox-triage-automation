@@ -45,8 +45,8 @@ def test_build_user_content_uses_directory_salute_not_local_part() -> None:
         tip,
         context,
         _triage(),
-        directory={"samplecontact@sample-vendor.example.com": "Kelvin"},
+        directory={"samplecontact@sample-vendor.example.com": "Jordan"},
         suppress_local_part=True,
     )
-    assert "Salute: Kelvin" in content
+    assert "Salute: Jordan" in content
     assert "Salute: Samplecontact" not in content

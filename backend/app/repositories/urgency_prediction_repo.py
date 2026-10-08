@@ -29,7 +29,7 @@ class UrgencyPredictionSchema(BaseModel):
     alert_fingerprint: str | None = None
     applied_rule_ids: list[uuid.UUID] | None = None
     final_urgency: str
-    elise_edited_to: str | None = None
+    casey_edited_to: str | None = None
     created_at: datetime | None = None
 
 
@@ -46,7 +46,7 @@ async def insert_urgency_prediction(
     routing_category: str | None = None,
     alert_fingerprint: str | None = None,
     applied_rule_ids: list[uuid.UUID] | None = None,
-    elise_edited_to: str | None = None,
+    casey_edited_to: str | None = None,
 ) -> UrgencyPredictionSchema:
     stmt = (
         pg_insert(UrgencyPrediction)
@@ -61,7 +61,7 @@ async def insert_urgency_prediction(
             alert_fingerprint=alert_fingerprint,
             applied_rule_ids=applied_rule_ids,
             final_urgency=final_urgency,
-            elise_edited_to=elise_edited_to,
+            casey_edited_to=casey_edited_to,
         )
         .on_conflict_do_nothing(index_elements=["draft_id"])
         .returning(UrgencyPrediction)
@@ -107,14 +107,14 @@ async def list_recent_for_mailbox(
     return [UrgencyPredictionSchema.model_validate(row) for row in result.scalars().all()]
 
 
-async def set_elise_edited_to(
+async def set_casey_edited_to(
     session: AsyncSession,
     draft_id: uuid.UUID,
     edited_to: str,
 ) -> None:
-    """Record Elise's later urgency edit on the prediction row for *draft_id*."""
+    """Record Casey's later urgency edit on the prediction row for *draft_id*."""
     await session.execute(
         sa_update(UrgencyPrediction)
         .where(UrgencyPrediction.draft_id == draft_id)
-        .values(elise_edited_to=edited_to)
+        .values(casey_edited_to=edited_to)
     )

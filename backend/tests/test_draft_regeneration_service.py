@@ -22,7 +22,7 @@ def _settings() -> Settings:
     return Settings(
         draft_model="claude-sonnet-4-6",
         anthropic_api_key="test-key",
-        target_mailboxes="elise@example.com",
+        target_mailboxes="casey@example.com",
         salute_directory_enabled=False,
         thread_context_enabled=False,
     )
@@ -34,7 +34,7 @@ def _thread():
         (),
         {
             "id": uuid.uuid4(),
-            "mailbox": "elise@example.com",
+            "mailbox": "casey@example.com",
             "conversation_id": "c1",
             "subject": "Need docs",
         },
@@ -51,7 +51,7 @@ def _message(thread_id: uuid.UUID) -> MessageSchema:
         body_text="Please send docs",
         body_preview="Please send",
         received_at=datetime.now(UTC),
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=[],
         has_attachments=False,
     )
@@ -167,7 +167,7 @@ async def test_regenerate_creates_new_draft() -> None:
             settings=_settings(),
             thread_id=thread.id,
             instruction="just acknowledge, no action items",
-            actor="elise@example.com",
+            actor="casey@example.com",
         )
 
     assert result.id == persisted.id
@@ -271,7 +271,7 @@ async def test_force_letter_overrides_briefing_triage() -> None:
             client=AsyncMock(),
             settings=_settings(),
             thread_id=thread.id,
-            actor="elise@example.com",
+            actor="casey@example.com",
         )
 
     triage_passed = gen_mock.await_args.args[2]
@@ -368,7 +368,7 @@ def _outbound_message(thread_id: uuid.UUID) -> MessageSchema:
         thread_id=thread_id,
         graph_message_id="msg-out",
         direction="outbound",
-        sender="elise@example.com",
+        sender="casey@example.com",
         body_text="Already sent",
         body_preview="Already sent",
         received_at=datetime(2026, 9, 1, 13, 0, tzinfo=UTC),
@@ -405,7 +405,7 @@ async def test_regenerate_refuses_letter_when_outbound_tip_in_sync() -> None:
                 {
                     "id": "msg-out",
                     "subject": "Need docs",
-                    "from": {"emailAddress": {"address": "elise@example.com"}},
+                    "from": {"emailAddress": {"address": "casey@example.com"}},
                     "receivedDateTime": "2026-09-01T13:00:00Z",
                     "conversationId": "c1",
                 }
@@ -470,7 +470,7 @@ async def test_regenerate_letter_when_graph_has_newer_inbound() -> None:
                 {
                     "id": "msg-out",
                     "subject": "Need docs",
-                    "from": {"emailAddress": {"address": "elise@example.com"}},
+                    "from": {"emailAddress": {"address": "casey@example.com"}},
                     "receivedDateTime": "2026-09-01T13:00:00Z",
                     "conversationId": "c1",
                 }
@@ -706,7 +706,7 @@ async def test_regenerate_merges_paired_constraints_and_persists_retrieved_ids()
             settings=_settings(),
             thread_id=thread.id,
             instruction=instruction,
-            actor="elise@example.com",
+            actor="casey@example.com",
         )
 
     negatives = gen_mock.await_args.kwargs["negative_constraints"]
@@ -762,7 +762,7 @@ async def test_regen_persists_validator_retry_body() -> None:
         draft_model="claude-sonnet-4-6",
         classification_model="claude-haiku-4-5",
         anthropic_api_key="test-key",
-        target_mailboxes="elise@example.com",
+        target_mailboxes="casey@example.com",
         salute_directory_enabled=False,
         draft_validator_enabled=True,
         thread_context_enabled=False,
@@ -857,7 +857,7 @@ async def test_regen_persists_validator_retry_body() -> None:
             client=client,
             settings=settings,
             thread_id=thread.id,
-            actor="elise@example.com",
+            actor="casey@example.com",
         )
 
     persisted_draft = create_mock.await_args.kwargs["draft"]

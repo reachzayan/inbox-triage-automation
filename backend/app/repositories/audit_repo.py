@@ -170,7 +170,7 @@ async def resolution_provenance_by_conversations(
         payload = event.payload if isinstance(event.payload, dict) else {}
         snapshot = payload.get("resolve_snapshot")
         snapshot_dict = snapshot if isinstance(snapshot, dict) else {}
-        resolved_by = "elise" if event.event_type in _ELISE_RESOLVE_EVENTS else "draftassistant"
+        resolved_by = "casey" if event.event_type in _ELISE_RESOLVE_EVENTS else "draftassistant"
         if isinstance(snapshot_dict.get("resolved_by"), str) and snapshot_dict["resolved_by"]:
             resolved_by = str(snapshot_dict["resolved_by"])
         reason = snapshot_dict.get("resolution_reason") or payload.get("resolution_reason")
@@ -190,7 +190,7 @@ async def get_latest_resolve_snapshot(
     mailbox: str,
     conversation_id: str,
 ) -> dict[str, Any] | None:
-    """Latest DraftAssistant/Elise resolve snapshot for reopen restore."""
+    """Latest DraftAssistant/Casey resolve snapshot for reopen restore."""
     stmt = (
         select(AuditEvent)
         .where(
@@ -250,7 +250,7 @@ def _to_entry(event: AuditEvent) -> AuditEntry:
         detail = str(event.payload.get("detail") or event.payload.get("summary") or "")
         if not detail and event.payload:
             detail = ", ".join(f"{k}={v}" for k, v in list(event.payload.items())[:4])
-    source = event.actor if event.actor in {"system", "agent", "elise"} else "system"
+    source = event.actor if event.actor in {"system", "agent", "casey"} else "system"
     return AuditEntry(
         timestamp=event.created_at,
         event=event.event_type,

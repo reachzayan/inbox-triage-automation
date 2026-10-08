@@ -21,8 +21,8 @@ describe("parseSearchQuery", () => {
   })
 
   it("keeps quoted filter values", () => {
-    const parsed = parseSearchQuery('from:"Elise Kelvin" contains:"drug screen" invoice')
-    expect(parsed.senders).toEqual(["Elise Kelvin"])
+    const parsed = parseSearchQuery('from:"Casey Jordan" contains:"drug screen" invoice')
+    expect(parsed.senders).toEqual(["Casey Jordan"])
     expect(parsed.contains).toEqual(["drug screen"])
     expect(parsed.freeText).toBe("invoice")
   })

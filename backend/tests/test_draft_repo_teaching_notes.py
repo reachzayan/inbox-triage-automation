@@ -12,7 +12,7 @@ from app.repositories import draft_repo, thread_repo
 
 pytestmark = pytest.mark.db
 
-MAILBOX = "elise@example.com"
+MAILBOX = "casey@example.com"
 CATCHUP = "Learned from Outlook send"
 LLM_NOTE = "Vendor clarified ElectronicClientID; restate the multi-tenant goal."
 
@@ -34,7 +34,7 @@ async def test_latest_teaching_notes_skip_outlook_catchup(db_session) -> None:
             thread_id=thread.id,
             message_id="AAMk-llm-teaching-1",
             subject="Re: Open items",
-            body="Hi Beau,\n\nThank you for checking.",
+            body="Hi Taylor,\n\nThank you for checking.",
             recipients={"suggested_recipients": [], "forward_to": None},
             teaching_note=LLM_NOTE,
             created_at=older,
@@ -46,7 +46,7 @@ async def test_latest_teaching_notes_skip_outlook_catchup(db_session) -> None:
             thread_id=thread.id,
             message_id="AAMk-catchup-teaching-1",
             subject="Re: Open items",
-            body="Thanks for the follow-up Beau.",
+            body="Thanks for the follow-up Taylor.",
             recipients={"suggested_recipients": [], "forward_to": None},
             teaching_note=CATCHUP,
             approval_note=CATCHUP,

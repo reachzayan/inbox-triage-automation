@@ -87,7 +87,7 @@ def _sync_graph_client() -> MagicMock:
     client.list_thread_messages = AsyncMock(
         return_value=[
             _graph_msg("msg-in", "2026-09-01T12:00:00Z", "client@example.com"),
-            _graph_msg("msg-out", "2026-09-01T13:00:00Z", "elise@example.com"),
+            _graph_msg("msg-out", "2026-09-01T13:00:00Z", "casey@example.com"),
         ]
     )
     return client
@@ -98,7 +98,7 @@ def _followup_graph_client() -> MagicMock:
     client.list_thread_messages = AsyncMock(
         return_value=[
             _graph_msg("msg-in", "2026-09-01T12:00:00Z", "client@example.com"),
-            _graph_msg("msg-out", "2026-09-01T13:00:00Z", "elise@example.com"),
+            _graph_msg("msg-out", "2026-09-01T13:00:00Z", "casey@example.com"),
             _graph_msg("msg-followup", "2026-09-01T14:00:00Z", "client@example.com"),
         ]
     )
@@ -223,7 +223,7 @@ async def test_heal_outbound_tip_apply_resolves(db_session: AsyncSession) -> Non
         thread.id,
         graph_message_id="msg-out",
         direction="outbound",
-        sender="elise@example.com",
+        sender="casey@example.com",
         received_at=T2,
     )
     await db_session.commit()
@@ -279,7 +279,7 @@ async def test_heal_skips_when_graph_has_newer_inbound(db_session: AsyncSession)
         thread.id,
         graph_message_id="msg-out",
         direction="outbound",
-        sender="elise@example.com",
+        sender="casey@example.com",
         received_at=T2,
     )
     await db_session.commit()

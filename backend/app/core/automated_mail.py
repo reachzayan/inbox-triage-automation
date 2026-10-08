@@ -3,7 +3,7 @@
 Automated is a per-message property. Noreply locals always win. A named
 person is never a robot from List-* or Graph/Outlook headers alone.
 Thread-level Automated is decided separately and stays off once a human
-discussion or Elise reply exists.
+discussion or Casey reply exists.
 """
 
 from __future__ import annotations

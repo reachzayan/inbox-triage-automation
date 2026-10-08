@@ -24,25 +24,25 @@ def test_reviewer_list_is_separate_from_target_mailboxes() -> None:
     settings = Settings(
         environment="local",
         target_mailboxes="inquiries@sample-site.example.com",
-        reviewer_mailboxes="elise@sample-site.example.com",
+        reviewer_mailboxes="casey@sample-site.example.com",
     )
     assert settings.mailbox_list == ["inquiries@sample-site.example.com"]
-    assert settings.reviewer_mailbox_list == ["elise@sample-site.example.com"]
-    assert settings.is_reviewer_address("Elise@sample-site.example.com")
+    assert settings.reviewer_mailbox_list == ["casey@sample-site.example.com"]
+    assert settings.is_reviewer_address("Casey@sample-site.example.com")
     assert not settings.is_reviewer_address("inquiries@sample-site.example.com")
-    assert not settings.mailbox_allowed("elise@sample-site.example.com")
-    assert settings.outbound_mailbox_allowed("elise@sample-site.example.com")
+    assert not settings.mailbox_allowed("casey@sample-site.example.com")
+    assert settings.outbound_mailbox_allowed("casey@sample-site.example.com")
 
 
 def test_inbound_copy_from_reviewer_is_treated_as_outbound() -> None:
     settings = Settings(
         environment="local",
-        reviewer_mailboxes="elise@sample-site.example.com",
+        reviewer_mailboxes="casey@sample-site.example.com",
     )
     assert (
         _direction_for_sender(
             "inquiries@sample-site.example.com",
-            "elise@sample-site.example.com",
+            "casey@sample-site.example.com",
             settings=settings,
         )
         == EmailDirectionEnum.OUTBOUND
@@ -72,11 +72,11 @@ def _thread(*, mailbox: str, conversation_id: str) -> ThreadSchema:
 
 @pytest.mark.asyncio
 async def test_personal_sent_item_attaches_to_shared_inbox_thread() -> None:
-    """Sent Items in Elise's mailbox must resolve the inquiries thread, not a new one."""
+    """Sent Items in Casey's mailbox must resolve the inquiries thread, not a new one."""
     inquiries = "inquiries@sample-site.example.com"
-    elise = "elise@sample-site.example.com"
+    casey = "casey@sample-site.example.com"
     conversation_id = "conv-shared"
-    message_id = "AAMkAG-elise-sent"
+    message_id = "AAMkAG-casey-sent"
     shared_thread = _thread(mailbox=inquiries, conversation_id=conversation_id)
 
     redis = AsyncMock()
@@ -89,8 +89,8 @@ async def test_personal_sent_item_attaches_to_shared_inbox_thread() -> None:
             "subject": "Re: Background check",
             "bodyPreview": "Sent from my mailbox",
             "body": {"contentType": "text", "content": "Sent from my mailbox"},
-            "sender": {"emailAddress": {"address": elise}},
-            "from": {"emailAddress": {"address": elise}},
+            "sender": {"emailAddress": {"address": casey}},
+            "from": {"emailAddress": {"address": casey}},
             "receivedDateTime": "2026-08-19T14:00:00Z",
             "conversationId": conversation_id,
             "toRecipients": [{"emailAddress": {"address": "client@vendor.example"}}],
@@ -106,7 +106,7 @@ async def test_personal_sent_item_attaches_to_shared_inbox_thread() -> None:
     settings = Settings(
         environment="local",
         target_mailboxes=inquiries,
-        reviewer_mailboxes=elise,
+        reviewer_mailboxes=casey,
     )
 
     with (
@@ -136,7 +136,7 @@ async def test_personal_sent_item_attaches_to_shared_inbox_thread() -> None:
             session=session,
             redis=redis,
             graph_client=graph_client,
-            mailbox=elise,
+            mailbox=casey,
             message_id=message_id,
         )
 
@@ -163,7 +163,7 @@ async def test_reviewer_copy_landing_in_target_inbox_completes_dedup() -> None:
     have written, not just whether some mock was awaited.
     """
     inquiries = "inquiries@sample-site.example.com"
-    elise = "elise@sample-site.example.com"
+    casey = "casey@sample-site.example.com"
     conversation_id = "conv-reviewer-copy"
     message_id = "AAMkAG-reviewer-copy"
 
@@ -190,8 +190,8 @@ async def test_reviewer_copy_landing_in_target_inbox_completes_dedup() -> None:
             "subject": "Re: Background check",
             "bodyPreview": "Reviewer's own copy",
             "body": {"contentType": "text", "content": "Reviewer's own copy"},
-            "sender": {"emailAddress": {"address": elise}},
-            "from": {"emailAddress": {"address": elise}},
+            "sender": {"emailAddress": {"address": casey}},
+            "from": {"emailAddress": {"address": casey}},
             "receivedDateTime": "2026-08-19T14:00:00Z",
             "conversationId": conversation_id,
             "toRecipients": [{"emailAddress": {"address": "client@vendor.example"}}],
@@ -209,7 +209,7 @@ async def test_reviewer_copy_landing_in_target_inbox_completes_dedup() -> None:
     settings = Settings(
         environment="local",
         target_mailboxes=inquiries,
-        reviewer_mailboxes=elise,
+        reviewer_mailboxes=casey,
     )
 
     with (
@@ -261,7 +261,7 @@ def _persisted_from_create(session, **kwargs):
 
 @pytest.mark.asyncio
 async def test_shared_mailbox_tip_send_resolves_without_reviewer_from() -> None:
-    """Brittany / SampleHelpdesk case: Elise replies from the shared mailbox itself.
+    """Brittany / SampleHelpdesk case: Casey replies from the shared mailbox itself.
 
     Conversation sync persists the tip as direction=outbound (From == mailbox),
     but From is not a REVIEWER_MAILBOXES address. Spec: tip outbound must still
@@ -312,7 +312,7 @@ async def test_shared_mailbox_tip_send_resolves_without_reviewer_from() -> None:
     settings = Settings(
         environment="local",
         target_mailboxes=info,
-        reviewer_mailboxes="elise@sample-site.example.com",
+        reviewer_mailboxes="casey@sample-site.example.com",
     )
 
     with (
@@ -394,7 +394,7 @@ async def test_older_shared_send_does_not_resolve_when_tip_is_inbound() -> None:
     settings = Settings(
         environment="local",
         target_mailboxes=info,
-        reviewer_mailboxes="elise@sample-site.example.com",
+        reviewer_mailboxes="casey@sample-site.example.com",
     )
 
     with (

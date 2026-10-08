@@ -48,7 +48,7 @@ def _outbound(*, message_id: str = "outbound-1") -> EmailMessageSchema:
         message_id=message_id,
         conversation_id="conv-1",
         mailbox="inquiries@example.com",
-        sender="elise@example.com",
+        sender="casey@example.com",
         subject="Re: Need docs",
         body_text=SENT_BODY,
         received_at=datetime(2026, 8, 27, 14, 5, tzinfo=UTC),
@@ -183,7 +183,7 @@ async def test_promote_sent_reply_creates_approved_similar_and_stores_memory() -
     """Sent body becomes an approved similar draft; reply memory stores that literal body."""
     thread_id = uuid.uuid4()
     sent = _sent_reply(thread_id=thread_id)
-    outbound_graph_id = "AAMkAG-elise-sent"
+    outbound_graph_id = "AAMkAG-casey-sent"
     created = _approved_draft(thread_id=thread_id)
     # create returns unapproved; approve returns approved
     created_raw = created.model_copy(
@@ -268,7 +268,7 @@ async def test_promote_preserves_llm_draft_id_and_still_learns() -> None:
     """time_window-linked LLM draft stays the comparison target; catch-up still returns for memory."""
     thread_id = uuid.uuid4()
     llm_draft_id = uuid.uuid4()
-    llm_teaching = "Answer Beau's clarifying question about ElectronicClientID vs ExternalDonorID."
+    llm_teaching = "Answer Taylor's clarifying question about ElectronicClientID vs ExternalDonorID."
     sent = _sent_reply(thread_id=thread_id, draft_id=llm_draft_id)
     llm_draft = DraftResponseSchema.model_validate(
         {
@@ -276,7 +276,7 @@ async def test_promote_preserves_llm_draft_id_and_still_learns() -> None:
             "thread_id": thread_id,
             "created_at": datetime(2026, 8, 27, 14, 1, tzinfo=UTC),
             "subject_line": "Re: Need docs",
-            "reply_body": "Hi Beau,\n\nThank you for checking on that.",
+            "reply_body": "Hi Taylor,\n\nThank you for checking on that.",
             "teaching_note": llm_teaching,
             "urgency": "NORMAL",
             "urgency_reason": "Clarifying question",
@@ -290,7 +290,7 @@ async def test_promote_preserves_llm_draft_id_and_still_learns() -> None:
         update={"approved_at": None, "feedback_action": None, "approval_scope": None}
     )
     session = AsyncMock()
-    outbound_graph_id = "AAMkAG-elise-sent-2"
+    outbound_graph_id = "AAMkAG-casey-sent-2"
 
     with (
         patch(
@@ -389,7 +389,7 @@ async def test_promote_idempotent_when_already_linked_approved_draft() -> None:
 
 @pytest.mark.asyncio
 async def test_run_catchup_triages_inbound_skips_sonnet_promotes_and_keeps_resolved() -> None:
-    """Quick Elise reply: Haiku runs, Sonnet does not, synthetic approve, RESOLVED."""
+    """Quick Casey reply: Haiku runs, Sonnet does not, synthetic approve, RESOLVED."""
     thread_id = uuid.uuid4()
     inbound = _inbound()
     outbound = _outbound()
@@ -572,7 +572,7 @@ async def test_run_catchup_skips_when_graph_has_newer_inbound() -> None:
         thread_id=thread_id,
         graph_message_id="outbound-1",
         direction="outbound",
-        sender="elise@example.com",
+        sender="casey@example.com",
         body_text=SENT_BODY,
         received_at=datetime(2026, 8, 27, 14, 5, tzinfo=UTC),
         to_recipients=["client@vendor.example"],
@@ -594,7 +594,7 @@ async def test_run_catchup_skips_when_graph_has_newer_inbound() -> None:
                 {
                     "id": "outbound-1",
                     "subject": "Need docs",
-                    "from": {"emailAddress": {"address": "elise@example.com"}},
+                    "from": {"emailAddress": {"address": "casey@example.com"}},
                     "receivedDateTime": "2026-08-27T14:05:00Z",
                     "conversationId": "conv-1",
                 }
@@ -660,7 +660,7 @@ async def test_run_catchup_skips_when_graph_has_newer_inbound() -> None:
 
 @pytest.mark.asyncio
 async def test_phased_pipeline_skips_sonnet_when_sent_reply_already_exists() -> None:
-    """Inbound arrives after Elise replied: triage yes, draft LLM no, stay out of DRAFTED."""
+    """Inbound arrives after Casey replied: triage yes, draft LLM no, stay out of DRAFTED."""
     from app.services import pipeline_service
 
     thread_id = uuid.uuid4()
@@ -816,14 +816,14 @@ async def test_phased_pipeline_redrafts_when_inbound_follows_sent_reply() -> Non
     triage = TriageResultSchema(
         is_spam=False,
         has_action_items=True,
-        action_items_summary="Answer Beau",
+        action_items_summary="Answer Taylor",
         needs_context=False,
         routing_category="general",
     )
     generated = SimpleNamespace(
         draft=DraftSchema(
             subject_line="Re: Need docs",
-            reply_body="Thanks Beau — noted.",
+            reply_body="Thanks Taylor — noted.",
             teaching_note="Follow-up after reopen",
             urgency="NORMAL",
             urgency_reason="Integration clarifications",

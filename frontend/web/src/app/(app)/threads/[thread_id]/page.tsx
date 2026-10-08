@@ -113,7 +113,7 @@ const ThreadDetailBanners = ({
     Boolean(presentation?.show_resolution_banner) ||
     presentation?.disposition === "fyi_briefing" ||
     presentation?.disposition === "resolved_draftassistant" ||
-    presentation?.disposition === "resolved_elise"
+    presentation?.disposition === "resolved_casey"
 
   return (
     <>

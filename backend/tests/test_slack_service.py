@@ -42,7 +42,7 @@ def _email() -> EmailMessageSchema:
     return EmailMessageSchema(
         message_id="AAMkAG-msg-001",
         conversation_id="AAQkAG-conv-001",
-        mailbox="elise@sample-company.example.com",
+        mailbox="casey@sample-company.example.com",
         sender="vendor@example.com",
         subject="Need screening packet",
         body_text="Please send the drug screen packet for County X.",
@@ -113,7 +113,7 @@ def test_build_review_card_block_kit_contract() -> None:
     ]
     header = blocks[0]["text"]["text"]
     assert "HIGH" in header
-    assert "elise@sample-company.example.com" in header
+    assert "casey@sample-company.example.com" in header
     assert "🟠" in header
 
     joined = json.dumps(blocks, ensure_ascii=False)

@@ -74,7 +74,7 @@ def app(local_settings: Settings):
         async def fake_user() -> UserMe:
             return UserMe(
                 id=uuid.uuid4(),
-                email="elise@example.com",
+                email="casey@example.com",
                 role="user",
                 created_at=datetime.now(UTC),
             )
@@ -199,8 +199,8 @@ async def test_reject_process_note_over_2000_is_422(app) -> None:
 @pytest.mark.asyncio
 async def test_reject_with_process_note_passes_sentence_to_service(app) -> None:
     process = (
-        "In this case I would process the SampleLab invoice and tell Beau "
-        "the rebill is with Harmeyer."
+        "In this case I would process the SampleLab invoice and tell Taylor "
+        "the rebill is with SamplePartner."
     )
     draft = _draft_response(
         approved_at=None,

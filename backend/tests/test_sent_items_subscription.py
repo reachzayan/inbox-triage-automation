@@ -507,7 +507,7 @@ async def test_outbound_completed_dedup_stays_duplicate_when_already_resolved() 
 
 @pytest.mark.asyncio
 async def test_outbound_heal_does_not_reresolve_when_tip_is_newer_inbound() -> None:
-    """Ruth follow-up after Elise send: Sent Items poll of the old outbound
+    """Ruth follow-up after Casey send: Sent Items poll of the old outbound
     must not slam DRAFTED back to RESOLVED.
 
     Worked example: send 2026-08-27 14:23, inbound tip 2026-08-28 17:16,
@@ -521,7 +521,7 @@ async def test_outbound_heal_does_not_reresolve_when_tip_is_newer_inbound() -> N
     from app.repositories.thread_repo import ThreadSchema
 
     mailbox = "sampleagent@sample-site.example.com"
-    message_id = "AAMkAG-elise-old-send"
+    message_id = "AAMkAG-casey-old-send"
     conversation_id = "conv-ruth-followup"
     thread_id = uuid.uuid4()
     outbound_pk = uuid.uuid4()
@@ -541,8 +541,8 @@ async def test_outbound_heal_does_not_reresolve_when_tip_is_newer_inbound() -> N
         graph_message_id=message_id,
         direction="outbound",
         sender=mailbox,
-        body_text="Thanks — looping in Beau",
-        body_preview="Thanks — looping in Beau",
+        body_text="Thanks — looping in Taylor",
+        body_preview="Thanks — looping in Taylor",
         body_content_type="text",
         received_at=sent_at,
     )
@@ -571,7 +571,7 @@ async def test_outbound_heal_does_not_reresolve_when_tip_is_newer_inbound() -> N
         thread_id=thread_id,
         message_id=outbound_pk,
         draft_id=None,
-        sent_body_snapshot="Thanks — looping in Beau",
+        sent_body_snapshot="Thanks — looping in Taylor",
         sent_at=sent_at,
         matched_by="time_window",
         created_at=sent_at,

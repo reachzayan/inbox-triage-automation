@@ -28,7 +28,7 @@ def _settings() -> Settings:
 def _profile() -> ToneProfileResponseSchema:
     return ToneProfileResponseSchema(
         id=uuid.uuid4(),
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         routing_category="billing",
         profile=ToneProfileSchema(
             formality="professional",
@@ -62,7 +62,7 @@ async def test_load_for_draft_uses_profile_and_recent() -> None:
             session,
             openai_client=None,
             settings=_settings(),
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             routing_category="billing",
             email_text="invoice",
         )
@@ -88,7 +88,7 @@ async def test_load_for_draft_cold_start_semantic() -> None:
             session,
             openai_client=AsyncMock(),
             settings=_settings(),
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             routing_category="billing",
             email_text="invoice",
         )

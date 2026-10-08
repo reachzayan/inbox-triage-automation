@@ -149,7 +149,7 @@ def test_build_search_document_omits_quoted_history() -> None:
     email = EmailMessageSchema(
         message_id="graph-m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="Invoice 42",
         body_text=quoted,
@@ -157,7 +157,7 @@ def test_build_search_document_omits_quoted_history() -> None:
         body_preview="Please send invoice 42 today.",
         received_at=datetime(2026, 8, 14, tzinfo=UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=[],
     )
     doc = embedding_service.build_search_document(email)
@@ -178,14 +178,14 @@ def test_build_embed_text_omits_quoted_history() -> None:
     email = EmailMessageSchema(
         message_id="graph-m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="Invoice 42",
         body_text=quoted,
         body_clean=quoted,
         received_at=datetime(2026, 8, 14, tzinfo=UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=[],
     )
     text = embedding_service._build_embed_text(email, max_tokens=8000)
@@ -249,7 +249,7 @@ _ZENDESK_TICKET_UPDATE = (
     "[https://sample-helpdesk.example.com/system/photos/25898357572372/purple_flower_5.jpg]\n\n"
     "Alex Taylor (SampleHelpdesk)\n\n"
     "Aug 19, 2026, 10:54 AM MDT\n\n"
-    "Elise,\n\n"
+    "Casey,\n\n"
     "Can you give me a search ID example where a completed report email was not received?\n\n"
     "Alex Taylor\n"
     "Customer Support\n\n"
@@ -280,7 +280,7 @@ _ZENDESK_STACKED_AGENT_COMMENTS = (
     "[https://sample-helpdesk.example.com/system/photos/25898357572372/purple_flower_5.jpg]\n\n"
     "Alex Taylor (SampleHelpdesk)\n\n"
     "Aug 26, 2026, 3:48 PM MDT\n\n"
-    "Elise,\n\n"
+    "Casey,\n\n"
     "I am going to go ahead and close out this ticket. If you do need further "
     "assistance please let me know.\n\n"
     "Alex Taylor\n"
@@ -288,14 +288,14 @@ _ZENDESK_STACKED_AGENT_COMMENTS = (
     "[https://sample-helpdesk.example.com/system/photos/25898357572372/purple_flower_5.jpg]\n\n"
     "Alex Taylor (SampleHelpdesk)\n\n"
     "Aug 25, 2026, 10:11 AM MDT\n\n"
-    "Elise,\n\n"
+    "Casey,\n\n"
     "I wanted to check in with you on this to see if you have further questions.\n\n"
     "Alex Taylor\n"
     "Customer Support\n\n"
     "[https://sample-helpdesk.example.com/system/photos/25898357572372/purple_flower_5.jpg]\n\n"
     "Alex Taylor (SampleHelpdesk)\n\n"
     "Aug 20, 2026, 1:42 PM MDT\n\n"
-    "Elise,\n\n"
+    "Casey,\n\n"
     "If you enable the public link, you can still send the invitation.\n\n"
     "Alex Taylor\n"
     "Customer Support\n\n"

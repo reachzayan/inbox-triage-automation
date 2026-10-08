@@ -55,14 +55,14 @@ describe("TimelineSection", () => {
       />,
     )
 
-    expect(screen.getByText("Jordan wrote to Elise")).toBeInTheDocument()
+    expect(screen.getByText("Jordan wrote to Casey")).toBeInTheDocument()
   })
 
   it("tells the email story with names and the actual send date", () => {
     renderWithProviders(
       <TimelineSection
         threadId="thread-1"
-        mailbox="elise@sample-site.example.com"
+        mailbox="casey@sample-site.example.com"
         subject="Re: SampleClient packet"
         messages={[
           message({
@@ -71,46 +71,46 @@ describe("TimelineSection", () => {
             sender: "alex@hospital.org",
             sender_name: "Alex Patel",
             sender_salute_name: "Alex",
-            to: ["elise@sample-site.example.com"],
-            reply_text: "Hi Elise,\nCan you send the SampleClient packet today?\nThanks,\nAnita",
-            summary_one_line: "Alex asked Elise to send the SampleClient packet today",
+            to: ["casey@sample-site.example.com"],
+            reply_text: "Hi Casey,\nCan you send the SampleClient packet today?\nThanks,\nAnita",
+            summary_one_line: "Alex asked Casey to send the SampleClient packet today",
             received_at: "2026-08-27T14:14:00Z",
           }),
           message({
             id: "m2",
             direction: "outbound",
-            sender: "elise@sample-site.example.com",
-            sender_name: "Elise Chouest",
-            sender_salute_name: "Elise",
+            sender: "casey@sample-site.example.com",
+            sender_name: "Casey Chouest",
+            sender_salute_name: "Casey",
             to: ["alex@hospital.org"],
-            reply_text: "Hi Alex,\nSending the packet this afternoon.\nElise",
-            summary_one_line: "Elise said she would send the packet that afternoon",
+            reply_text: "Hi Alex,\nSending the packet this afternoon.\nCasey",
+            summary_one_line: "Casey said she would send the packet that afternoon",
             received_at: "2026-08-27T16:02:00Z",
           }),
         ]}
       />,
     )
 
-    expect(screen.getByText("Alex wrote to Elise")).toBeInTheDocument()
+    expect(screen.getByText("Alex wrote to Casey")).toBeInTheDocument()
     expect(
-      screen.getByText("Alex asked Elise to send the SampleClient packet today"),
+      screen.getByText("Alex asked Casey to send the SampleClient packet today"),
     ).toBeInTheDocument()
-    expect(screen.getByText("Elise replied to Alex")).toBeInTheDocument()
+    expect(screen.getByText("Casey replied to Alex")).toBeInTheDocument()
     expect(
-      screen.getByText("Elise said she would send the packet that afternoon"),
+      screen.getByText("Casey said she would send the packet that afternoon"),
     ).toBeInTheDocument()
-    expect(screen.queryByText(/Hi Elise/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Hi Casey/)).not.toBeInTheDocument()
     expect(screen.getAllByText(/8\/27\/2026/).length).toBeGreaterThanOrEqual(2)
     const items = screen.getAllByRole("listitem").map((item) => item.textContent ?? "")
-    expect(items[0]).toContain("Elise replied to Alex")
-    expect(items[1]).toContain("Alex wrote to Elise")
+    expect(items[0]).toContain("Casey replied to Alex")
+    expect(items[1]).toContain("Alex wrote to Casey")
   })
 
   it("shows empty copy when there are no emails", () => {
     renderWithProviders(
       <TimelineSection
         threadId="thread-1"
-        mailbox="elise@sample-site.example.com"
+        mailbox="casey@sample-site.example.com"
         subject="Invoice"
         messages={[]}
       />,
@@ -124,10 +124,10 @@ describe("TimelineSection", () => {
       message({
         id: `m${index}`,
         direction: index % 2 === 0 ? "inbound" : "outbound",
-        sender: index % 2 === 0 ? `p${index}@hospital.org` : "elise@sample-site.example.com",
-        sender_name: index % 2 === 0 ? `Pat${index}` : "Elise Chouest",
-        sender_salute_name: index % 2 === 0 ? `Pat${index}` : "Elise",
-        to: index % 2 === 0 ? ["elise@sample-site.example.com"] : [`p${index}@hospital.org`],
+        sender: index % 2 === 0 ? `p${index}@hospital.org` : "casey@sample-site.example.com",
+        sender_name: index % 2 === 0 ? `Pat${index}` : "Casey Chouest",
+        sender_salute_name: index % 2 === 0 ? `Pat${index}` : "Casey",
+        to: index % 2 === 0 ? ["casey@sample-site.example.com"] : [`p${index}@hospital.org`],
         summary_one_line: `What happened in email ${index}`,
         received_at: `2026-08-0${index + 1}T12:00:00Z`,
       }),
@@ -136,7 +136,7 @@ describe("TimelineSection", () => {
     renderWithProviders(
       <TimelineSection
         threadId="thread-1"
-        mailbox="elise@sample-site.example.com"
+        mailbox="casey@sample-site.example.com"
         subject="Packet"
         messages={messages}
       />,

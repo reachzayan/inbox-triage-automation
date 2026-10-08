@@ -51,8 +51,8 @@ _APPROVAL_SCOPE_MAP = {
 }
 
 _PERSON_BOUND_MARKERS = (
-    "only elise",
-    "elise only",
+    "only casey",
+    "casey only",
     "my calendar",
     "i personally",
     "personal relationship",

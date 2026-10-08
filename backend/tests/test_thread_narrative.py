@@ -1,6 +1,6 @@
 """Human narrative mapper over audit payloads.
 
-Oracles: known event_type + payload → fixed title/body strings Elise can read.
+Oracles: known event_type + payload → fixed title/body strings Casey can read.
 """
 
 from __future__ import annotations
@@ -114,7 +114,7 @@ def test_recurrence_wrong_narrative() -> None:
                         "body": (
                             "Reverted this thread. This alert fingerprint will not auto-bump again."
                         ),
-                        "actor_kind": "elise",
+                        "actor_kind": "casey",
                     },
                 },
             }

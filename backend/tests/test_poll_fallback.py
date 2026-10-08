@@ -130,7 +130,7 @@ async def test_poll_mailbox_passes_junk_folder_to_ingest() -> None:
         ),
     ):
         await poll_mailbox(
-            "elise@sample-site.example.com",
+            "casey@sample-site.example.com",
             redis=redis,
             graph_client=graph_client,
         )
@@ -760,10 +760,10 @@ async def test_run_poll_all_mailboxes_runs_concurrently() -> None:
 
 @pytest.mark.asyncio
 async def test_run_poll_all_mailboxes_includes_reviewer_sent_items() -> None:
-    """Elise-style REVIEWER_MAILBOXES must be polled for Sent Items."""
+    """Casey-style REVIEWER_MAILBOXES must be polled for Sent Items."""
     settings = MagicMock(
         mailbox_list=["inquiries@example.com"],
-        reviewer_mailbox_list=["elise@example.com"],
+        reviewer_mailbox_list=["casey@example.com"],
         poll_concurrency=2,
         poll_interval_seconds=300,
     )
@@ -812,7 +812,7 @@ async def test_run_poll_all_mailboxes_includes_reviewer_sent_items() -> None:
     reviewer_calls = [
         call
         for call in poll.await_args_list
-        if (call.kwargs.get("mailbox") or call.args[0]) == "elise@example.com"
+        if (call.kwargs.get("mailbox") or call.args[0]) == "casey@example.com"
     ]
     assert len(reviewer_calls) == 1
     assert reviewer_calls[0].kwargs["outbound_only"] is True

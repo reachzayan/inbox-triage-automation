@@ -42,7 +42,7 @@ async def test_store_approved_reply_embeds_and_persists() -> None:
             openai_client=client,
             settings=_settings(),
             draft_id=draft_id,
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             final_body="Thanks — I'll send the packet today.",
         )
 
@@ -63,7 +63,7 @@ async def test_store_skips_without_openai() -> None:
             openai_client=None,
             settings=_settings(openai_api_key=""),
             draft_id=uuid.uuid4(),
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             final_body="Hello",
         )
     embed_mock.assert_not_awaited()
@@ -81,7 +81,7 @@ async def test_store_failure_does_not_raise() -> None:
             openai_client=AsyncMock(),
             settings=_settings(),
             draft_id=uuid.uuid4(),
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             final_body="Hello",
         )
 
@@ -104,7 +104,7 @@ async def test_find_similar_replies_returns_texts() -> None:
             openai_client=AsyncMock(),
             settings=_settings(),
             email_text="Need docs",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             limit=3,
         )
     assert result == ["Past reply A", "Past reply B"]

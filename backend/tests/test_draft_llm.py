@@ -21,14 +21,14 @@ def _email() -> EmailMessageSchema:
     return EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="Need docs",
         body_text="Please send the intake packet. SSN 123-45-6789.",
         body_preview="Please send",
         received_at=datetime(2026, 7, 10, 12, 0, tzinfo=UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=["ops@example.com"],
     )
 
@@ -114,10 +114,10 @@ def test_build_user_content_includes_owner_signoff_when_set() -> None:
         email,
         _context(email),
         _triage(),
-        mailbox_owner="Elise",
+        mailbox_owner="Casey",
     )
-    assert "Sign the reply as Elise" in content
-    assert 'Closing name must be exactly "Elise"' in content
+    assert "Sign the reply as Casey" in content
+    assert 'Closing name must be exactly "Casey"' in content
 
 
 def test_build_user_content_includes_working_memory_pin_literal() -> None:
@@ -165,7 +165,7 @@ def test_build_user_content_includes_triage_and_optional_blocks() -> None:
         cross_thread_context=cross,
         tone_references=["Thanks — sending the packet now."],
     )
-    assert "To: elise@example.com" in content
+    assert "To: casey@example.com" in content
     assert "has_action_items: True" in content
     assert "Send intake packet" in content
     assert "Related prior conversation" in content
@@ -250,7 +250,7 @@ def test_build_user_content_uses_cleaned_body_not_quotes() -> None:
     email = EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="Need docs",
         body_text=(
@@ -262,7 +262,7 @@ def test_build_user_content_uses_cleaned_body_not_quotes() -> None:
         body_preview="Please send",
         received_at=datetime(2026, 7, 10, 12, 0, tzinfo=UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=[],
     )
     content = draft_llm._build_user_content(
@@ -437,7 +437,7 @@ def _ok_briefing() -> BriefingSchema:
             {
                 "step": 1,
                 "action": "Accept or decline in Calendar",
-                "stakeholder": "Elise",
+                "stakeholder": "Casey",
                 "rationale": "The ask is an RSVP, not an email.",
             }
         ],

@@ -36,8 +36,8 @@ vi.mock("@/lib/api-client", () => ({
 
 const thread: ThreadSummary = {
   id: "thread-1",
-  mailbox: "elise@example.com",
-  mailbox_key: "elise",
+  mailbox: "casey@example.com",
+  mailbox_key: "casey",
   subject: "Invoice question",
   state: "AWAITING_ACTION",
   urgency: "NORMAL",
@@ -91,7 +91,7 @@ const renderSidebar = (
     defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
   })
   client.setQueryData(["dashboard", "overview"], { total_awaiting: 4 })
-  client.setQueryData(["mailbox", "elise@example.com", "threads"], { items: [] })
+  client.setQueryData(["mailbox", "casey@example.com", "threads"], { items: [] })
   const threadId = options?.threadId ?? "thread-1"
   const view = render(
     <QueryClientProvider client={client}>
@@ -369,7 +369,7 @@ describe("ThreadTriageSidebar feedback buttons", () => {
       expect(markWrongMock).toHaveBeenCalled()
     })
     expect(client.getQueryState(["dashboard", "overview"])?.isInvalidated).toBe(true)
-    expect(client.getQueryState(["mailbox", "elise@example.com", "threads"])?.isInvalidated).toBe(
+    expect(client.getQueryState(["mailbox", "casey@example.com", "threads"])?.isInvalidated).toBe(
       true,
     )
   })
@@ -385,7 +385,7 @@ describe("ThreadTriageSidebar feedback buttons", () => {
       expect(approveMock).toHaveBeenCalled()
     })
     expect(client.getQueryState(["dashboard", "overview"])?.isInvalidated).toBe(true)
-    expect(client.getQueryState(["mailbox", "elise@example.com", "threads"])?.isInvalidated).toBe(
+    expect(client.getQueryState(["mailbox", "casey@example.com", "threads"])?.isInvalidated).toBe(
       true,
     )
   })
@@ -616,7 +616,7 @@ describe("ThreadTriageSidebar process note", () => {
     const user = userEvent.setup({ pointerEventsCheck: 0 })
     const why = "DraftAssistant drafted a letter. This is an SampleLab invoice."
     const process =
-      "In this case I would process the SampleLab invoice and tell Beau the rebill is with Harmeyer."
+      "In this case I would process the SampleLab invoice and tell Taylor the rebill is with SamplePartner."
     renderSidebar()
     await openDraftTab(user)
     await user.click(screen.getByRole("button", { name: "Reject draft" }))

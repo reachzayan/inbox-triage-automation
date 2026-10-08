@@ -12,7 +12,7 @@ describe("api.chat.askStream abort", () => {
       expiresIn: 900,
       user: {
         id: "1",
-        email: "elise@example.com",
+        email: "casey@example.com",
         role: "user",
         created_at: new Date().toISOString(),
       },

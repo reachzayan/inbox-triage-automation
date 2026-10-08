@@ -45,7 +45,7 @@ export interface AuditEntry {
   timestamp: string;
   event: string;
   detail: string;
-  source: "system" | "agent" | "elise";
+  source: "system" | "agent" | "casey";
 }
 
 export interface TriageResult {
@@ -190,7 +190,7 @@ Thank you for following up. I'm checking on Order #PSC-40821 for J. Rivera (Trav
 I'll have a status update for you by end of day today. If the results are in, I'll send them over immediately so you can get the clear-to-start before Friday.
 
 Best regards,
-Elise`,
+Casey`,
       teachingNote: `**What this is:** A client following up on a pending drug screen order with a tight deadline (new hire starting Monday).
 
 **Which workflow:** Order Status Follow-Up (RULE-012). When a client references an order number and asks for status/results, check the order in the system, get the current status from the lab or court runner, and reply with a concrete timeline.
@@ -227,21 +227,21 @@ Elise`,
     },
     suggestedAction: {
       action: "forward",
-      forwardTo: "kelvin@sample-information.example.com",
-      draft: `Hi Kelvin,
+      forwardTo: "jordan@sample-information.example.com",
+      draft: `Hi Jordan,
 
 New pricing inquiry from Linda Wu at Sample Staffing (~200 placements/month). They're looking at statewide criminal + MVR bundled pricing and want to know about BambooHR integration.
 
 Could be a good fit for the mid-tier package. Details below.
 
-— Elise`,
+— Casey`,
       teachingNote: `**What this is:** A sales lead — a prospective client asking about pricing and integration. This is a warm inbound lead.
 
-**Which workflow:** Forward to Sales (RULE-003). Pricing inquiries from new/unknown clients go to Kelvin with a brief context note. Don't reply directly with pricing — Kelvin handles the sales conversation.
+**Which workflow:** Forward to Sales (RULE-003). Pricing inquiries from new/unknown clients go to Jordan with a brief context note. Don't reply directly with pricing — Jordan handles the sales conversation.
 
 **Why medium urgency:** Sales leads should be responded to within 24 hours to stay competitive, but there's no hard deadline like an active order.
 
-**What to do:** Forward to Kelvin with a summary. Flag the volume (~200/month) since it affects tier pricing. Note the BambooHR integration question since that's a common deal-closer.`,
+**What to do:** Forward to Jordan with a summary. Flag the volume (~200/month) since it affects tier pricing. Note the BambooHR integration question since that's a common deal-closer.`,
     },
     threadState: {
       status: "new",
@@ -252,7 +252,7 @@ Could be a good fit for the mid-tier package. Details below.
       { timestamp: "2026-07-08T08:42:01Z", event: "email_received", detail: "New email in sales inbox from linda.w@sample-staffing.example.com", source: "system" },
       { timestamp: "2026-07-08T08:42:02Z", event: "classification", detail: "Classified as 'New Business Inquiry' — intent: forward, urgency: medium (RULE-003)", source: "agent" },
       { timestamp: "2026-07-08T08:42:03Z", event: "entities_extracted", detail: "Client: Sample Staffing (new prospect)", source: "agent" },
-      { timestamp: "2026-07-08T08:42:04Z", event: "draft_generated", detail: "Forward draft to kelvin@sample-information.example.com with sales context", source: "agent" },
+      { timestamp: "2026-07-08T08:42:04Z", event: "draft_generated", detail: "Forward draft to jordan@sample-information.example.com with sales context", source: "agent" },
       { timestamp: "2026-07-08T08:42:04Z", event: "queued_for_review", detail: "Item added to Slack review queue (confidence: 0.91)", source: "system" },
     ],
   },
@@ -282,7 +282,7 @@ Due: July 28, 2026 (Net 30)
 
 Please process per usual.
 
-— Elise`,
+— Casey`,
       teachingNote: `**What this is:** A routine vendor invoice for court-runner services. These come monthly from our research partners.
 
 **Which workflow:** Forward to Accounting (RULE-008). Vendor invoices are forwarded to accounting with the key details pulled out (amount, due date, terms). No reply needed to the vendor unless there's a discrepancy.
@@ -318,8 +318,8 @@ Please process per usual.
     },
     suggestedAction: {
       action: "forward",
-      forwardTo: "kelvin@sample-information.example.com",
-      draft: `Hi Kelvin,
+      forwardTo: "jordan@sample-information.example.com",
+      draft: `Hi Jordan,
 
 Heads up — Sample Checks is updating their DPPA compliance policy effective August 1. Key change: all MVR requests will need to include the end-user's permissible purpose code or they'll be rejected.
 
@@ -327,14 +327,14 @@ We should update our integration before then. I'll forward the updated forms as 
 
 Let me know if you want to discuss.
 
-— Elise`,
+— Casey`,
       teachingNote: `**What this is:** A compliance policy change from one of our intermediary partners. They're tightening DPPA requirements for MVR (Motor Vehicle Record) requests.
 
-**Which workflow:** No exact rule match — this was handled by the LLM. Compliance updates from partners typically get forwarded to Kelvin with a summary of what's changing and when, plus any action items for our side.
+**Which workflow:** No exact rule match — this was handled by the LLM. Compliance updates from partners typically get forwarded to Jordan with a summary of what's changing and when, plus any action items for our side.
 
 **Why medium urgency:** The effective date is August 1, giving us ~3 weeks. But integration changes take time, so this shouldn't sit.
 
-**What to do:** Forward to Kelvin. The action items are: (1) update our MVR request integration to include the permissible purpose code, (2) notify any downstream clients who submit MVR requests through us. Calendar-block a reminder for July 25 to verify the update is live.`,
+**What to do:** Forward to Jordan. The action items are: (1) update our MVR request integration to include the permissible purpose code, (2) notify any downstream clients who submit MVR requests through us. Calendar-block a reminder for July 25 to verify the update is live.`,
     },
     threadState: {
       status: "new",
@@ -345,7 +345,7 @@ Let me know if you want to discuss.
       { timestamp: "2026-07-08T10:03:01Z", event: "email_received", detail: "New email in intermediary inbox from compliance@sample-checks.example.com", source: "system" },
       { timestamp: "2026-07-08T10:03:03Z", event: "classification", detail: "Classified as 'Compliance Update' — intent: fyi, urgency: medium (LLM fallback, no rule match)", source: "agent" },
       { timestamp: "2026-07-08T10:03:04Z", event: "entities_extracted", detail: "Vendor: Sample Checks | Policy change: DPPA / MVR permissible purpose code required", source: "agent" },
-      { timestamp: "2026-07-08T10:03:05Z", event: "draft_generated", detail: "Forward draft to kelvin@sample-information.example.com with compliance summary", source: "agent" },
+      { timestamp: "2026-07-08T10:03:05Z", event: "draft_generated", detail: "Forward draft to jordan@sample-information.example.com with compliance summary", source: "agent" },
       { timestamp: "2026-07-08T10:03:06Z", event: "queued_for_review", detail: "Item added to Slack review queue (confidence: 0.78)", source: "system" },
     ],
   },
@@ -377,14 +377,14 @@ Here's what I can tell you:
 I'll have all the details for you by tomorrow. Let me know if you have any other questions!
 
 Best,
-Elise`,
+Casey`,
       teachingNote: `**What this is:** An existing client asking to add a new search type to their account and also asking about a volume discount.
 
 **Which workflow:** Account Modification (RULE-015). When a client asks to add or change search types, confirm pricing, check SLA impact, and if they mention volume thresholds, pull their current numbers.
 
 **Why medium urgency:** Existing client request, not time-critical but should be handled within 24 hours to maintain good service.
 
-**What to do:** (1) Look up Maricopa County criminal search pricing. (2) Confirm turnaround time for that county. (3) Pull SampleHiring's monthly search volume from the system to check if they qualify for the 500/month discount. Reply with all three answers. If the volume discount applies, loop in Kelvin since it affects their contract rate.`,
+**What to do:** (1) Look up Maricopa County criminal search pricing. (2) Confirm turnaround time for that county. (3) Pull SampleHiring's monthly search volume from the system to check if they qualify for the 500/month discount. Reply with all three answers. If the volume discount applies, loop in Jordan since it affects their contract rate.`,
     },
     threadState: {
       status: "new",

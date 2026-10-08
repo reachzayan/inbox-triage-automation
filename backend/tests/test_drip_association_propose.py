@@ -350,14 +350,14 @@ async def test_propose_drip_does_not_revive_dismissed_pair(db_session) -> None:
         source_thread_id=source.id,
         related_thread_id=sibling.id,
         status="dismissed",
-        actor="elise@example.com",
+        actor="casey@example.com",
     )
     await association_review_repo.set_status(
         db_session,
         source_thread_id=sibling.id,
         related_thread_id=source.id,
         status="dismissed",
-        actor="elise@example.com",
+        actor="casey@example.com",
     )
     await db_session.commit()
 
@@ -386,14 +386,14 @@ async def test_propose_drip_does_not_demote_confirmed_pair(db_session) -> None:
         source_thread_id=source.id,
         related_thread_id=sibling.id,
         status="confirmed",
-        actor="elise@example.com",
+        actor="casey@example.com",
     )
     await association_review_repo.set_status(
         db_session,
         source_thread_id=sibling.id,
         related_thread_id=source.id,
         status="confirmed",
-        actor="elise@example.com",
+        actor="casey@example.com",
     )
     await db_session.commit()
 
@@ -444,7 +444,7 @@ async def test_confirm_with_only_one_way_proposal_shows_on_both_threads(
         source.id,
         sibling.id,
         status="confirmed",
-        actor="elise@example.com",
+        actor="casey@example.com",
     )
     await db_session.commit()
 
@@ -472,7 +472,7 @@ async def test_confirm_without_any_proposal_is_rejected(db_session) -> None:
             rows["source"].id,
             rows["sibling"].id,
             status="confirmed",
-            actor="elise@example.com",
+            actor="casey@example.com",
         )
 
 

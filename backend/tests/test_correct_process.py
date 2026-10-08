@@ -25,13 +25,13 @@ def test_process_note_is_stripped() -> None:
         feedback_note="DraftAssistant drafted a letter. This is an SampleLab invoice.",
         reason_code="incomplete",
         process_note=(
-            "  In this case I would process the SampleLab invoice and tell Beau "
-            "the rebill is with Harmeyer.  "
+            "  In this case I would process the SampleLab invoice and tell Taylor "
+            "the rebill is with SamplePartner.  "
         ),
     )
     assert body.process_note == (
-        "In this case I would process the SampleLab invoice and tell Beau "
-        "the rebill is with Harmeyer."
+        "In this case I would process the SampleLab invoice and tell Taylor "
+        "the rebill is with SamplePartner."
     )
 
 

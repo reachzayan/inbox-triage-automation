@@ -184,7 +184,7 @@ async def test_apply_no_reply_sets_sibling_no_action_and_leaves_invoice(db_sessi
             treatment="no_reply",
             thread_ids=[sibling.id],
             reason="Same SampleClient drip",
-            actor="elise@example.com",
+            actor="casey@example.com",
             openai_client=None,
         )
     await db_session.commit()
@@ -233,7 +233,7 @@ async def test_skip_dismisses_so_siblings_are_not_proposed_again(db_session) -> 
             source.id,
             sibling.id,
             status="dismissed",
-            actor="elise@example.com",
+            actor="casey@example.com",
         )
         await db_session.commit()
         second = await related_thread_service.list_related(
@@ -270,7 +270,7 @@ async def test_confirmed_association_is_packed_unconfirmed_is_not(db_session) ->
         source.id,
         sibling.id,
         status="confirmed",
-        actor="elise@example.com",
+        actor="casey@example.com",
     )
     await db_session.commit()
 
@@ -375,7 +375,7 @@ async def test_confirm_without_proposal_is_rejected(db_session) -> None:
             rows["source"].id,
             rows["sibling"].id,
             status="confirmed",
-            actor="elise@example.com",
+            actor="casey@example.com",
         )
 
 
@@ -391,7 +391,7 @@ async def test_confirm_self_association_is_rejected(db_session) -> None:
             rows["source"].id,
             rows["source"].id,
             status="confirmed",
-            actor="elise@example.com",
+            actor="casey@example.com",
         )
 
 
@@ -420,7 +420,7 @@ async def test_dismiss_hides_association_on_both_threads(db_session) -> None:
         source.id,
         sibling.id,
         status="dismissed",
-        actor="elise@example.com",
+        actor="casey@example.com",
     )
     await db_session.commit()
 

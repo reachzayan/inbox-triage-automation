@@ -22,11 +22,11 @@ describe("MailboxFilter", () => {
     render(
       <MailboxFilter
         mailbox="sampleagent"
-        mailboxes={[mailbox("sampleagent", "Elise"), mailbox("support", "Support")]}
+        mailboxes={[mailbox("sampleagent", "Casey"), mailbox("support", "Support")]}
         onMailboxChange={vi.fn()}
       />,
     )
 
-    expect(screen.getByRole("combobox", { name: "Mailbox" })).toHaveTextContent("Elise")
+    expect(screen.getByRole("combobox", { name: "Mailbox" })).toHaveTextContent("Casey")
   })
 })

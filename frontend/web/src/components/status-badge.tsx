@@ -117,7 +117,7 @@ const DISPOSITION_LABEL: Record<string, string> = {
   needs_human: "Needs human",
   processing: "Processing",
   resolved_draftassistant: "Resolved by DraftAssistant",
-  resolved_elise: "Resolved by Elise",
+  resolved_casey: "Resolved by Casey",
   spam: "Spam",
 }
 
@@ -131,7 +131,7 @@ export const dispositionTone = (disposition: string | null | undefined): BadgeTo
     case "resolved_draftassistant":
     case "reply_review":
       return "green"
-    case "resolved_elise":
+    case "resolved_casey":
       return "teal"
     case "action_no_draft":
       return "amber"

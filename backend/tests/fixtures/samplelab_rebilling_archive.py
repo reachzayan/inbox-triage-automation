@@ -1,6 +1,6 @@
 """CI-safe samplelab-rebilling skill archive for unit/logical tests.
 
-``misc/`` is gitignored, so the real Elise zip is absent on CI checkouts.
+``misc/`` is gitignored, so the real Casey zip is absent on CI checkouts.
 Tests that need Anthropic-packaged structure + progressive-disclosure cues
 build this in-memory archive instead. Prefer the real misc zip when present
 (local live runs) via :func:`load_samplelab_rebilling_zip_bytes`.
@@ -17,7 +17,7 @@ MISC_FIXTURE_ZIP = Path(__file__).resolve().parents[3] / "misc" / "samplelab-reb
 SKILL_NAME = "samplelab-rebilling"
 
 SKILL_DESCRIPTION = (
-    "Use when Elise must process the samplelab invoice and rebill Harmeyer "
+    "Use when Casey must process the samplelab invoice and rebill SamplePartner "
     "departments from Invoicing_Detail exports."
 )
 
@@ -36,12 +36,12 @@ Pad discovery head so late workflow steps stay out of Level-1 embedding.
 ## FULL MONTHLY WORKFLOW
 
 Step 1 — Load Invoice detail from SampleLabVendor / SampleLab.
-Step 2 — Match Harmeyer departments via references/harmeyer_departments.csv.
+Step 2 — Match SamplePartner departments via references/samplepartner_departments.csv.
 Step 3 — Apply references/client_rules.md spelling and tab rules.
 Step 4 — Build detail files per department.
 Step 5 — Validate SSN and dates against output format.
 Step 6 — Draft reply summarizing rebills.
-Step 7 — Confirm with Elise before send (read-only system never sends).
+Step 7 — Confirm with Casey before send (read-only system never sends).
 """
 )
 
@@ -49,7 +49,7 @@ CLIENT_RULES = """\
 # Client rules
 
 Correct spelling: Trolinder (not Trolinder misspellings).
-Harmeyer Transport departments: Tank / HDV / Maintenance / Admin.
+SamplePartner Transport departments: Tank / HDV / Maintenance / Admin.
 """
 
 OUTPUT_FORMAT = """\
@@ -58,7 +58,7 @@ OUTPUT_FORMAT = """\
 Required columns: Collection Date, Employee Name, SSN Last 4, Department.
 """
 
-HARMEYER_CSV = """\
+SAMPLEPARTNER_CSV = """\
 first,last,department
 Randy,Alvis,Maintenance
 Pat,Trolinder,Tank
@@ -73,7 +73,7 @@ def build_samplelab_rebilling_zip_bytes() -> bytes:
         f"{root}/SKILL.md": skill_md,
         f"{root}/references/client_rules.md": CLIENT_RULES,
         f"{root}/references/output_format.md": OUTPUT_FORMAT,
-        f"{root}/references/harmeyer_departments.csv": HARMEYER_CSV,
+        f"{root}/references/samplepartner_departments.csv": SAMPLEPARTNER_CSV,
     }
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", compression=zipfile.ZIP_DEFLATED) as zf:

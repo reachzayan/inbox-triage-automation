@@ -60,7 +60,7 @@ def app(local_settings: Settings, api_user_role: str) -> Iterator[FastAPI]:
         async def fake_user() -> UserMe:
             return UserMe(
                 id=uuid.uuid4(),
-                email="elise@example.com",
+                email="casey@example.com",
                 role=api_user_role,
                 created_at=datetime.now(UTC),
             )

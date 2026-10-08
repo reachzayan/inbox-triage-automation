@@ -1,6 +1,6 @@
 """Add thread_contexts pointer and ADD-only thread_context_facts.
 
-Per-thread working memory (Plan 3): Elise pins plus provenance-linked facts.
+Per-thread working memory (Plan 3): Casey pins plus provenance-linked facts.
 Supersession is a flag, never DELETE.
 """
 

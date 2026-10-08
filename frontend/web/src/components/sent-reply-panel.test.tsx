@@ -131,7 +131,7 @@ describe("SentReplyPanel", () => {
           ...draft,
           rejected_at: "2026-07-09T13:00:00Z",
           feedback_action: "reject",
-          body: "Hi Beau,\n\nThank you for checking on that.",
+          body: "Hi Taylor,\n\nThank you for checking on that.",
         }}
         diff={null}
       />,

@@ -90,12 +90,12 @@ def test_person_bound_true_for_thread_scope() -> None:
 
 
 def test_person_bound_true_for_sender_address_scope() -> None:
-    """sender_address scope always sets person_bound=True (Elise's sender relationship)."""
+    """sender_address scope always sets person_bound=True (Casey's sender relationship)."""
     _, _, person_bound = default_scope_from(
         "Greet this sender by first name",
         "sender_address",
         thread_id=THREAD_ID,
-        sender_address="elise@client.com",
+        sender_address="casey@client.com",
         sender_domain="client.com",
         mailbox=MAILBOX,
         routing_category="general",
@@ -234,7 +234,7 @@ async def test_atomize_roles_fix_spec_null_from_mock_haiku() -> None:
     # Haiku mock returns three atoms: Fix, Spec, Null
     haiku_atoms_json = (
         '{"atoms":['
-        '{"text":"Always address Elise by first name","role":"Fix","applies_when":null,'
+        '{"text":"Always address Casey by first name","role":"Fix","applies_when":null,'
         '"suggested_scope":"sender_address"},'
         '{"text":"When invoice amount exceeds $1000","role":"Spec",'
         '"applies_when":"invoice amount > $1000","suggested_scope":"mailbox+routing_category"},'
@@ -290,9 +290,9 @@ async def test_atomize_roles_fix_spec_null_from_mock_haiku() -> None:
             source_kind="rejection",
             source_id=uuid.uuid4(),
             mailbox=MAILBOX,
-            text="The tone was too formal; address Elise by first name",
+            text="The tone was too formal; address Casey by first name",
             thread_id=THREAD_ID,
-            sender_address="elise@client.com",
+            sender_address="casey@client.com",
             sender_domain="client.com",
             routing_category="billing",
         )

@@ -8,7 +8,7 @@ import { renderWithProviders } from "@/test/render"
 const thread = (overrides: Partial<ThreadSummary> = {}): ThreadSummary => ({
   id: "e45649af-85ab-470e-8043-8d3c32faddce",
   mailbox: "sampleagent@sample-site.example.com",
-  mailbox_key: "elise",
+  mailbox_key: "casey",
   subject: "Your domain is now authenticated",
   state: "DRAFTED",
   urgency: "CRITICAL",

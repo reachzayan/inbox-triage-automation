@@ -31,11 +31,11 @@ BEHAVIOR_SPEC = {
         "section (teaching note / briefing), not resolved."
     ),
     "action_needed": (
-        "Reply or action needed. Stay in Needs Attention until Elise approves, "
+        "Reply or action needed. Stay in Needs Attention until Casey approves, "
         "rejects, or manually resolves."
     ),
     "resolved_manual": (
-        "Elise explicitly marked resolved (with actions-taken capture). "
+        "Casey explicitly marked resolved (with actions-taken capture). "
         "Resolution banner + reopen feedback."
     ),
     "uncertain": "Needs human label — ambiguous or conflicting signals.",
@@ -58,7 +58,7 @@ def mailbox_in_cc(mailbox: str, ccs: list[str] | None) -> bool:
 
 def mentions_poi(body: str, mailbox: str) -> bool:
     text = (body or "").lower()
-    if "elise" in text:
+    if "casey" in text:
         return True
     local = mailbox.split("@")[0].lower() if "@" in mailbox else ""
     return bool(local and local in text)
@@ -77,7 +77,7 @@ def expected_behavior(label: str) -> dict[str, object]:
             "draft_needed": False,
             "has_action_items": False,
             "show_reason_in_draft_section": False,
-            "elise_actions": ["reopen", "wrong_reason_feedback"],
+            "casey_actions": ["reopen", "wrong_reason_feedback"],
         }
     if label == "open_no_reply_fyi":
         return {
@@ -86,7 +86,7 @@ def expected_behavior(label: str) -> dict[str, object]:
             "draft_needed": False,
             "has_action_items": True,
             "show_reason_in_draft_section": True,
-            "elise_actions": ["generate_reply", "mark_resolved", "reject_no_reply"],
+            "casey_actions": ["generate_reply", "mark_resolved", "reject_no_reply"],
         }
     if label == "action_needed":
         return {
@@ -95,7 +95,7 @@ def expected_behavior(label: str) -> dict[str, object]:
             "draft_needed": True,
             "has_action_items": True,
             "show_reason_in_draft_section": False,
-            "elise_actions": ["approve", "reject", "mark_resolved"],
+            "casey_actions": ["approve", "reject", "mark_resolved"],
         }
     if label == "resolved_manual":
         return {
@@ -104,7 +104,7 @@ def expected_behavior(label: str) -> dict[str, object]:
             "draft_needed": False,
             "has_action_items": False,
             "show_reason_in_draft_section": False,
-            "elise_actions": ["reopen"],
+            "casey_actions": ["reopen"],
         }
     return {
         "ui_surface": "needs_review",
@@ -112,7 +112,7 @@ def expected_behavior(label: str) -> dict[str, object]:
         "draft_needed": None,
         "has_action_items": None,
         "show_reason_in_draft_section": None,
-        "elise_actions": [],
+        "casey_actions": [],
     }
 
 

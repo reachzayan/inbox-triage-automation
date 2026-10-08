@@ -19,7 +19,7 @@ def _draft_view(**overrides: object) -> DraftView:
     base = {
         "id": uuid.uuid4(),
         "subject": "Re: Quote",
-        "body": "Hi Kelvin,\n\nThanks.",
+        "body": "Hi Jordan,\n\nThanks.",
         "forward_to": None,
         "teaching_note": "Note",
         "urgency": "NORMAL",
@@ -28,7 +28,7 @@ def _draft_view(**overrides: object) -> DraftView:
         "suggested_actions": [],
         "approved_at": None,
         "rejected_at": None,
-        "edited_body": "Hi Kelvin,\n\nThanks.",
+        "edited_body": "Hi Jordan,\n\nThanks.",
         "feedback_note": None,
         "feedback_action": None,
         "feedback_reason_code": None,
@@ -54,20 +54,20 @@ async def test_apply_salutation_returns_rewritten_body(app) -> None:
 
     contact = MailboxContactView(
         email="samplecontact@sample-vendor.example.com",
-        full_name="Kelvin Collado",
-        first_name="Kelvin",
+        full_name="Jordan Collado",
+        first_name="Jordan",
         notes=None,
         created_at=datetime.now(UTC),
         updated_at=datetime.now(UTC),
     )
     draft = _draft_view(
         id=draft_id,
-        body="Hi Kelvin,\n\nThanks.",
-        edited_body="Hi Kelvin,\n\nThanks.",
+        body="Hi Jordan,\n\nThanks.",
+        edited_body="Hi Jordan,\n\nThanks.",
     )
     addressee = ReplyAddresseeView(
         email="samplecontact@sample-vendor.example.com",
-        salute_name="Kelvin",
+        salute_name="Jordan",
         source="directory",
         source_kind="directory",
         directory_hit=True,
@@ -83,17 +83,17 @@ async def test_apply_salutation_returns_rewritten_body(app) -> None:
                 f"/api/drafts/{draft_id}/salutation",
                 json={
                     "email": "samplecontact@sample-vendor.example.com",
-                    "first_name": "Kelvin",
-                    "full_name": "Kelvin Collado",
+                    "first_name": "Jordan",
+                    "full_name": "Jordan Collado",
                 },
             )
 
     assert response.status_code == 200
     body = response.json()
-    assert body["draft"]["body"] == "Hi Kelvin,\n\nThanks."
-    assert body["reply_addressee"]["salute_name"] == "Kelvin"
+    assert body["draft"]["body"] == "Hi Jordan,\n\nThanks."
+    assert body["reply_addressee"]["salute_name"] == "Jordan"
     assert body["reply_addressee"]["directory_hit"] is True
-    assert body["contact"]["first_name"] == "Kelvin"
+    assert body["contact"]["first_name"] == "Jordan"
 
 
 @pytest.mark.asyncio

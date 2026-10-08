@@ -39,10 +39,10 @@ def _row(**overrides: object) -> RejectionMemoryListItem:
         "is_excluded": False,
         "created_at": datetime.now(UTC),
         "draft_subject": "Re: Invoice",
-        "draft_body": "Hi Beau,\n\nWe can do that today.",
-        "draft_body_preview": "Hi Beau,\n\nWe can do that today.",
-        "preview_line": "Hi Beau, We can do that today.",
-        "sender_email": "beau@example.com",
+        "draft_body": "Hi Taylor,\n\nWe can do that today.",
+        "draft_body_preview": "Hi Taylor,\n\nWe can do that today.",
+        "preview_line": "Hi Taylor, We can do that today.",
+        "sender_email": "taylor@example.com",
         "receiver_email": "sales@example.com",
     }
     base.update(overrides)
@@ -66,7 +66,7 @@ async def test_list_rejection_memory(app) -> None:
     body = response.json()
     assert len(body) == 2
     assert body[0]["note"] == "Do not promise same-day turnaround."
-    assert body[0]["sender_email"] == "beau@example.com"
+    assert body[0]["sender_email"] == "taylor@example.com"
     assert body[0]["draft_subject"] == "Re: Invoice"
     assert body[1]["is_excluded"] is True
 

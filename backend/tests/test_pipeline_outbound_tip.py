@@ -49,7 +49,7 @@ def _email(
     return EmailMessageSchema(
         message_id=message_id,
         conversation_id="conv-1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender=sender,
         subject="Need docs",
         body_text="body",
@@ -100,7 +100,7 @@ def _ingest(*, trigger: str, messages: list[EmailMessageSchema]) -> IngestResult
         conversation_id="conv-1",
         thread_context=ThreadContextSchema(
             conversation_id="conv-1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             subject="Need docs",
             messages=messages,
         ),
@@ -290,16 +290,16 @@ async def test_phased_pipeline_no_letter_when_outbound_tip_in_sync() -> None:
     outbound = _email(
         "msg-out",
         direction=EmailDirectionEnum.OUTBOUND,
-        sender="elise@example.com",
+        sender="casey@example.com",
         received_at=T2,
     )
     local = [
         _local_row("msg-in", direction="inbound", sender="client@example.com", received_at=T1),
-        _local_row("msg-out", direction="outbound", sender="elise@example.com", received_at=T2),
+        _local_row("msg-out", direction="outbound", sender="casey@example.com", received_at=T2),
     ]
     graph_msgs = [
         _graph_msg("msg-in", "2026-09-01T12:00:00Z", "client@example.com"),
-        _graph_msg("msg-out", "2026-09-01T13:00:00Z", "elise@example.com"),
+        _graph_msg("msg-out", "2026-09-01T13:00:00Z", "casey@example.com"),
     ]
     graph_client = MagicMock()
     graph_client.list_thread_messages = AsyncMock(return_value=graph_msgs)
@@ -342,16 +342,16 @@ async def test_phased_pipeline_letter_when_graph_has_newer_inbound() -> None:
     outbound = _email(
         "msg-out",
         direction=EmailDirectionEnum.OUTBOUND,
-        sender="elise@example.com",
+        sender="casey@example.com",
         received_at=T2,
     )
     local = [
         _local_row("msg-in", direction="inbound", sender="client@example.com", received_at=T1),
-        _local_row("msg-out", direction="outbound", sender="elise@example.com", received_at=T2),
+        _local_row("msg-out", direction="outbound", sender="casey@example.com", received_at=T2),
     ]
     graph_msgs = [
         _graph_msg("msg-in", "2026-09-01T12:00:00Z", "client@example.com"),
-        _graph_msg("msg-out", "2026-09-01T13:00:00Z", "elise@example.com"),
+        _graph_msg("msg-out", "2026-09-01T13:00:00Z", "casey@example.com"),
         _graph_msg("msg-followup", "2026-09-01T14:00:00Z", "client@example.com"),
     ]
     graph_client = MagicMock()

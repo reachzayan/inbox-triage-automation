@@ -16,7 +16,7 @@ from app.llm.thread_fact_quality import (
 
 def test_rejects_signature_and_gossip_literals() -> None:
     assert not is_useful_thread_fact(
-        "Elise Chouest is Director at SampleSite with email "
+        "Casey Chouest is Director at SampleSite with email "
         "sampleagent@sample-site.example.com and phone (202) 555-0105 ext. 201."
     )
     assert not is_useful_thread_fact("Sample Helpdesk reported that the integration is resolved.")
@@ -33,7 +33,7 @@ def test_rejects_helpdesk_and_signature_role_literals() -> None:
         "An applicant is experiencing site issues that need urgent resolution."
     )
     assert not is_useful_thread_fact(
-        "Cydney Blumenthal is Director of Digital Services at SampleVendor."
+        "Casey Parker is Director of Digital Services at SampleVendor."
     )
     assert not is_useful_thread_fact("Client reports security issues with the portal.")
     assert not is_useful_thread_fact(
@@ -51,54 +51,54 @@ def test_keeps_named_product_and_counted_literals() -> None:
         "SampleVendor volume dropped from about 60 searches per week to none this week."
     )
     assert is_useful_thread_fact(
-        "Cydney asked for a list of required documents (consents, disclosures) "
+        "Casey asked for a list of required documents (consents, disclosures) "
         "for manually submitted orders."
     )
     assert is_useful_thread_fact(
-        "Dev asked Elise to check if payment records contain identifiers "
+        "Dev asked Casey to check if payment records contain identifiers "
         "'F71-1781119712' or 'D86-1778001750'."
     )
     assert is_useful_thread_fact("Check 11111 is for driver Ames, cancelled.")
     assert is_useful_thread_fact("There are 3 payment records with method sync issues.")
 
 
-def test_elises_email_becomes_elise_except_in_email_label() -> None:
-    aliases = {"sampleagent@sample-site.example.com": "Elise"}
+def test_caseys_email_becomes_casey_except_in_email_label() -> None:
+    aliases = {"sampleagent@sample-site.example.com": "Casey"}
     rewritten = apply_person_aliases(
         "sampleagent@sample-site.example.com asked Dev whether they have pre-QBO data.",
         aliases,
     )
-    assert rewritten == "Elise asked Dev whether they have pre-QBO data."
+    assert rewritten == "Casey asked Dev whether they have pre-QBO data."
     identity = apply_person_aliases(
-        "Elise Chouest is Director with email sampleagent@sample-site.example.com",
+        "Casey Chouest is Director with email sampleagent@sample-site.example.com",
         aliases,
     )
     assert "sampleagent@sample-site.example.com" in identity
-    assert identity.startswith("Elise Chouest")
+    assert identity.startswith("Casey Chouest")
 
 
 def test_participant_first_name_from_from_header() -> None:
     from app.core.person_name import display_name_first_name
 
-    assert display_name_first_name("Elise Chouest") == "Elise"
+    assert display_name_first_name("Casey Chouest") == "Casey"
     assert display_name_first_name("SampleSite Support") is None
 
     message = SimpleNamespace(
         sender="sampleagent@sample-site.example.com",
-        sender_name="Elise Chouest",
+        sender_name="Casey Chouest",
     )
     aliases = person_aliases_from_messages([message])
-    assert aliases["sampleagent@sample-site.example.com"] == "Elise"
+    assert aliases["sampleagent@sample-site.example.com"] == "Casey"
 
 
 def test_identity_sentence_fills_alias_map() -> None:
     aliases = person_aliases_from_fact_texts(
         [
-            "Elise Chouest is Director at SampleSite with email "
+            "Casey Chouest is Director at SampleSite with email "
             "sampleagent@sample-site.example.com and phone (202) 555-0105 ext. 201."
         ]
     )
-    assert aliases["sampleagent@sample-site.example.com"] == "Elise"
+    assert aliases["sampleagent@sample-site.example.com"] == "Casey"
 
 
 def test_role_mailbox_display_is_not_an_alias() -> None:

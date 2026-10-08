@@ -29,7 +29,7 @@ def _row(
     row.id = uuid.uuid4()
     row.conversation_id = conversation_id
     row.message_id = message_id
-    row.mailbox = "elise@example.com"
+    row.mailbox = "casey@example.com"
     row.body_preview = "hi"
     row.sender_email = "vendor@example.com"
     return row
@@ -74,10 +74,10 @@ async def test_insert_embedding_resolves_graph_message_and_inserts() -> None:
         result = await embedding_repo.insert_embedding(
             session,
             embedding=_vector(),
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             conversation_id="c1",
             sender_email="vendor@example.com",
-            recipient_emails=["elise@example.com"],
+            recipient_emails=["casey@example.com"],
             cc_emails=[],
             sent_at=datetime(2026, 7, 22, tzinfo=UTC),
             body_preview="hi",
@@ -104,7 +104,7 @@ async def test_insert_embedding_skips_duplicate_message_id() -> None:
     result = await embedding_repo.insert_embedding(
         session,
         embedding=_vector(),
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         conversation_id="c1",
         sender_email="vendor@example.com",
         recipient_emails=[],
@@ -132,7 +132,7 @@ async def test_search_similar_applies_threshold_in_sql_and_excludes_conversation
         embedding=_vector(),
         min_similarity=0.78,
         top_k=3,
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         exclude_conversation_id="c-self",
     )
 
@@ -156,7 +156,7 @@ async def test_search_similar_sets_local_ef_search_from_settings() -> None:
         embedding=_vector(),
         min_similarity=0.78,
         top_k=3,
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         settings=settings,
     )
 
@@ -184,7 +184,7 @@ async def test_search_similar_enables_iterative_scan_when_configured() -> None:
         embedding=_vector(),
         min_similarity=0.78,
         top_k=3,
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         settings=settings,
     )
 
@@ -212,7 +212,7 @@ async def test_search_similar_skips_iterative_scan_when_disabled() -> None:
         embedding=_vector(),
         min_similarity=0.78,
         top_k=3,
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         settings=settings,
     )
 
@@ -248,7 +248,7 @@ async def test_search_fts_orders_by_rank_and_excludes_conversation() -> None:
         session,
         query_text="intake packet deadline",
         top_k=5,
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         exclude_conversation_id="c-self",
     )
 
@@ -274,7 +274,7 @@ async def test_insert_embedding_without_message_pk_adds_row() -> None:
         result = await embedding_repo.insert_embedding(
             session,
             embedding=_vector(),
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             conversation_id="c1",
             sender_email="vendor@example.com",
             recipient_emails=[],
@@ -339,15 +339,15 @@ async def test_search_fts_mailboxes_in_clause() -> None:
         session,
         query_text="intake packet",
         top_k=5,
-        mailboxes=["elise@example.com", "sales@example.com"],
+        mailboxes=["casey@example.com", "sales@example.com"],
     )
 
     assert len(matches) == 1
-    assert matches[0].mailbox == "elise@example.com"
+    assert matches[0].mailbox == "casey@example.com"
 
 
 _PG_DIM = 1536
-_PG_MAILBOX = "elise@example.com"
+_PG_MAILBOX = "casey@example.com"
 _PG_OTHER = "sales@example.com"
 
 

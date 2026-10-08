@@ -37,7 +37,7 @@ def _draft(**overrides: object) -> DraftResponseSchema:
 
 def _settings() -> Settings:
     return Settings(
-        target_mailboxes="elise@example.com",
+        target_mailboxes="casey@example.com",
         openai_api_key="sk-test",
         jwt_secret="c" * 64,
         database_url="postgresql+asyncpg://postgres:postgres@localhost:5432/inbox_triage_test",
@@ -64,7 +64,7 @@ async def test_apply_manual_urgency_edit_updates_draft_and_thread() -> None:
                     (),
                     {
                         "id": draft.thread_id,
-                        "mailbox": "elise@example.com",
+                        "mailbox": "casey@example.com",
                         "conversation_id": "c1",
                     },
                 )()
@@ -87,14 +87,14 @@ async def test_apply_manual_urgency_edit_updates_draft_and_thread() -> None:
             session,
             draft.id,
             request,
-            actor="elise@example.com",
+            actor="casey@example.com",
             settings=_settings(),
         )
 
     assert result.response.urgency == "HIGH"
     assert result.response.urgency_reason == "SLA deadline tomorrow"
     assert result.previous_urgency == "LOW"
-    assert result.mailbox == "elise@example.com"
+    assert result.mailbox == "casey@example.com"
     draft_set.assert_awaited_once()
     thread_set.assert_awaited_once()
     audit_mock.assert_awaited_once()
@@ -119,7 +119,7 @@ async def test_apply_manual_urgency_edit_missing_draft() -> None:
             session,
             uuid.uuid4(),
             UrgencyEditRequestSchema(new_urgency="HIGH", reason="Because"),
-            actor="elise@example.com",
+            actor="casey@example.com",
         )
 
 
@@ -139,7 +139,7 @@ async def test_store_urgency_feedback_memory_best_effort_on_embed_failure() -> N
         result = await urgency_feedback_service.store_urgency_feedback_memory(
             draft_id=uuid.uuid4(),
             thread_id=uuid.uuid4(),
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             routing_category="billing",
             previous_urgency="LOW",
             new_urgency="HIGH",
@@ -190,7 +190,7 @@ async def test_store_urgency_feedback_atomizes_reason_as_urgency_edit() -> None:
         await urgency_feedback_service.store_urgency_feedback_memory(
             draft_id=draft_id,
             thread_id=thread_id,
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             routing_category="billing",
             previous_urgency="HIGH",
             new_urgency="LOW",
@@ -206,4 +206,4 @@ async def test_store_urgency_feedback_atomizes_reason_as_urgency_edit() -> None:
     assert kwargs["source_kind"] == "urgency_edit"
     assert kwargs["source_id"] == feedback_id
     assert kwargs["text"] == "statuspage resolved notices are never urgent"
-    assert kwargs["mailbox"] == "elise@example.com"
+    assert kwargs["mailbox"] == "casey@example.com"

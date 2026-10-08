@@ -26,7 +26,7 @@ PIN_TEXT = "Do not CC legal"
 INBOUND_BODY = "Please cancel check 11111 for driver Ames"
 OUTBOUND_BODY = "I cancelled check 11111 in the portal this morning"
 FACT_INBOUND = "Sender asked to cancel check 11111 for driver Ames"
-FACT_OUTBOUND = "Elise cancelled check 11111 in the portal"
+FACT_OUTBOUND = "Casey cancelled check 11111 in the portal"
 
 
 def _settings(*, enabled: bool) -> Settings:
@@ -213,7 +213,7 @@ async def test_extract_does_not_persist_signature_or_gossip(db_session) -> None:
             [
                 {
                     "text": (
-                        "Elise Chouest is Director at SampleSite with email "
+                        "Casey Chouest is Director at SampleSite with email "
                         "sampleagent@sample-site.example.com and phone (202) 555-0105 ext. 201."
                     ),
                     "source_message_id": str(inbound.id),
@@ -411,11 +411,11 @@ async def test_present_context_aliases_mailbox_address_to_owner(db_session) -> N
         ],
     )
     settings = _settings(enabled=True)
-    settings = settings.model_copy(update={"mailbox_owners": f"{MAILBOX}:Elise"})
+    settings = settings.model_copy(update={"mailbox_owners": f"{MAILBOX}:Casey"})
 
     view = await thread_context_service.present_context(db_session, thread.id, settings=settings)
 
-    assert [row.body for row in view.facts] == ["Elise cancelled check 11111 in the portal"]
+    assert [row.body for row in view.facts] == ["Casey cancelled check 11111 in the portal"]
 
 
 async def test_present_context_orders_facts_by_source_email_newest_first(db_session) -> None:
@@ -433,18 +433,18 @@ async def test_present_context_orders_facts_by_source_email_newest_first(db_sess
                 "actor_kind": "llm",
             },
             {
-                "body": "Elise cancelled check 11111 in the portal",
+                "body": "Casey cancelled check 11111 in the portal",
                 "source_message_id": outbound.id,
                 "actor_kind": "llm",
             },
         ],
     )
-    settings = _settings(enabled=True).model_copy(update={"mailbox_owners": f"{MAILBOX}:Elise"})
+    settings = _settings(enabled=True).model_copy(update={"mailbox_owners": f"{MAILBOX}:Casey"})
 
     view = await thread_context_service.present_context(db_session, thread.id, settings=settings)
 
     assert [row.body for row in view.facts] == [
-        "Elise cancelled check 11111 in the portal",
+        "Casey cancelled check 11111 in the portal",
         "Sender asked to cancel check 11111 for driver Ames",
     ]
 
@@ -475,9 +475,9 @@ async def test_present_context_owner_wins_over_identity_sentence(db_session) -> 
             },
         ],
     )
-    settings = _settings(enabled=True).model_copy(update={"mailbox_owners": f"{MAILBOX}:Elise"})
+    settings = _settings(enabled=True).model_copy(update={"mailbox_owners": f"{MAILBOX}:Casey"})
 
     view = await thread_context_service.present_context(db_session, thread.id, settings=settings)
     bodies = [row.body for row in view.facts]
-    assert "Elise cancelled check 11111 in the portal" in bodies
+    assert "Casey cancelled check 11111 in the portal" in bodies
     assert all("Pat cancelled" not in body for body in bodies)

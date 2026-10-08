@@ -436,7 +436,7 @@ def app():
         async def fake_user() -> UserMe:
             return UserMe(
                 id=uuid.uuid4(),
-                email="elise@example.com",
+                email="casey@example.com",
                 role="user",
                 created_at=datetime.now(UTC),
             )

@@ -28,7 +28,7 @@ def local_settings() -> Settings:
         frontend_origin="http://localhost:3000",
         cookie_secure=False,
         enable_dev_routes=False,
-        target_mailboxes="elise@sample-site.example.com",
+        target_mailboxes="casey@sample-site.example.com",
         database_url="postgresql+asyncpg://postgres:postgres@localhost:5432/inbox_triage_test",
         redis_url="redis://localhost:6379/15",
     )
@@ -52,7 +52,7 @@ def app(local_settings: Settings):
         async def fake_user() -> UserMe:
             return UserMe(
                 id=uuid.UUID("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-                email="elise@sample-site.example.com",
+                email="casey@sample-site.example.com",
                 role="user",
                 created_at=datetime.now(UTC),
             )

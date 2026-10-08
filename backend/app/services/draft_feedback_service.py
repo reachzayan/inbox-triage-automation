@@ -694,9 +694,9 @@ async def mark_wrong(
 
     if reason_code == "wrong_action":
         snapshot = build_resolve_snapshot(
-            resolved_by="elise",
+            resolved_by="casey",
             resolution_reason="wrong_action",
-            disposition_at_resolve="resolved_elise",
+            disposition_at_resolve="resolved_casey",
             had_draft=True,
             had_letter=bool((existing.reply_body or "").strip()),
             actions_taken=feedback_note,
@@ -717,7 +717,7 @@ async def mark_wrong(
                     "human": {
                         "title": "You resolved this",
                         "body": RESOLUTION_SUMMARIES["wrong_action"],
-                        "actor_kind": "elise",
+                        "actor_kind": "casey",
                     },
                 },
                 actor=actor,

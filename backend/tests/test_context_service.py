@@ -22,14 +22,14 @@ def _email(**overrides: object) -> EmailMessageSchema:
     base: dict[str, object] = {
         "message_id": "graph-m1",
         "conversation_id": "conv-current",
-        "mailbox": "elise@example.com",
+        "mailbox": "casey@example.com",
         "sender": "vendor@example.com",
         "subject": "Follow up on intake",
         "body_text": "As discussed last week, please send the packet.",
         "body_preview": "As discussed last week",
         "received_at": datetime(2026, 7, 23, tzinfo=UTC),
         "direction": EmailDirectionEnum.INBOUND,
-        "to_recipients": ["elise@example.com"],
+        "to_recipients": ["casey@example.com"],
         "cc_recipients": [],
     }
     base.update(overrides)
@@ -163,7 +163,7 @@ async def test_resolve_above_threshold_fetches_thread_and_persists_link() -> Non
     assert search.await_args.kwargs["exclude_conversation_id"] == "conv-current"
     assert search.await_args.kwargs["min_similarity"] == 0.78
     graph_client.list_thread_messages.assert_awaited_once_with(
-        "elise@example.com",
+        "casey@example.com",
         "conv-matched",
     )
     link.assert_awaited_once()
@@ -359,7 +359,7 @@ async def test_resolve_prefers_corroborated_conversation() -> None:
     assert result is not None
     assert result.matched_conversation_id == "conv-b"
     graph_client.list_thread_messages.assert_awaited_once_with(
-        "elise@example.com",
+        "casey@example.com",
         "conv-b",
     )
     assert link.await_args.kwargs["matched_conversation_id"] == "conv-b"
@@ -446,7 +446,7 @@ async def test_messages_from_db_builds_schemas() -> None:
     thread_id = uuid.uuid4()
     thread = ThreadSchema(
         id=thread_id,
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         conversation_id="conv-matched",
         subject="Prior",
         state="NEW",
@@ -483,7 +483,7 @@ async def test_messages_from_db_builds_schemas() -> None:
     ):
         msgs = await context_service._messages_from_db(
             _session_factory(),
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             conversation_id="conv-matched",
         )
 
@@ -517,7 +517,7 @@ async def test_messages_from_db_returns_none_when_thread_missing() -> None:
     ):
         msgs = await context_service._messages_from_db(
             _session_factory(),
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             conversation_id="missing",
         )
     assert msgs is None
@@ -531,7 +531,7 @@ async def test_messages_from_db_recomputes_missing_clean() -> None:
     thread_id = uuid.uuid4()
     thread = ThreadSchema(
         id=thread_id,
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         conversation_id="conv-matched",
         subject="Prior",
         state="NEW",
@@ -565,7 +565,7 @@ async def test_messages_from_db_recomputes_missing_clean() -> None:
     ):
         msgs = await context_service._messages_from_db(
             _session_factory(),
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             conversation_id="conv-matched",
         )
 

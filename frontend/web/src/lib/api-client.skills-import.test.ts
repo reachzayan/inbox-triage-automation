@@ -12,7 +12,7 @@ describe("api.skills.import duplicate handling", () => {
       expiresIn: 900,
       user: {
         id: "1",
-        email: "elise@example.com",
+        email: "casey@example.com",
         role: "admin",
         created_at: new Date().toISOString(),
       },

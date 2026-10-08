@@ -523,7 +523,7 @@ async def test_search_mail_packs_thread_bodies_so_the_answer_can_brief_what_happ
     body = (
         "Ashley Williams asked us to confirm the Active Enrollment "
         "Compliance Certificate is on file before they add new users. "
-        "Elise still needs to file the signed certificate."
+        "Casey still needs to file the signed certificate."
     )
 
     async def fake_search(*_args, **kwargs):
@@ -557,7 +557,7 @@ async def test_search_mail_packs_thread_bodies_so_the_answer_can_brief_what_happ
     blob = "\n".join(item["text"] for item in packed[0]["content"])
     assert "signed certificate" in blob.lower()
     assert "add new users" in blob.lower()
-    assert "Elise still needs" in blob
+    assert "Casey still needs" in blob
 
 
 @pytest.mark.db

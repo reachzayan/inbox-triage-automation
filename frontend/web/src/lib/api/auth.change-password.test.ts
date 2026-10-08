@@ -12,7 +12,7 @@ describe("authApi.changePassword", () => {
       expiresIn: 900,
       user: {
         id: "1",
-        email: "elise@example.com",
+        email: "casey@example.com",
         role: "user",
         created_at: "2026-01-01T00:00:00Z",
       },

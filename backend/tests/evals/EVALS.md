@@ -96,7 +96,7 @@ Grow gold by approving more drafts in the product, not by fabricating references
 
 | Case | Tools | Urgency |
 |------|-------|---------|
-| samplelab Harmeyer | 2–3× `read_skill_reference` (departments, client_rules, output_format) | NORMAL |
+| samplelab SamplePartner | 2–3× `read_skill_reference` (departments, client_rules, output_format) | NORMAL |
 | scheduling decoy | 0 tools (correct) | NORMAL |
 | flow-b prior thread | 0 tools | HIGH |
 | simple no-context | 0 tools | LOW |

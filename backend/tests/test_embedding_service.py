@@ -18,14 +18,14 @@ def _email(**overrides: object) -> EmailMessageSchema:
     base: dict[str, object] = {
         "message_id": "graph-m1",
         "conversation_id": "c1",
-        "mailbox": "elise@example.com",
+        "mailbox": "casey@example.com",
         "sender": "vendor@example.com",
         "subject": "Need docs",
         "body_text": "Please send the packet. SSN 123-45-6789",
         "body_preview": "Please send the packet.",
         "received_at": datetime(2026, 7, 22, tzinfo=UTC),
         "direction": EmailDirectionEnum.INBOUND,
-        "to_recipients": ["elise@example.com"],
+        "to_recipients": ["casey@example.com"],
         "cc_recipients": ["ops@example.com"],
     }
     base.update(overrides)
@@ -126,9 +126,9 @@ async def test_embed_and_store_persists_via_repo() -> None:
     assert result is stored
     insert.assert_awaited_once()
     kwargs = insert.await_args.kwargs
-    assert kwargs["mailbox"] == "elise@example.com"
+    assert kwargs["mailbox"] == "casey@example.com"
     assert kwargs["sender_email"] == "vendor@example.com"
-    assert kwargs["recipient_emails"] == ["elise@example.com"]
+    assert kwargs["recipient_emails"] == ["casey@example.com"]
     assert kwargs["cc_emails"] == ["ops@example.com"]
     assert kwargs["graph_message_id"] == "graph-m1"
     assert len(kwargs["embedding"]) == dim

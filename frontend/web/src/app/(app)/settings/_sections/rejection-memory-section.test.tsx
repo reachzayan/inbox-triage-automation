@@ -38,7 +38,7 @@ const sample = {
   id: "rej-1",
   draft_id: "draft-1",
   thread_id: "thread-1",
-  mailbox: "elise@example.com",
+  mailbox: "casey@example.com",
   routing_category: "billing",
   reason_code: "factual",
   note: "Do not promise same-day turnaround.",
@@ -46,11 +46,11 @@ const sample = {
   is_excluded: false,
   created_at: "2026-08-20T12:00:00Z",
   draft_subject: "Re: Invoice",
-  draft_body: "Hi Beau,\n\nWe can do that today.",
-  draft_body_preview: "Hi Beau,\n\nWe can do that today.",
-  preview_line: "Hi Beau, We can do that today.",
-  sender_email: "beau@example.com",
-  receiver_email: "elise@example.com",
+  draft_body: "Hi Taylor,\n\nWe can do that today.",
+  draft_body_preview: "Hi Taylor,\n\nWe can do that today.",
+  preview_line: "Hi Taylor, We can do that today.",
+  sender_email: "taylor@example.com",
+  receiver_email: "casey@example.com",
 }
 
 describe("RejectionMemorySection", () => {
@@ -69,12 +69,12 @@ describe("RejectionMemorySection", () => {
     listMock.mockResolvedValue([sample])
     renderSection()
     expect(await screen.findByText("Re: Invoice")).toBeInTheDocument()
-    expect(screen.getByText(/From beau@example.com/)).toBeInTheDocument()
-    expect(screen.getByText(/To elise@example.com/)).toBeInTheDocument()
+    expect(screen.getByText(/From taylor@example.com/)).toBeInTheDocument()
+    expect(screen.getByText(/To casey@example.com/)).toBeInTheDocument()
     expect(
       screen.getByText("Reason: Factual error — Do not promise same-day turnaround."),
     ).toBeInTheDocument()
-    expect(screen.getByText("Hi Beau, We can do that today.")).toBeInTheDocument()
+    expect(screen.getByText("Hi Taylor, We can do that today.")).toBeInTheDocument()
   })
 
   it("opens the full draft when the preview is clicked", async () => {

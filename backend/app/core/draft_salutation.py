@@ -22,7 +22,7 @@ def rewrite_opening_salutation(body: str, salute_name: str) -> str:
     """Replace or prepend the opening ``Hi …,`` line in ``body``.
 
     Always normalizes to ``Hi {name},`` / ``Hi,`` so a local-part guess like
-    ``Hi Samplecontact,`` becomes ``Hi Kelvin,`` without calling the model.
+    ``Hi Samplecontact,`` becomes ``Hi Jordan,`` without calling the model.
     """
     text = body if body is not None else ""
     opening = format_opening_salutation(salute_name)

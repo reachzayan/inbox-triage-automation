@@ -1,6 +1,6 @@
 """Store reviewer-authored process steps on rejected drafts.
 
-Elise's correct process is JSONB on drafts, same shape as suggested_actions.
+Casey's correct process is JSONB on drafts, same shape as suggested_actions.
 """
 
 from collections.abc import Sequence

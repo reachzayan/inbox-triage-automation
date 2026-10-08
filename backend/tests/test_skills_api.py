@@ -73,7 +73,7 @@ def app(local_settings: Settings):
         async def fake_user() -> UserMe:
             return UserMe(
                 id=uuid.uuid4(),
-                email="elise@example.com",
+                email="casey@example.com",
                 role="admin",
                 created_at=datetime.now(UTC),
             )
@@ -187,7 +187,7 @@ async def test_create_skill_forbidden_for_non_admin(local_settings: Settings) ->
         async def fake_user() -> UserMe:
             return UserMe(
                 id=uuid.uuid4(),
-                email="elise@example.com",
+                email="casey@example.com",
                 role="user",
                 created_at=datetime.now(UTC),
             )
@@ -237,14 +237,14 @@ def test_skills_injected_into_user_content() -> None:
     email = EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         subject="Drug screen",
         sender="vendor@example.com",
         body_text="Result attached",
         body_preview="Result attached",
         received_at=datetime.now(UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=[],
     )
     triage = TriageResultSchema(

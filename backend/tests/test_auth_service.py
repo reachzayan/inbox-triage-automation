@@ -35,7 +35,7 @@ def _user(**overrides: object) -> UserRead:
     now = datetime.now(UTC)
     base = {
         "id": uuid.uuid4(),
-        "email": "elise@example.com",
+        "email": "casey@example.com",
         "password_hash": hash_password("CorrectHorseBattery1!"),
         "password_updated_at": now,
         "token_version": 0,
@@ -366,7 +366,7 @@ async def test_refresh_grace_roundtrip_encrypted() -> None:
     )
     user = UserMe(
         id=uuid.uuid4(),
-        email="elise@example.com",
+        email="casey@example.com",
         role="user",
         created_at=datetime.now(UTC),
     )
@@ -397,4 +397,4 @@ async def test_refresh_grace_roundtrip_encrypted() -> None:
     assert loaded is not None
     assert loaded.refresh_plaintext == "new-refresh-token"
     assert loaded.response.access_token == "access.jwt"
-    assert loaded.response.user.email == "elise@example.com"
+    assert loaded.response.user.email == "casey@example.com"

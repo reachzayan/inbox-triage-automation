@@ -18,7 +18,7 @@ def test_person_shaped_from_accepts_last_first() -> None:
 
 
 def test_display_name_first_name_from_two_token_display() -> None:
-    assert display_name_first_name("Kelvin Collado") == "Kelvin"
+    assert display_name_first_name("Jordan Collado") == "Jordan"
 
 
 def test_display_name_first_name_from_last_first() -> None:

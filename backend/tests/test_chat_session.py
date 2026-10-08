@@ -162,7 +162,7 @@ async def test_create_session_route_persists_after_request_ends(
             application.dependency_overrides[get_settings] = lambda: settings
             application.dependency_overrides[get_current_user] = lambda: UserMe(
                 id=user_id,
-                email="elise@example.com",
+                email="casey@example.com",
                 role="user",
                 created_at=datetime.now(UTC),
             )

@@ -24,7 +24,7 @@ vi.mock("@/lib/api-client", () => ({
 vi.mock("@/features/auth/use-auth", () => ({
   useAuthState: () => ({
     accessToken: "tok",
-    user: { email: "elise@example.com" },
+    user: { email: "casey@example.com" },
   }),
   useLogout: () => ({ mutate: vi.fn(), isPending: false }),
 }))

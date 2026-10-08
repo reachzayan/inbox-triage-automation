@@ -19,14 +19,14 @@ def _email() -> EmailMessageSchema:
     return EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="Need docs",
         body_text="Please send the intake packet.",
         body_preview="Please send",
         received_at=datetime(2026, 7, 10, 12, 0, tzinfo=UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=["ops@example.com"],
     )
 
@@ -62,9 +62,9 @@ def _ok_triage() -> TriageResultSchema:
 def test_build_user_content_includes_to_and_cc() -> None:
     email = _email()
     content = triage_llm._build_user_content(email, _context(email))
-    assert "To: elise@example.com" in content
+    assert "To: casey@example.com" in content
     assert "CC: ops@example.com" in content
-    assert "Mailbox: elise@example.com" in content
+    assert "Mailbox: casey@example.com" in content
     assert "Please send the intake packet." in content
 
 
@@ -85,10 +85,10 @@ def test_build_user_content_includes_mailbox_owner_when_set() -> None:
     content = triage_llm._build_user_content(
         email,
         _context(email),
-        mailbox_owner="Elise",
+        mailbox_owner="Casey",
     )
     assert "Mailbox: sampleagent@sample-site.example.com" in content
-    assert "Mailbox owner: Elise (personal inbox — mail here is for Elise specifically)" in content
+    assert "Mailbox owner: Casey (personal inbox — mail here is for Casey specifically)" in content
 
 
 def test_build_user_content_omits_mailbox_owner_when_unset() -> None:

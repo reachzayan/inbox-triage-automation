@@ -32,7 +32,7 @@ from app.repositories import thread_context_repo
 
 pytestmark = pytest.mark.db
 
-MAILBOX = "elise@sample-site.example.com"
+MAILBOX = "casey@sample-site.example.com"
 PIN_TEXT = "Do not CC legal"
 FACT_BODY = "Check 11111 is for driver Ames"
 
@@ -191,7 +191,7 @@ async def test_put_user_notes_stale_version_is_409(db_session) -> None:
     assert stale.status_code == 409
 
 
-async def test_get_context_hides_signature_and_rewrites_elises_email(db_session) -> None:
+async def test_get_context_hides_signature_and_rewrites_caseys_email(db_session) -> None:
     thread = await _seed_thread(db_session)
     message_id = (
         await db_session.execute(
@@ -204,7 +204,7 @@ async def test_get_context_hides_signature_and_rewrites_elises_email(db_session)
         graph_message_id=str(uuid.uuid4()),
         direction="outbound",
         sender=MAILBOX,
-        sender_name="Elise Chouest",
+        sender_name="Casey Chouest",
         body_text="Checking those ids",
         received_at=datetime(2026, 9, 4, 12, 5, tzinfo=UTC),
         to_recipients=["buyer@acme.com"],
@@ -217,7 +217,7 @@ async def test_get_context_hides_signature_and_rewrites_elises_email(db_session)
         [
             {
                 "body": (
-                    "Elise Chouest is Director at SampleSite with email "
+                    "Casey Chouest is Director at SampleSite with email "
                     "sampleagent@sample-site.example.com and phone (202) 555-0105 ext. 201."
                 ),
                 "source_message_id": message_id,
@@ -243,7 +243,7 @@ async def test_get_context_hides_signature_and_rewrites_elises_email(db_session)
 
     assert resp.status_code == 200, resp.text
     bodies = [fact["body"] for fact in resp.json()["facts"]]
-    assert bodies == ["Elise asked Dev whether they have pre-QBO data."]
+    assert bodies == ["Casey asked Dev whether they have pre-QBO data."]
 
 
 async def test_discard_fact_omits_it_from_get(db_session) -> None:

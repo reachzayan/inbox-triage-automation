@@ -1,4 +1,4 @@
-/** Last-inbound courtesy close: no real ask for Elise right now. */
+/** Last-inbound courtesy close: no real ask for Casey right now. */
 
 const ASK_RE =
   /\b(please (send|review|confirm|process|reply)|can you|could you|need you to|what is the status)\b/i

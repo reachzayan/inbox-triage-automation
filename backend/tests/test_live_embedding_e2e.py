@@ -74,7 +74,7 @@ pytestmark = [
 # Intentionally near-duplicate: cosine similarity should clear 0.78 easily.
 _PRIOR_SUBJECT = "Drug screen results for driver John Martinez — need clearance"
 _PRIOR_BODY = (
-    "Hi Elise,\n\n"
+    "Hi Casey,\n\n"
     "Attached are the drug screen results for driver John Martinez (DOT).\n"
     "Please confirm clearance status and let us know if SampleLab needs a retest.\n"
     "Carrier: SampleSite Logistics. Collection date was Monday.\n\n"
@@ -82,7 +82,7 @@ _PRIOR_BODY = (
 )
 _FOLLOWUP_SUBJECT = "Following up — John Martinez drug screen clearance"
 _FOLLOWUP_BODY = (
-    "Hi Elise,\n\n"
+    "Hi Casey,\n\n"
     "Following up on our earlier email about the drug screen results for "
     "driver John Martinez. As discussed previously, we still need clearance "
     "confirmation and whether SampleLab requires a retest.\n\n"
@@ -99,7 +99,7 @@ _APPROVED_REPLY = (
     "Thanks for sending John Martinez's drug screen results. I've reviewed "
     "them and will confirm clearance with Jordan. If SampleLab flags a retest "
     "we will notify you within one business day.\n\n"
-    "Best regards,\nElise"
+    "Best regards,\nCasey"
 )
 
 

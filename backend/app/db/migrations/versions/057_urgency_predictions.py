@@ -45,7 +45,7 @@ def upgrade() -> None:
                 nullable=True,
             ),
             sa.Column("final_urgency", sa.String(16), nullable=False),
-            sa.Column("elise_edited_to", sa.String(16), nullable=True),
+            sa.Column("casey_edited_to", sa.String(16), nullable=True),
             sa.Column(
                 "created_at",
                 sa.DateTime(timezone=True),

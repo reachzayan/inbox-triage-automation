@@ -72,19 +72,19 @@ def test_participant_names_follow_salute_priority() -> None:
         _msg(
             message_id="2",
             sender=mailbox,
-            sender_display_name="Elise Chouest",
+            sender_display_name="Casey Chouest",
             direction=EmailDirectionEnum.OUTBOUND,
             to=["Dev@sample-site.example.com"],
             mailbox=mailbox,
-            body_text="Hey Div,\nLooks like the link is broken.\nThanks,\nElise\n",
+            body_text="Hey Div,\nLooks like the link is broken.\nThanks,\nCasey\n",
         ),
     ]
     names = participant_first_names(
         mailbox=mailbox,
         messages=messages,
-        mailbox_owner="Elise",
+        mailbox_owner="Casey",
     )
-    assert names.get("sampleagent@sample-site.example.com") == "Elise"
+    assert names.get("sampleagent@sample-site.example.com") == "Casey"
     assert "dev@sample-site.example.com" not in names
     assert "Sample" not in names.values()
     assert "Dev" not in names.values()
@@ -106,17 +106,17 @@ def test_participant_names_follow_salute_priority() -> None:
     taught = participant_first_names(
         mailbox=mailbox,
         messages=messages,
-        mailbox_owner="Elise",
+        mailbox_owner="Casey",
         directory={"dev@sample-site.example.com": "Divyansh"},
     )
     assert taught["dev@sample-site.example.com"] == "Divyansh"
-    assert taught["sampleagent@sample-site.example.com"] == "Elise"
+    assert taught["sampleagent@sample-site.example.com"] == "Casey"
 
 
 def test_role_mailbox_inbound_uses_signature_name_not_local_part() -> None:
     """Dev@ is a role mailbox; signature Divyansh is the person to salute."""
     mailbox = "sampleagent@sample-site.example.com"
-    body = "Hi Elise,\n\nI have updated both invoice screens.\n\nThanks,\nDivyansh\n"
+    body = "Hi Casey,\n\nI have updated both invoice screens.\n\nThanks,\nDivyansh\n"
     messages = [
         _msg(
             message_id="1",
@@ -134,7 +134,7 @@ def test_role_mailbox_inbound_uses_signature_name_not_local_part() -> None:
 
 
 def test_zendesk_helpdesk_salutes_agent_not_customer_or_quoted_owner() -> None:
-    """Zendesk tip greets our owner (Elise) and embeds her prior Thanks,Elise.
+    """Zendesk tip greets our owner (Casey) and embeds her prior Thanks,Casey.
 
     Reply must salute the agent (Alex), never the mailbox owner we sign as.
     """
@@ -145,7 +145,7 @@ def test_zendesk_helpdesk_salutes_agent_not_customer_or_quoted_owner() -> None:
         "reply to this email.\n\n"
         "Alex Taylor (SampleHelpdesk)\n\n"
         "Aug 25, 2026, 8:55 AM MDT\n\n"
-        "Elise,\n\n"
+        "Casey,\n\n"
         "I am happy to look into this for you. Can you provide a search ID?\n\n"
         "Alex Taylor\n"
         "Customer Support\n\n"
@@ -155,7 +155,7 @@ def test_zendesk_helpdesk_salutes_agent_not_customer_or_quoted_owner() -> None:
         "Hello,\n\n"
         "Please check notifications.\n\n"
         "Thanks,\n"
-        "Elise\n"
+        "Casey\n"
     )
     messages = [
         _msg(
@@ -170,7 +170,7 @@ def test_zendesk_helpdesk_salutes_agent_not_customer_or_quoted_owner() -> None:
     addressee = resolve_reply_addressee(
         mailbox=mailbox,
         messages=messages,
-        mailbox_owner="Elise",
+        mailbox_owner="Casey",
     )
     assert addressee is not None
     assert addressee.email == "helpdesk@sample-helpdesk.example.com"
@@ -296,25 +296,25 @@ def test_mobile_stub_alone_does_not_salute() -> None:
 
 
 def test_surname_local_part_prefers_signature_first_name() -> None:
-    """Worked example: cblumenthal@… signs as Cydney Blumenthal / Director.
+    """Worked example: cparker@… signs as Casey Parker / Director.
 
-    Local-part fallback would salute "Cblumenthal"; the draft must use Cydney.
+    Local-part fallback would salute "Cparker"; the draft must use Casey.
     """
     mailbox = "info@sample-services.example.com"
     body = (
         "Hi!\n\n"
-        "Below is an email chain between applicant Davien Neal and our client. "
+        "Below is an email chain between applicant Jamie Smith and our client. "
         "Is there anything else that needs to be done?\n\n"
-        "Cydney Blumenthal\n\n"
+        "Casey Parker\n\n"
         "Director of Digital Services\n\n"
         "Office 202-555-0103\n"
         "Mobile 202-555-0104\n"
-        "Email cblumenthal@sample-vendor.example.com\n"
+        "Email cparker@sample-vendor.example.com\n"
     )
     messages = [
         _msg(
             message_id="1",
-            sender="cblumenthal@sample-vendor.example.com",
+            sender="cparker@sample-vendor.example.com",
             direction=EmailDirectionEnum.INBOUND,
             to=[mailbox],
             mailbox=mailbox,
@@ -324,17 +324,17 @@ def test_surname_local_part_prefers_signature_first_name() -> None:
     addressee = resolve_reply_addressee(
         mailbox=mailbox,
         messages=messages,
-        mailbox_owner="Elise",
+        mailbox_owner="Casey",
     )
     assert addressee is not None
-    assert addressee.email == "cblumenthal@sample-vendor.example.com"
-    assert addressee.salute_name == "Cydney"
+    assert addressee.email == "cparker@sample-vendor.example.com"
+    assert addressee.salute_name == "Casey"
 
 
 def test_zendesk_auto_ack_without_agent_uses_bare_hi() -> None:
     """Zendesk 'request received' has no agent byline — only quoted prior mail.
 
-    Saluting Helpdesk, Elise, or 'team' is wrong. No contact and no person
+    Saluting Helpdesk, Casey, or 'team' is wrong. No contact and no person
     sign → bare Hi,.
     """
     mailbox = "info@sample-services.example.com"
@@ -350,7 +350,7 @@ def test_zendesk_auto_ack_without_agent_uses_bare_hi() -> None:
         "Hi team,\n\n"
         "We've had a few candidates report certificate warnings.\n\n"
         "Best,\n"
-        "Elise\n"
+        "Casey\n"
     )
     messages = [
         _msg(
@@ -365,7 +365,7 @@ def test_zendesk_auto_ack_without_agent_uses_bare_hi() -> None:
     addressee = resolve_reply_addressee(
         mailbox=mailbox,
         messages=messages,
-        mailbox_owner="Elise",
+        mailbox_owner="Casey",
     )
     assert addressee is not None
     assert addressee.email == "helpdesk@sample-helpdesk.example.com"
@@ -373,14 +373,14 @@ def test_zendesk_auto_ack_without_agent_uses_bare_hi() -> None:
 
 
 def test_zendesk_auto_ack_never_salutes_owner_even_when_quote_strip_leaks() -> None:
-    """If prior Thanks,Elise leaks into the unique tip, still do not salute Elise."""
+    """If prior Thanks,Casey leaks into the unique tip, still do not salute Casey."""
     mailbox = "info@sample-services.example.com"
     tip = (
         "##- Please type your reply above this line -##\n\n"
         "Your request (40214) has been updated. To add additional comments, "
         "reply to this email.\n\n"
         "Thanks,\n"
-        "Elise\n"
+        "Casey\n"
     )
     messages = [
         _msg(
@@ -395,7 +395,7 @@ def test_zendesk_auto_ack_never_salutes_owner_even_when_quote_strip_leaks() -> N
     with_owner = resolve_reply_addressee(
         mailbox=mailbox,
         messages=messages,
-        mailbox_owner="Elise",
+        mailbox_owner="Casey",
     )
     without_owner = resolve_reply_addressee(
         mailbox=mailbox,
@@ -404,11 +404,11 @@ def test_zendesk_auto_ack_never_salutes_owner_even_when_quote_strip_leaks() -> N
     )
     assert with_owner is not None
     assert with_owner.salute_name == ""
-    assert with_owner.salute_name.casefold() != "elise"
+    assert with_owner.salute_name.casefold() != "casey"
     # Must not depend on MAILBOX_OWNERS being configured.
     assert without_owner is not None
     assert without_owner.salute_name == ""
-    assert without_owner.salute_name.casefold() != "elise"
+    assert without_owner.salute_name.casefold() != "casey"
 
 
 def test_latest_outbound_to_wins_over_earlier_inbound_sender() -> None:

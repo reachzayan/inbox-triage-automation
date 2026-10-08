@@ -49,6 +49,6 @@ def test_method_lead_cc_needs_action() -> None:
 
 
 def test_billing_ask_still_needs_action() -> None:
-    has_action, outcome = _outcome_for("samplelab_harmeyer_rebilling.json")
+    has_action, outcome = _outcome_for("samplelab_samplepartner_rebilling.json")
     assert has_action is True
     assert outcome == "action_needed"

@@ -1,6 +1,6 @@
 """Chat query intent: NL → retrieval plan before the LLM tool loop.
 
-Oracles from the RAG research doc and Elise demo asks: mailbox overview
+Oracles from the RAG research doc and Casey demo asks: mailbox overview
 vs person/keyword search vs follow-up vs queue counts vs off-topic.
 """
 

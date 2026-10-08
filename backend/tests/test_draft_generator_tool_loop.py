@@ -20,14 +20,14 @@ def _email() -> EmailMessageSchema:
     return EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="Need rebilling",
-        body_text="Please rebill the Harmeyer SampleLab invoice.",
+        body_text="Please rebill the SamplePartner SampleLab invoice.",
         body_preview="Please rebill",
         received_at=datetime(2026, 7, 10, 12, 0, tzinfo=UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=[],
     )
 
@@ -63,7 +63,7 @@ def _settings() -> Settings:
 def _ok_draft() -> DraftSchema:
     return DraftSchema(
         subject_line="Re: Need rebilling",
-        reply_body="We will rebill the Harmeyer department for this SampleLab invoice.",
+        reply_body="We will rebill the SamplePartner department for this SampleLab invoice.",
         suggested_recipients=[],
         forward_to=None,
         teaching_note="Client asked for SampleLab rebilling; follow skill rules.",
@@ -105,7 +105,7 @@ async def test_tool_loop_invokes_loader_and_feeds_tool_result() -> None:
     """Two tool_use turns then parse; tool_result content is sent next."""
     skill_id = uuid.uuid4()
     path = "references/client_rules.md"
-    file_body = "# Client rules\nBill Harmeyer correctly."
+    file_body = "# Client rules\nBill SamplePartner correctly."
 
     async def loader(sid: uuid.UUID, p: str) -> dict:
         assert sid == skill_id

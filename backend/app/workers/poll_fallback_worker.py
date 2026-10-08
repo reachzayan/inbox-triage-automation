@@ -433,7 +433,7 @@ async def run_poll_all_mailboxes() -> None:
         return
 
     redis = await get_redis()
-    # Count target inbound+outbound plus reviewer Sent Items so Elise-style
+    # Count target inbound+outbound plus reviewer Sent Items so Casey-style
     # REVIEWER_MAILBOXES are not cut off when the lock TTL was sized for targets only.
     work_units = max(
         len(settings.mailbox_list) * 2 + len(settings.reviewer_mailbox_list),

@@ -151,7 +151,7 @@ const ResolutionBannerState = ({
         />
         <div className="min-w-0 flex-1">
           <p className="font-medium tracking-tight text-emerald-950 dark:text-emerald-50">
-            Resolved by Elise
+            Resolved by Casey
           </p>
           <ManualResolveBody lines={manualLines} />
           {error ? (

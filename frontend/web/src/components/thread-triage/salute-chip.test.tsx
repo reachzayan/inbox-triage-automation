@@ -25,7 +25,7 @@ describe("chipForAddressee", () => {
     const chip = chipForAddressee(
       base({
         email: "samplecontact@example.com",
-        salute_name: "Kelvin",
+        salute_name: "Jordan",
         source_kind: "directory",
         directory_hit: true,
       }),

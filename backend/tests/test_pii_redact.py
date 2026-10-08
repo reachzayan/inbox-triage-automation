@@ -124,14 +124,14 @@ def test_scrub_email_for_llm_copies_and_preserves_recipients() -> None:
     email = EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="SSN 123-45-6789 onboarding",
         body_text="Please file SSN: 987-65-4321 for the hire.",
         body_preview="Please file SSN: 987-65-4321",
         received_at=datetime(2026, 7, 10, 12, 0, tzinfo=UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=["ops@example.com"],
     )
     scrubbed = scrub_email_for_llm(email)
@@ -141,7 +141,7 @@ def test_scrub_email_for_llm_copies_and_preserves_recipients() -> None:
     assert TOKEN_SSN in scrubbed.subject
     assert TOKEN_SSN in scrubbed.body_text
     assert scrubbed.body_preview is not None and TOKEN_SSN in scrubbed.body_preview
-    assert scrubbed.to_recipients == ["elise@example.com"]
+    assert scrubbed.to_recipients == ["casey@example.com"]
     assert scrubbed.sender == "vendor@example.com"
 
 
@@ -149,7 +149,7 @@ def test_scrub_thread_for_llm() -> None:
     msg = EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="a@example.com",
         subject="File",
         body_text="DOB: 01/02/1990",
@@ -157,7 +157,7 @@ def test_scrub_thread_for_llm() -> None:
     )
     thread = ThreadContextSchema(
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         subject="File with SSN 111-22-3333",
         messages=[msg],
     )
@@ -172,7 +172,7 @@ async def test_triage_email_payload_is_scrubbed() -> None:
     email = EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="Background packet",
         body_text=(
@@ -182,7 +182,7 @@ async def test_triage_email_payload_is_scrubbed() -> None:
         body_preview="New hire packet",
         received_at=datetime(2026, 7, 10, 12, 0, tzinfo=UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
     )
     thread = ThreadContextSchema(
         conversation_id=email.conversation_id,

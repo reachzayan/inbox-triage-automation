@@ -7,15 +7,15 @@ import type { ThreadSummary } from "@/lib/types"
 
 const thread = (triage: ThreadSummary["triage"]): ThreadSummary => ({
   id: "e25cc63b-9db9-4c2d-af45-e598a639eaec",
-  mailbox: "elise@sample-site.example.com",
-  mailbox_key: "elise",
+  mailbox: "casey@sample-site.example.com",
+  mailbox_key: "casey",
   subject: "Q3 compliance checklist",
   state: "DRAFTED",
   urgency: "NORMAL",
   urgency_reason: null,
   category: null,
   last_message_at: "2026-08-18T14:00:00Z",
-  last_sender: "kelvin@sample-site.example.com",
+  last_sender: "jordan@sample-site.example.com",
   preview: "Please review the attached checklist",
   staleness_hours: 2,
   message_count: 1,

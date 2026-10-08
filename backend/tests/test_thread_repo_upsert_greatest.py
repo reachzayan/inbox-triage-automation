@@ -10,7 +10,7 @@ from app.repositories import thread_repo
 
 pytestmark = pytest.mark.db
 
-MAILBOX = "elise@example.com"
+MAILBOX = "casey@example.com"
 NEWER = datetime(2026, 8, 28, 0, 25, tzinfo=UTC)
 OLDER = datetime(2026, 8, 27, 19, 23, tzinfo=UTC)
 

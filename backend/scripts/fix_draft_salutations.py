@@ -16,7 +16,7 @@ Usage on EC2 (from the backend container):
     python -m scripts.fix_draft_salutations
 
   docker compose -f docker-compose.yml -f docker-compose.prod.yml exec backend \\
-    python -m scripts.fix_draft_salutations --apply --mailbox elise@example.com
+    python -m scripts.fix_draft_salutations --apply --mailbox casey@example.com
 
   # Single draft
   ... python -m scripts.fix_draft_salutations --apply --draft-id <uuid>

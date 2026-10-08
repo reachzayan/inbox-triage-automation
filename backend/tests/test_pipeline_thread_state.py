@@ -34,7 +34,7 @@ def _email() -> EmailMessageSchema:
     return EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="Need docs",
         body_text="Please send the packet",
@@ -166,13 +166,13 @@ async def test_courtesy_close_skips_draft_and_writes_resolved() -> None:
     courtesy = EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="olivia@client.com",
         subject="Re: Friday walkthrough",
         body_text="Sounds good, thanks! Let me know if you're unable to join Friday.",
         received_at=datetime(2026, 7, 10, tzinfo=UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
     )
     context = ThreadContextSchema(
         conversation_id="c1",

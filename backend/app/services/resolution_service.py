@@ -90,9 +90,9 @@ async def _record_resolve_capture(
         already_resolved=already_resolved,
     )
     snapshot = build_resolve_snapshot(
-        resolved_by="elise",
+        resolved_by="casey",
         resolution_reason="manual",
-        disposition_at_resolve="resolved_elise",
+        disposition_at_resolve="resolved_casey",
         had_draft=False,
         actions_taken=resolved_actions,
         involved=involved,
@@ -114,7 +114,7 @@ async def _record_resolve_capture(
                 "human": {
                     "title": "You resolved this",
                     "body": body,
-                    "actor_kind": "elise",
+                    "actor_kind": "casey",
                 },
             },
             actor=actor,
@@ -238,7 +238,7 @@ async def apply_resolution_feedback(
                     "human": {
                         "title": "Reopened after feedback",
                         "body": body,
-                        "actor_kind": "elise",
+                        "actor_kind": "casey",
                     },
                 },
                 actor=actor,
@@ -262,7 +262,7 @@ async def apply_resolution_feedback(
                 "human": {
                     "title": "Resolution reason corrected",
                     "body": body,
-                    "actor_kind": "elise",
+                    "actor_kind": "casey",
                 },
             },
             actor=actor,

@@ -17,21 +17,21 @@ MAILBOX = "sampleagent@sample-site.example.com"
 async def test_inbound_automated_follows_latest_inbound_not_historical_ooo(
     db_session,
 ) -> None:
-    """Beau OOO on Aug 25 must not badge Ruth's Aug 28 follow-up as Automated."""
+    """Taylor OOO on Aug 25 must not badge Ruth's Aug 28 follow-up as Automated."""
     thread = await thread_repo.upsert_thread(
         db_session,
         mailbox=MAILBOX,
-        conversation_id="conv-ruth-beau-integration",
+        conversation_id="conv-ruth-taylor-integration",
         subject="Re: SampleLab integration",
         last_message_at=datetime(2026, 8, 28, 17, 16, tzinfo=UTC),
     )
     await message_repo.create_message(
         db_session,
         thread_id=thread.id,
-        graph_message_id="AAMk-beau-ooo",
+        graph_message_id="AAMk-taylor-ooo",
         direction="inbound",
-        sender="beau.norris@sample-lab-vendor.example.com",
-        sender_name="Norris, Beau P",
+        sender="taylor.morgan@sample-lab-vendor.example.com",
+        sender_name="Morgan, Taylor P",
         is_automated=True,
         body_text="I am currently out of the office",
         body_preview="I am currently out of the office",
@@ -76,12 +76,12 @@ async def test_inbound_automated_follows_latest_inbound_not_historical_ooo(
 
 
 @pytest.mark.asyncio
-async def test_thread_is_not_automated_after_elise_replies(db_session) -> None:
-    """A later listserv inbound does not brand a thread Elise already answered."""
+async def test_thread_is_not_automated_after_casey_replies(db_session) -> None:
+    """A later listserv inbound does not brand a thread Casey already answered."""
     thread = await thread_repo.upsert_thread(
         db_session,
         mailbox=MAILBOX,
-        conversation_id="conv-phmsa-after-elise",
+        conversation_id="conv-phmsa-after-casey",
         subject="Re: PHMSA Hazmat Event",
         last_message_at=datetime(2026, 8, 28, 19, 0, tzinfo=UTC),
     )
@@ -99,7 +99,7 @@ async def test_thread_is_not_automated_after_elise_replies(db_session) -> None:
     await message_repo.create_message(
         db_session,
         thread_id=thread.id,
-        graph_message_id="AAMk-elise-send",
+        graph_message_id="AAMk-casey-send",
         direction="outbound",
         sender=MAILBOX,
         is_automated=False,
@@ -150,7 +150,7 @@ async def test_p3_invite_then_steve_reply_is_not_an_automated_thread(
     await message_repo.create_message(
         db_session,
         thread_id=thread.id,
-        graph_message_id="AAMk-elise-fyi",
+        graph_message_id="AAMk-casey-fyi",
         direction="outbound",
         sender=MAILBOX,
         is_automated=False,
@@ -180,7 +180,7 @@ async def test_p3_invite_then_steve_reply_is_not_an_automated_thread(
 async def test_thread_with_human_inbound_is_not_automated_when_later_ooo_arrives(
     db_session,
 ) -> None:
-    """Beau's OOO plus Ruth's human mail is a discussion, not an automated thread."""
+    """Taylor's OOO plus Ruth's human mail is a discussion, not an automated thread."""
     thread = await thread_repo.upsert_thread(
         db_session,
         mailbox=MAILBOX,
@@ -203,10 +203,10 @@ async def test_thread_with_human_inbound_is_not_automated_when_later_ooo_arrives
     await message_repo.create_message(
         db_session,
         thread_id=thread.id,
-        graph_message_id="AAMk-beau-ooo-later",
+        graph_message_id="AAMk-taylor-ooo-later",
         direction="inbound",
-        sender="beau.norris@sample-lab-vendor.example.com",
-        sender_name="Norris, Beau P",
+        sender="taylor.morgan@sample-lab-vendor.example.com",
+        sender_name="Morgan, Taylor P",
         is_automated=True,
         body_text="I am currently out of the office",
         body_preview="I am currently out of the office",

@@ -19,7 +19,7 @@ async def test_log_event_persists_metadata() -> None:
         id=uuid.uuid4(),
         event_type="triage.action_needed",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         payload={"is_spam": False, "confidence": 0.9},
         actor="system",
         created_at=datetime.now(UTC),
@@ -32,7 +32,7 @@ async def test_log_event_persists_metadata() -> None:
             AsyncMock(),
             event_type="triage.action_needed",
             conversation_id="c1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             payload={"is_spam": False, "confidence": 0.9},
         )
     assert result.event_type == "triage.action_needed"
@@ -56,5 +56,5 @@ async def test_log_event_wraps_failures() -> None:
             AsyncMock(),
             event_type="triage.failed",
             conversation_id="c1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
         )

@@ -27,7 +27,7 @@ def local_settings() -> Settings:
         frontend_origin="http://localhost:3000",
         cookie_secure=False,
         enable_dev_routes=False,
-        target_mailboxes="elise@example.com",
+        target_mailboxes="casey@example.com",
         database_url="postgresql+asyncpg://postgres:postgres@localhost:5432/inbox_triage_test",
         redis_url="redis://localhost:6379/15",
     )
@@ -70,7 +70,7 @@ def app(local_settings: Settings):
         async def fake_user() -> UserMe:
             return UserMe(
                 id=uuid.uuid4(),
-                email="elise@example.com",
+                email="casey@example.com",
                 role="user",
                 created_at=datetime.now(UTC),
             )
@@ -97,7 +97,7 @@ async def test_edit_urgency_ok(app) -> None:
             thread_id=draft.thread_id,
         ),
         previous_urgency="LOW",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         routing_category="billing",
     )
     with (
@@ -121,7 +121,7 @@ async def test_edit_urgency_ok(app) -> None:
     assert body["urgency"] == "HIGH"
     assert body["urgency_reason"] == "SLA deadline"
     store_mock.assert_awaited_once()
-    assert store_mock.await_args.kwargs["mailbox"] == "elise@example.com"
+    assert store_mock.await_args.kwargs["mailbox"] == "casey@example.com"
     assert store_mock.await_args.kwargs["previous_urgency"] == "LOW"
 
 

@@ -155,7 +155,7 @@ describe("useThreadReviewMutations reject latency", () => {
       rejectNote: "DraftAssistant drafted a letter. This is an SampleLab invoice.",
       rejectReason: "incomplete",
       processNote:
-        "In this case I would process the SampleLab invoice and tell Beau the rebill is with Harmeyer.",
+        "In this case I would process the SampleLab invoice and tell Taylor the rebill is with SamplePartner.",
       setRewriteOpen,
       setRewriteInstruction,
       hangInvalidate: true,

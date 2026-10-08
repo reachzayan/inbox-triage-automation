@@ -22,7 +22,7 @@ def _email(**overrides: object) -> EmailMessageSchema:
     base: dict[str, object] = {
         "message_id": "graph-m1",
         "conversation_id": "c1",
-        "mailbox": "elise@example.com",
+        "mailbox": "casey@example.com",
         "sender": "vendor@example.com",
         "subject": "Need docs",
         "body_text": "Please send the intake packet by Friday.",
@@ -30,7 +30,7 @@ def _email(**overrides: object) -> EmailMessageSchema:
         "body_preview": "Please send",
         "received_at": datetime(2026, 7, 22, tzinfo=UTC),
         "direction": EmailDirectionEnum.INBOUND,
-        "to_recipients": ["elise@example.com"],
+        "to_recipients": ["casey@example.com"],
         "cc_recipients": [],
     }
     base.update(overrides)

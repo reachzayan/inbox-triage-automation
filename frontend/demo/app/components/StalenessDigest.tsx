@@ -28,7 +28,7 @@ const staleThreads: StaleThread[] = [
     inbox: "Intermediary",
     hoursStale: 48,
     lastStatus: "Awaiting Partner Services",
-    suggestedDelegate: "Kelvin to review terms",
+    suggestedDelegate: "Jordan to review terms",
   },
 ];
 

@@ -65,7 +65,7 @@ async def test_approve_sets_approved_at() -> None:
                 return_value=type(
                     "T",
                     (),
-                    {"conversation_id": "c1", "mailbox": "elise@example.com"},
+                    {"conversation_id": "c1", "mailbox": "casey@example.com"},
                 )()
             ),
         ),
@@ -77,7 +77,7 @@ async def test_approve_sets_approved_at() -> None:
         result = await draft_feedback_service.approve_draft(
             session,
             draft_id,
-            actor="elise@example.com",
+            actor="casey@example.com",
         )
 
     assert result.feedback_action == "approve"
@@ -115,7 +115,7 @@ async def test_approve_with_edited_body() -> None:
                 return_value=type(
                     "T",
                     (),
-                    {"conversation_id": "c1", "mailbox": "elise@example.com"},
+                    {"conversation_id": "c1", "mailbox": "casey@example.com"},
                 )()
             ),
         ),
@@ -128,7 +128,7 @@ async def test_approve_with_edited_body() -> None:
             session,
             draft_id,
             edited_body="Edited hello",
-            actor="elise@example.com",
+            actor="casey@example.com",
         )
 
     assert result.edited_body == "Edited hello"
@@ -156,7 +156,7 @@ async def test_approve_idempotent_skips_audit() -> None:
                 return_value=type(
                     "T",
                     (),
-                    {"conversation_id": "c1", "mailbox": "elise@example.com"},
+                    {"conversation_id": "c1", "mailbox": "casey@example.com"},
                 )()
             ),
         ),
@@ -212,7 +212,7 @@ async def test_approve_already_approved_applies_new_edit() -> None:
                 return_value=type(
                     "T",
                     (),
-                    {"conversation_id": "c1", "mailbox": "elise@example.com"},
+                    {"conversation_id": "c1", "mailbox": "casey@example.com"},
                 )()
             ),
         ),
@@ -261,7 +261,7 @@ async def test_reject_sets_note() -> None:
                 return_value=type(
                     "T",
                     (),
-                    {"conversation_id": "c1", "mailbox": "elise@example.com"},
+                    {"conversation_id": "c1", "mailbox": "casey@example.com"},
                 )()
             ),
         ),
@@ -320,7 +320,7 @@ async def test_reject_with_wrong_action_still_writes_rejection_memory() -> None:
                 return_value=type(
                     "T",
                     (),
-                    {"mailbox": "elise@example.com"},
+                    {"mailbox": "casey@example.com"},
                 )()
             ),
         ),
@@ -360,7 +360,7 @@ async def test_store_rejection_memory_uses_the_why_note_only() -> None:
     )
     settings = MagicMock()
     settings.openai_api_key = "sk-test"
-    settings.mailbox_list = ["elise@example.com"]
+    settings.mailbox_list = ["casey@example.com"]
     session = AsyncMock()
     session.in_transaction = lambda: False
 
@@ -385,7 +385,7 @@ async def test_store_rejection_memory_uses_the_why_note_only() -> None:
                     "T",
                     (),
                     {
-                        "mailbox": "elise@example.com",
+                        "mailbox": "casey@example.com",
                         "alert_sender_norm": "billing@sample-lab-vendor.example.com",
                     },
                 )()
@@ -455,7 +455,7 @@ async def test_mark_wrong_audits_without_rejection_memory() -> None:
                 return_value=type(
                     "T",
                     (),
-                    {"conversation_id": "c1", "mailbox": "elise@example.com"},
+                    {"conversation_id": "c1", "mailbox": "casey@example.com"},
                 )()
             ),
         ),
@@ -545,7 +545,7 @@ async def test_approve_stores_reply_memory_helper() -> None:
     session = AsyncMock()
     session.in_transaction = lambda: False
     settings = Settings(
-        target_mailboxes="elise@example.com",
+        target_mailboxes="casey@example.com",
         openai_api_key="sk-test",
         jwt_secret="c" * 64,
         database_url="postgresql+asyncpg://postgres:postgres@localhost:5432/inbox_triage_test",
@@ -570,7 +570,7 @@ async def test_approve_stores_reply_memory_helper() -> None:
                 return_value=type(
                     "T",
                     (),
-                    {"conversation_id": "c1", "mailbox": "elise@example.com", "subject": "Subj"},
+                    {"conversation_id": "c1", "mailbox": "casey@example.com", "subject": "Subj"},
                 )()
             ),
         ),
@@ -587,7 +587,7 @@ async def test_approve_stores_reply_memory_helper() -> None:
 
     store_mock.assert_awaited_once()
     assert store_mock.await_args.kwargs["final_body"] == "Approved body"
-    assert store_mock.await_args.kwargs["mailbox"] == "elise@example.com"
+    assert store_mock.await_args.kwargs["mailbox"] == "casey@example.com"
 
 
 @pytest.mark.asyncio
@@ -602,7 +602,7 @@ async def test_approve_reply_memory_failure_does_not_raise() -> None:
         approval_scope="similar",
     )
     settings = Settings(
-        target_mailboxes="elise@example.com",
+        target_mailboxes="casey@example.com",
         openai_api_key="sk-test",
         jwt_secret="c" * 64,
         database_url="postgresql+asyncpg://postgres:postgres@localhost:5432/inbox_triage_test",
@@ -633,7 +633,7 @@ async def test_store_approved_reply_memory_skips_when_scope_none() -> None:
     session = AsyncMock()
     session.in_transaction = lambda: False
     settings = Settings(
-        target_mailboxes="elise@example.com",
+        target_mailboxes="casey@example.com",
         openai_api_key="sk-test",
         jwt_secret="c" * 64,
         database_url="postgresql+asyncpg://postgres:postgres@localhost:5432/inbox_triage_test",
@@ -658,7 +658,7 @@ async def test_store_approved_reply_memory_skips_when_scope_none() -> None:
                 return_value=type(
                     "T",
                     (),
-                    {"conversation_id": "c1", "mailbox": "elise@example.com", "subject": "Subj"},
+                    {"conversation_id": "c1", "mailbox": "casey@example.com", "subject": "Subj"},
                 )()
             ),
         ),
@@ -710,7 +710,7 @@ async def test_approve_with_learning_context_audits_scope_without_note_text() ->
                 return_value=type(
                     "T",
                     (),
-                    {"conversation_id": "c1", "mailbox": "elise@example.com"},
+                    {"conversation_id": "c1", "mailbox": "casey@example.com"},
                 )()
             ),
         ),
@@ -725,7 +725,7 @@ async def test_approve_with_learning_context_audits_scope_without_note_text() ->
             edited_body="Edited hello",
             approval_note="Soften tone",
             approval_scope="similar",
-            actor="elise@example.com",
+            actor="casey@example.com",
         )
 
     assert result.approval_scope == "similar"
@@ -757,7 +757,7 @@ async def test_store_approved_reply_memory_skips_when_scope_once() -> None:
     session = AsyncMock()
     session.in_transaction = lambda: False
     settings = Settings(
-        target_mailboxes="elise@example.com",
+        target_mailboxes="casey@example.com",
         openai_api_key="sk-test",
         jwt_secret="c" * 64,
         database_url="postgresql+asyncpg://postgres:postgres@localhost:5432/inbox_triage_test",
@@ -782,7 +782,7 @@ async def test_store_approved_reply_memory_skips_when_scope_once() -> None:
                 return_value=type(
                     "T",
                     (),
-                    {"conversation_id": "c1", "mailbox": "elise@example.com", "subject": "Subj"},
+                    {"conversation_id": "c1", "mailbox": "casey@example.com", "subject": "Subj"},
                 )()
             ),
         ),
@@ -819,7 +819,7 @@ async def test_store_approved_reply_memory_passes_learning_note_for_similar() ->
     session = AsyncMock()
     session.in_transaction = lambda: False
     settings = Settings(
-        target_mailboxes="elise@example.com",
+        target_mailboxes="casey@example.com",
         openai_api_key="sk-test",
         jwt_secret="c" * 64,
         database_url="postgresql+asyncpg://postgres:postgres@localhost:5432/inbox_triage_test",
@@ -844,7 +844,7 @@ async def test_store_approved_reply_memory_passes_learning_note_for_similar() ->
                 return_value=type(
                     "T",
                     (),
-                    {"conversation_id": "c1", "mailbox": "elise@example.com", "subject": "Subj"},
+                    {"conversation_id": "c1", "mailbox": "casey@example.com", "subject": "Subj"},
                 )()
             ),
         ),

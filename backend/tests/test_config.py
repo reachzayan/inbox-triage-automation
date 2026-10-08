@@ -34,14 +34,14 @@ def test_overlapping_target_and_reviewer_mailboxes() -> None:
     settings = Settings(
         environment="local",
         target_mailboxes="sales@example.com,cr@example.com",
-        reviewer_mailboxes="elise@example.com,sales@example.com",
+        reviewer_mailboxes="casey@example.com,sales@example.com",
         _env_file=None,
     )
     assert settings.overlapping_target_and_reviewer_mailboxes() == ["sales@example.com"]
     disjoint = Settings(
         environment="local",
         target_mailboxes="sales@example.com",
-        reviewer_mailboxes="elise@example.com",
+        reviewer_mailboxes="casey@example.com",
         _env_file=None,
     )
     assert disjoint.overlapping_target_and_reviewer_mailboxes() == []

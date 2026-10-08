@@ -333,7 +333,7 @@ async def test_global_person_bound_atom_is_not_retrieved(db_session) -> None:
         source_kind="preference_pair",
         source_id=uuid.uuid4(),
         mailbox=MAILBOX_A,
-        atom_text="Only Elise greets this vendor by nickname",
+        atom_text="Only Casey greets this vendor by nickname",
         atom_embedding=_unit_vec(7),
         role="Fix",
         scope="global",

@@ -91,7 +91,7 @@ def person_shaped_from(display_name: str | None, sender: str | None = None) -> b
 
 
 def looks_like_person_first_name(token: str) -> bool:
-    """True for 'Alex' / 'Cydney'. False for brands ('SampleHelpdesk') and locals."""
+    """True for 'Alex' / 'Casey'. False for brands ('SampleHelpdesk') and locals."""
     cleaned = (token or "").strip()
     if len(cleaned) < 2 or len(cleaned) > 40:
         return False

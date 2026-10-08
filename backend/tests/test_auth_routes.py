@@ -60,7 +60,7 @@ def _origin_headers(settings: Settings) -> dict[str, str]:
 def _token_result() -> AuthResult:
     user = UserMe(
         id=uuid.uuid4(),
-        email="elise@example.com",
+        email="casey@example.com",
         role="user",
         created_at=datetime.now(UTC),
     )
@@ -93,7 +93,7 @@ async def test_login_sets_cookies(app, local_settings: Settings) -> None:
         async with AsyncClient(transport=transport, base_url="http://test") as client:
             resp = await client.post(
                 "/auth/login",
-                json={"email": "elise@example.com", "password": "CorrectHorseBattery1!"},
+                json={"email": "casey@example.com", "password": "CorrectHorseBattery1!"},
                 headers=_origin_headers(local_settings),
             )
 
@@ -249,7 +249,7 @@ async def test_login_records_nginx_x_real_ip_when_proxy_trusted() -> None:
         async with AsyncClient(transport=transport, base_url="http://test") as client:
             resp = await client.post(
                 "/auth/login",
-                json={"email": "elise@example.com", "password": "CorrectHorseBattery1!"},
+                json={"email": "casey@example.com", "password": "CorrectHorseBattery1!"},
                 headers={
                     **_origin_headers(settings),
                     "X-Real-IP": "203.0.113.50",
@@ -332,7 +332,7 @@ async def test_login_rejects_wrong_origin(app, local_settings: Settings) -> None
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         resp = await client.post(
             "/auth/login",
-            json={"email": "elise@example.com", "password": "CorrectHorseBattery1!"},
+            json={"email": "casey@example.com", "password": "CorrectHorseBattery1!"},
             headers={"Origin": "https://evil.example"},
         )
     assert resp.status_code == 403
@@ -400,7 +400,7 @@ async def test_change_password_requires_csrf(app, local_settings: Settings) -> N
 
     user = UserMe(
         id=uuid.uuid4(),
-        email="elise@example.com",
+        email="casey@example.com",
         role="user",
         created_at=datetime.now(UTC),
     )
@@ -432,7 +432,7 @@ async def test_change_password_with_csrf(app, local_settings: Settings) -> None:
 
     user = UserMe(
         id=uuid.uuid4(),
-        email="elise@example.com",
+        email="casey@example.com",
         role="user",
         created_at=datetime.now(UTC),
     )

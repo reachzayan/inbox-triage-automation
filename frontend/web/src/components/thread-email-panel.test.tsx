@@ -238,7 +238,7 @@ describe("ThreadEmailPanel", () => {
         ...message,
         id: "msg-meeting-1",
         direction: "outbound",
-        sender: "elise@example.com",
+        sender: "casey@example.com",
         body_text: "",
         reply_text: "",
         body_preview: null,

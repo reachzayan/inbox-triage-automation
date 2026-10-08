@@ -12,8 +12,8 @@ def test_parse_stacks_from_subject_mailbox_and_free_text() -> None:
 
 
 def test_parse_quoted_from_and_contains() -> None:
-    parsed = parse_search_query('from:"Elise Kelvin" contains:"drug screen" invoice')
-    assert parsed.senders == ("Elise Kelvin",)
+    parsed = parse_search_query('from:"Casey Jordan" contains:"drug screen" invoice')
+    assert parsed.senders == ("Casey Jordan",)
     assert parsed.contains == ("drug screen",)
     assert parsed.free_text == "invoice"
 

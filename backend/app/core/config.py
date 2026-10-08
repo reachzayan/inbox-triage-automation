@@ -39,7 +39,7 @@ class Settings(BaseSettings):
     reviewer_mailboxes: str = ""
     # Extra company domains treated as internal (CSV), in addition to the mailbox domain.
     internal_domains: str = ""
-    # Personal mailbox owners: CSV of email:DisplayName (e.g. sampleagent@…:Elise).
+    # Personal mailbox owners: CSV of email:DisplayName (e.g. sampleagent@…:Casey).
     mailbox_owners: str = ""
     # When false, Slack Bolt is not constructed and review cards are skipped
     # (pipeline still completes; slack_delivery=skipped_unconfigured).

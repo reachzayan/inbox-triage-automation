@@ -38,7 +38,7 @@ def local_settings() -> Settings:
         frontend_origin="http://localhost:3000",
         cookie_secure=False,
         enable_dev_routes=False,
-        target_mailboxes="elise@sample-site.example.com",
+        target_mailboxes="casey@sample-site.example.com",
         database_url="postgresql+asyncpg://postgres:postgres@localhost:5432/inbox_triage_test",
         redis_url="redis://localhost:6379/15",
     )
@@ -60,7 +60,7 @@ async def test_regenerate_draft_route_is_loadable(local_settings: Settings, db_s
     async def fake_user() -> UserMe:
         return UserMe(
             id=uuid.UUID("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-            email="elise@sample-site.example.com",
+            email="casey@sample-site.example.com",
             role="user",
             created_at=datetime.now(UTC),
         )
@@ -97,7 +97,7 @@ async def test_generate_draft_route_is_loadable(local_settings: Settings, db_ses
     async def fake_user() -> UserMe:
         return UserMe(
             id=uuid.UUID("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-            email="elise@sample-site.example.com",
+            email="casey@sample-site.example.com",
             role="user",
             created_at=datetime.now(UTC),
         )
@@ -128,7 +128,7 @@ async def test_thread_header_returns_subject_and_mailbox(
 ) -> None:
     from app.models.db.thread import Thread
 
-    mailbox = "elise@sample-site.example.com"
+    mailbox = "casey@sample-site.example.com"
     thread = Thread(
         id=uuid.uuid4(),
         mailbox=mailbox,
@@ -147,7 +147,7 @@ async def test_thread_header_returns_subject_and_mailbox(
     async def fake_user() -> UserMe:
         return UserMe(
             id=uuid.UUID("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-            email="elise@sample-site.example.com",
+            email="casey@sample-site.example.com",
             role="user",
             created_at=datetime.now(UTC),
         )

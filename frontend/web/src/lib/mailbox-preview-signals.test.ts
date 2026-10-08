@@ -5,8 +5,8 @@ import type { ThreadSummary } from "@/lib/types"
 
 const thread = (overrides: Partial<ThreadSummary> = {}): ThreadSummary => ({
   id: "preview-1",
-  mailbox: "elise@sample-site.example.com",
-  mailbox_key: "elise",
+  mailbox: "casey@sample-site.example.com",
+  mailbox_key: "casey",
   subject: "Your domain is now authenticated",
   state: "DRAFTED",
   urgency: "NORMAL",

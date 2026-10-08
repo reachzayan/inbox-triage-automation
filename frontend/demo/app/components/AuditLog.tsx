@@ -13,7 +13,7 @@ const eventIcons: Record<string, string> = {
 const sourceColors: Record<string, string> = {
   system: "text-gray-400",
   agent: "text-blue-500",
-  elise: "text-green-500",
+  casey: "text-green-500",
 };
 
 export default function AuditLog({ entries }: { entries: AuditEntry[] }) {

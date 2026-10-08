@@ -18,13 +18,13 @@ describe("auth-store", () => {
       expiresIn: 900,
       user: {
         id: "1",
-        email: "elise@example.com",
+        email: "casey@example.com",
         role: "user",
         created_at: new Date().toISOString(),
       },
     })
     expect(getAccessToken()).toBe("tok")
-    expect(getAuthState().user?.email).toBe("elise@example.com")
+    expect(getAuthState().user?.email).toBe("casey@example.com")
     clearAuthSession()
     expect(getAccessToken()).toBeNull()
   })
@@ -42,7 +42,7 @@ describe("api-client retry-on-401", () => {
       expiresIn: 1,
       user: {
         id: "1",
-        email: "elise@example.com",
+        email: "casey@example.com",
         role: "user",
         created_at: new Date().toISOString(),
       },
@@ -61,7 +61,7 @@ describe("api-client retry-on-401", () => {
             expires_in: 900,
             user: {
               id: "1",
-              email: "elise@example.com",
+              email: "casey@example.com",
               role: "user",
               created_at: new Date().toISOString(),
             },

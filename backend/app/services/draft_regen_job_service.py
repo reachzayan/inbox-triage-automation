@@ -1,6 +1,6 @@
 """Persisted draft-regeneration job status on threads.
 
-Survives page reload: Elise confirms rewrite → status=running is committed
+Survives page reload: Casey confirms rewrite → status=running is committed
 before Sonnet runs. Thread detail exposes the flag so the UI can keep showing
 "Regenerating draft…" until finish/fail.
 """

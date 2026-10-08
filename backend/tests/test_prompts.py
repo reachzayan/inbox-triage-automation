@@ -54,7 +54,7 @@ def test_triage_prompt_requests_json_only() -> None:
 
 def test_triage_prompt_mentions_poi() -> None:
     assert "Person of Interest" in TRIAGE_SYSTEM_PROMPT or "PoI" in TRIAGE_SYSTEM_PROMPT
-    assert "Elise" in TRIAGE_SYSTEM_PROMPT
+    assert "Casey" in TRIAGE_SYSTEM_PROMPT
     assert "Mailbox" in TRIAGE_SYSTEM_PROMPT
 
 

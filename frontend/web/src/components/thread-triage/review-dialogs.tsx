@@ -282,7 +282,7 @@ export const RejectDraftDialog = ({
                 autoComplete="off"
                 rows={4}
                 maxLength={2000}
-                placeholder="In this case I would … and tell Beau …"
+                placeholder="In this case I would … and tell Taylor …"
                 className="mt-1"
               />
             </div>

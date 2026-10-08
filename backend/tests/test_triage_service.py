@@ -60,7 +60,7 @@ def test_decide_action_needed_preserves_needs_context() -> None:
 
 
 def test_decide_action_without_email_reply_still_pending() -> None:
-    """Calendar RSVP: Elise must act, but Sonnet still runs a briefing (no letter)."""
+    """Calendar RSVP: Casey must act, but Sonnet still runs a briefing (no letter)."""
     outcome, status = decide_triage_outcome(
         _triage(has_action_items=True, draft_needed=False),
     )
@@ -90,7 +90,7 @@ def test_legacy_triage_json_without_draft_needed_defaults_to_true() -> None:
 
 def _state(
     *,
-    mailbox: str = "elise@example.com",
+    mailbox: str = "casey@example.com",
     sender: str = "vendor@example.com",
     is_automated: bool = False,
     meeting_message_type: str | None = None,
@@ -183,7 +183,7 @@ async def test_run_triage_never_discards_internal_mail_as_spam() -> None:
         new=AsyncMock(return_value=call),
     ):
         state = await run_triage(
-            _state(mailbox="elise@sample-site.example.com", sender="hr@sample-site.example.com"),
+            _state(mailbox="casey@sample-site.example.com", sender="hr@sample-site.example.com"),
             client=AsyncMock(),
             settings=Settings(),
         )
@@ -215,7 +215,7 @@ async def test_run_triage_never_discards_allowlisted_sender_as_spam() -> None:
         new=AsyncMock(return_value=call),
     ):
         state = await run_triage(
-            _state(mailbox="elise@sample-site.example.com", sender="orders@sample-lab.example.com"),
+            _state(mailbox="casey@sample-site.example.com", sender="orders@sample-lab.example.com"),
             client=AsyncMock(),
             settings=Settings(),
             allowlisted_senders=frozenset({"orders@sample-lab.example.com"}),
@@ -331,7 +331,7 @@ async def test_run_triage_invite_with_ask_keeps_a_letter() -> None:
             _state(
                 meeting_message_type="meetingRequest",
                 unique_body_text=(
-                    "Hi Elise, can you walk through the IDME demo for ten minutes after we join?"
+                    "Hi Casey, can you walk through the IDME demo for ten minutes after we join?"
                 ),
             ),
             client=AsyncMock(),

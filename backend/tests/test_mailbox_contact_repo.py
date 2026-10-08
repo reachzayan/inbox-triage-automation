@@ -12,31 +12,31 @@ pytestmark = pytest.mark.asyncio
 async def test_upsert_get_and_case_normalization(db_session) -> None:
     row, created = await mailbox_contact_repo.upsert(
         db_session,
-        "Elise@Example.com",
+        "Casey@Example.com",
         "Samplecontact@sample-vendor.example.com",
-        full_name="Kelvin Collado",
-        first_name="Kelvin",
+        full_name="Jordan Collado",
+        first_name="Jordan",
         notes="goes by Kel",
     )
     await db_session.commit()
     assert created is True
-    assert row.mailbox == "elise@example.com"
+    assert row.mailbox == "casey@example.com"
     assert row.email == "samplecontact@sample-vendor.example.com"
-    assert row.first_name == "Kelvin"
-    assert row.full_name == "Kelvin Collado"
+    assert row.first_name == "Jordan"
+    assert row.full_name == "Jordan Collado"
 
     fetched = await mailbox_contact_repo.get(
         db_session,
         "samplecontact@sample-vendor.example.com",
     )
     assert fetched is not None
-    assert fetched.first_name == "Kelvin"
+    assert fetched.first_name == "Jordan"
 
     updated, created_again = await mailbox_contact_repo.upsert(
         db_session,
         "support@example.com",
         "samplecontact@sample-vendor.example.com",
-        full_name="Kelvin Collado",
+        full_name="Jordan Collado",
         first_name="Kel",
     )
     await db_session.commit()
@@ -48,14 +48,14 @@ async def test_upsert_get_and_case_normalization(db_session) -> None:
 async def test_get_many_is_global_across_mailboxes(db_session) -> None:
     await mailbox_contact_repo.upsert(
         db_session,
-        "elise@example.com",
+        "casey@example.com",
         "a@example.com",
         full_name="Alice A",
         first_name="Alice",
     )
     await mailbox_contact_repo.upsert(
         db_session,
-        "elise@example.com",
+        "casey@example.com",
         "b@example.com",
         full_name="Bob B",
         first_name="Bob",
@@ -81,10 +81,10 @@ async def test_get_many_is_global_across_mailboxes(db_session) -> None:
 async def test_list_search_update_delete_are_global(db_session) -> None:
     await mailbox_contact_repo.upsert(
         db_session,
-        "elise@example.com",
+        "casey@example.com",
         "samplecontact@sample-vendor.example.com",
-        full_name="Kelvin Collado",
-        first_name="Kelvin",
+        full_name="Jordan Collado",
+        first_name="Jordan",
     )
     await mailbox_contact_repo.upsert(
         db_session,

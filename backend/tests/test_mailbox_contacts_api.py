@@ -20,8 +20,8 @@ def _row(**overrides: object) -> MailboxContactRow:
         "id": uuid4(),
         "mailbox": "sales@example.com",
         "email": "samplecontact@sample-vendor.example.com",
-        "full_name": "Kelvin Collado",
-        "first_name": "Kelvin",
+        "full_name": "Jordan Collado",
+        "first_name": "Jordan",
         "notes": None,
         "created_by_user_id": None,
         "created_at": datetime.now(UTC),
@@ -57,7 +57,7 @@ async def test_list_contacts(app) -> None:
     assert response.status_code == 200
     body = response.json()
     assert body["total"] == 1
-    assert body["items"][0]["first_name"] == "Kelvin"
+    assert body["items"][0]["first_name"] == "Jordan"
     assert body["items"][0]["email"] == "samplecontact@sample-vendor.example.com"
 
 
@@ -81,12 +81,12 @@ async def test_upsert_returns_201_on_create(app) -> None:
                 "/api/mailboxes/sales/contacts",
                 json={
                     "email": "samplecontact@sample-vendor.example.com",
-                    "full_name": "Kelvin Collado",
-                    "first_name": "Kelvin",
+                    "full_name": "Jordan Collado",
+                    "first_name": "Jordan",
                 },
             )
     assert response.status_code == 201
-    assert response.json()["first_name"] == "Kelvin"
+    assert response.json()["first_name"] == "Jordan"
 
 
 @pytest.mark.asyncio
@@ -109,7 +109,7 @@ async def test_upsert_returns_200_on_update(app) -> None:
                 "/api/mailboxes/sales/contacts",
                 json={
                     "email": "samplecontact@sample-vendor.example.com",
-                    "full_name": "Kelvin Collado",
+                    "full_name": "Jordan Collado",
                     "first_name": "Kel",
                 },
             )

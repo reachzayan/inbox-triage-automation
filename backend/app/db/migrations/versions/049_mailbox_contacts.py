@@ -1,6 +1,6 @@
 """Per-mailbox recipient aliases for draft salutations.
 
-Stores reviewer-taught first/full names so drafts greet Kelvin Collado instead
+Stores reviewer-taught first/full names so drafts greet Jordan Collado instead
 of leaking the email local-part (Samplecontact). Cleartext storage matches
 threads.subject — PII redaction applies to logs, not this table (see
 project-context.mdc Data Privacy & Logging).

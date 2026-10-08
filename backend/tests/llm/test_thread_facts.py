@@ -55,7 +55,7 @@ def test_pack_uses_salute_from_name_not_graph_role_label() -> None:
     packed = _pack_messages(
         [unsigned],
         mailbox="sampleagent@sample-site.example.com",
-        mailbox_owner="Elise",
+        mailbox_owner="Casey",
     )
     assert "from_name=Sample Developer" not in packed
     assert "from_name=Sample" not in packed

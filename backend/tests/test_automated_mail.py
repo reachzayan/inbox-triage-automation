@@ -48,7 +48,7 @@ def test_notifications_local_alone_is_not_automated() -> None:
 
 def test_named_person_is_not_automated() -> None:
     assert not is_automated_mail(
-        sender="kelvin@sample-site.example.com",
+        sender="jordan@sample-site.example.com",
         subject="Can you review the packet?",
     )
 
@@ -79,7 +79,7 @@ def test_enrich_flags_tags_automated_without_touching_spam() -> None:
     enriched = enrich_triage_flags(
         flags,
         sender="noreply@vendor.example",
-        mailbox="elise@sample-site.example.com",
+        mailbox="casey@sample-site.example.com",
         subject="Your weekly digest",
     )
     assert enriched is not None
@@ -188,8 +188,8 @@ def test_auto_submitted_auto_generated_is_automated() -> None:
 
 def test_auto_submitted_auto_replied_is_automated() -> None:
     assert is_automated_mail(
-        sender="beau.norris@sample-lab-vendor.example.com",
-        sender_display_name="Norris, Beau P",
+        sender="taylor.morgan@sample-lab-vendor.example.com",
+        sender_display_name="Morgan, Taylor P",
         subject="Automatic reply: Re: integration",
         headers={"Auto-Submitted": "auto-replied"},
     )
@@ -197,7 +197,7 @@ def test_auto_submitted_auto_replied_is_automated() -> None:
 
 def test_auto_submitted_no_is_not_automated_from_that_header() -> None:
     assert not is_automated_mail(
-        sender="kelvin@sample-site.example.com",
+        sender="jordan@sample-site.example.com",
         subject="Can you review the packet?",
         headers={"Auto-Submitted": "no"},
     )

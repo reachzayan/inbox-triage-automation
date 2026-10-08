@@ -18,13 +18,13 @@ def _email(**overrides: object) -> EmailMessageSchema:
     payload = {
         "message_id": "m1",
         "conversation_id": "c1",
-        "mailbox": "elise@example.com",
+        "mailbox": "casey@example.com",
         "sender": "sam@client.com",
         "subject": "Office birthday cake Friday",
         "body_text": "Bringing cake Friday for Jordan's birthday. Feel free to stop by.",
         "received_at": datetime(2026, 9, 1, tzinfo=UTC),
         "to_recipients": ["jordan@client.com"],
-        "cc_recipients": ["elise@example.com", "team@client.com"],
+        "cc_recipients": ["casey@example.com", "team@client.com"],
     }
     payload.update(overrides)
     return EmailMessageSchema.model_validate(payload)
@@ -46,14 +46,14 @@ def test_inquiries_cc_lead_is_not_observer() -> None:
 
 def test_named_in_body_is_not_observer() -> None:
     email = _email(
-        body_text="Elise, can you send the onboarding packet this week?",
+        body_text="Casey, can you send the onboarding packet this week?",
     )
-    assert is_cc_observer(email, owner_name="Elise") is False
+    assert is_cc_observer(email, owner_name="Casey") is False
 
 
 def test_to_recipient_is_not_observer() -> None:
     email = _email(
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=["team@client.com"],
     )
     assert is_cc_observer(email) is False
@@ -63,7 +63,7 @@ def test_courtesy_close_high_confidence_auto_closes() -> None:
     email = _email(
         subject="Re: Friday walkthrough",
         body_text="Sounds good, thanks! Let me know if you're unable to join Friday.",
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=[],
     )
     state = EmailTriageState(
@@ -92,7 +92,7 @@ def test_fyi_without_courtesy_or_cc_does_not_auto_close() -> None:
     email = _email(
         subject="Samba Safety access",
         body_text="I now have access to Samba Safety's website.",
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=[],
     )
     state = EmailTriageState(
@@ -118,7 +118,7 @@ def test_cc_observer_auto_closes() -> None:
         original_email=_email(),
         thread_context=ThreadContextSchema(
             conversation_id="c1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             subject="Office birthday cake Friday",
             messages=[_email()],
         ),
@@ -139,12 +139,12 @@ def test_action_items_never_auto_close() -> None:
     state = EmailTriageState(
         original_email=_email(
             body_text="Sounds good, thanks!",
-            to_recipients=["elise@example.com"],
+            to_recipients=["casey@example.com"],
             cc_recipients=[],
         ),
         thread_context=ThreadContextSchema(
             conversation_id="c1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             subject="Re: Friday",
             messages=[],
         ),

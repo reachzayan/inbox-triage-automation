@@ -109,14 +109,14 @@ describe("EmailBody", () => {
     const body =
       "Thanks for the update.\n\n" +
       "________________________________\n" +
-      "From: Beau Norris <beau.norris@sample-lab-vendor.example.com>\n" +
+      "From: Taylor Morgan <taylor.morgan@sample-lab-vendor.example.com>\n" +
       "Sent: Wednesday, August 26, 2026 4:49 PM\n" +
-      "To: Elise Chouest <sampleagent@sample-site.example.com>\n" +
+      "To: Casey Chouest <sampleagent@sample-site.example.com>\n" +
       "Subject: RE: Open Items\n\n" +
       "I just wanted to double check on definitions.\n\n" +
-      "From: Elise Chouest <sampleagent@sample-site.example.com>\n" +
+      "From: Casey Chouest <sampleagent@sample-site.example.com>\n" +
       "Sent: Wednesday, August 26, 2026 11:56 AM\n" +
-      "To: Beau Norris <beau.norris@sample-lab-vendor.example.com>\n" +
+      "To: Taylor Morgan <taylor.morgan@sample-lab-vendor.example.com>\n" +
       "Subject: Open Items\n\n" +
       "We're working through our build spec.\n"
 
@@ -135,7 +135,7 @@ const ZENDESK_WALL =
   "Your request (40197) has been updated. To add additional comments, reply to this email.\n\n" +
   "Alex Taylor (SampleHelpdesk)\n\n" +
   "Aug 25, 2026, 8:55 AM MDT\n\n" +
-  "Elise,\n\n" +
+  "Casey,\n\n" +
   "Can you provide a search ID that I can look into?\n\n" +
   "Alex Taylor\n" +
   "Customer Support\n\n" +
@@ -146,7 +146,7 @@ const ZENDESK_WALL =
   "Hi there.\n\n" +
   "I updated the method for delivery last week.\n\n" +
   "Thanks,\n" +
-  "Elise\n"
+  "Casey\n"
 
 describe("EmailBody Zendesk walls", () => {
   it("collapses prior ticket comments even when quotedText is also passed", async () => {
@@ -173,14 +173,14 @@ describe("EmailBody Zendesk walls", () => {
       "[https://sample-helpdesk.example.com/system/photos/25898357572372/purple_flower_5.jpg]\n\n" +
       "Alex Taylor (SampleHelpdesk)\n\n" +
       "Aug 26, 2026, 3:48 PM MDT\n\n" +
-      "Elise,\n\n" +
+      "Casey,\n\n" +
       "I am going to go ahead and close out this ticket.\n\n" +
       "Alex Taylor\n" +
       "Customer Support\n\n" +
       "[https://sample-helpdesk.example.com/system/photos/25898357572372/purple_flower_5.jpg]\n\n" +
       "Alex Taylor (SampleHelpdesk)\n\n" +
       "Aug 25, 2026, 10:11 AM MDT\n\n" +
-      "Elise,\n\n" +
+      "Casey,\n\n" +
       "I wanted to check in with you on this to see if you have further questions.\n\n" +
       "Alex Taylor\n" +
       "Customer Support\n"
@@ -204,7 +204,7 @@ describe("EmailBody Zendesk walls", () => {
       "Your request (40197) has been updated. To add additional comments, reply to this email.\n\n" +
       "Alex Taylor (SampleHelpdesk)\n\n" +
       "Aug 25, 2026, 8:55 AM MDT\n\n" +
-      "Elise,\n\n" +
+      "Casey,\n\n" +
       "Can you provide a search ID that I can look into?\n\n" +
       "Alex Taylor\n" +
       "Customer Support\n"
@@ -229,14 +229,14 @@ describe("EmailBody Zendesk walls", () => {
       "[https://sample-helpdesk.example.com/system/photos/25898357572372/purple_flower_5.jpg]\n\n" +
       "Alex Taylor (SampleHelpdesk)\n\n" +
       "Aug 26, 2026, 3:48 PM MDT\n\n" +
-      "Elise,\n\n" +
+      "Casey,\n\n" +
       "I am going to go ahead and close out this ticket.\n\n" +
       "Alex Taylor\n" +
       "Customer Support\n\n" +
       "[https://sample-helpdesk.example.com/system/photos/25898357572372/purple_flower_5.jpg]\n\n" +
       "Alex Taylor (SampleHelpdesk)\n\n" +
       "Aug 25, 2026, 10:11 AM MDT\n\n" +
-      "Elise,\n\n" +
+      "Casey,\n\n" +
       "I wanted to check in with you on this to see if you have further questions.\n\n" +
       "Alex Taylor\n" +
       "Customer Support\n"
@@ -257,14 +257,14 @@ describe("EmailBody Zendesk walls", () => {
     const body =
       "Thanks for the update.\n\n" +
       "________________________________\n" +
-      "From: Beau Norris <beau.norris@sample-lab-vendor.example.com>\n" +
+      "From: Taylor Morgan <taylor.morgan@sample-lab-vendor.example.com>\n" +
       "Sent: Wednesday, August 26, 2026 11:04 AM\n" +
-      "To: Elise Chouest <sampleagent@sample-site.example.com>\n" +
+      "To: Casey Chouest <sampleagent@sample-site.example.com>\n" +
       "Subject: RE: Open Items\n\n" +
       "Please review with @Hooker, Ruth E<mailto:ruth.hooker@sample-lab-vendor.example.com>.\n\n" +
       "[cid:image004.png@01DD3549.0D900550]\n\n" +
       "Thanks,\n" +
-      "Beau\n"
+      "Taylor\n"
 
     render(<EmailBody text={body} collapseQuotes />)
     await user.click(screen.getByRole("button", { name: "Show quoted earlier messages" }))

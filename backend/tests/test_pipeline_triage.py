@@ -29,7 +29,7 @@ def _email() -> EmailMessageSchema:
     return EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="Need docs",
         body_text="Please send the packet",
@@ -522,7 +522,7 @@ def test_select_original_email_requires_exact_message_id() -> None:
     older = EmailMessageSchema(
         message_id="old",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="a@example.com",
         subject="thread",
         body_text="old",
@@ -532,7 +532,7 @@ def test_select_original_email_requires_exact_message_id() -> None:
     newer = EmailMessageSchema(
         message_id="new",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="b@example.com",
         subject="thread",
         body_text="new",
@@ -541,7 +541,7 @@ def test_select_original_email_requires_exact_message_id() -> None:
     )
     context = ThreadContextSchema(
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         subject="thread",
         messages=[older, newer],
     )

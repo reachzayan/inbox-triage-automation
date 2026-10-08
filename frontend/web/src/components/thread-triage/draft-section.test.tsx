@@ -72,20 +72,20 @@ describe("DraftSection salute chip", () => {
     applySalutationMock.mockResolvedValue({
       draft: {
         ...draft,
-        body: "Hi Kelvin,\n\nThanks for reaching out.",
-        edited_body: "Hi Kelvin,\n\nThanks for reaching out.",
+        body: "Hi Jordan,\n\nThanks for reaching out.",
+        edited_body: "Hi Jordan,\n\nThanks for reaching out.",
       },
       reply_addressee: {
         email: "samplecontact@sample-vendor.example.com",
-        salute_name: "Kelvin",
+        salute_name: "Jordan",
         source: "directory",
         source_kind: "directory",
         directory_hit: true,
       },
       contact: {
         email: "samplecontact@sample-vendor.example.com",
-        full_name: "Kelvin Collado",
-        first_name: "Kelvin",
+        full_name: "Jordan Collado",
+        first_name: "Jordan",
         notes: null,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
@@ -97,13 +97,13 @@ describe("DraftSection salute chip", () => {
     const user = userEvent.setup()
     renderSection({
       email: "samplecontact@sample-vendor.example.com",
-      salute_name: "Kelvin",
+      salute_name: "Jordan",
       source: "latest_inbound",
       source_kind: "signature",
       directory_hit: false,
     })
-    expect(screen.getByRole("button", { name: "Salute: Kelvin" })).toBeInTheDocument()
-    await user.click(screen.getByRole("button", { name: "Salute: Kelvin" }))
+    expect(screen.getByRole("button", { name: "Salute: Jordan" })).toBeInTheDocument()
+    await user.click(screen.getByRole("button", { name: "Salute: Jordan" }))
     expect(await screen.findByRole("dialog")).toBeInTheDocument()
     expect(screen.getByLabelText("Contact email")).toHaveValue("samplecontact@sample-vendor.example.com")
   })
@@ -112,22 +112,22 @@ describe("DraftSection salute chip", () => {
     const user = userEvent.setup()
     const { client } = renderSection({
       email: "samplecontact@sample-vendor.example.com",
-      salute_name: "Kelvin",
+      salute_name: "Jordan",
       source: "latest_inbound",
       source_kind: "signature",
       directory_hit: false,
     })
     const invalidateSpy = vi.spyOn(client, "invalidateQueries")
-    await user.click(screen.getByRole("button", { name: "Salute: Kelvin" }))
+    await user.click(screen.getByRole("button", { name: "Salute: Jordan" }))
     const dialog = await screen.findByRole("dialog")
     const firstName = within(dialog).getByLabelText("Contact first name")
     await user.clear(firstName)
-    await user.type(firstName, "Kelvin")
+    await user.type(firstName, "Jordan")
     await user.click(within(dialog).getByRole("button", { name: "Save contact" }))
     await waitFor(() => {
       expect(applySalutationMock).toHaveBeenCalledWith("draft-1", {
         email: "samplecontact@sample-vendor.example.com",
-        first_name: "Kelvin",
+        first_name: "Jordan",
         full_name: "",
         notes: null,
       })

@@ -13,7 +13,7 @@ from app.models.db.email_embedding import EmailEmbedding
 from app.repositories import embedding_repo
 
 DIM = 1536
-MAILBOX = "elise@example.com"
+MAILBOX = "casey@example.com"
 
 
 def _unit(index: int) -> list[float]:
@@ -58,7 +58,7 @@ async def test_search_similar_returns_five_known_neighbors(db_session) -> None:
                 mailbox=MAILBOX,
                 conversation_id=f"near-{i}",
                 sender_email="vendor@example.com",
-                recipient_emails=["elise@example.com"],
+                recipient_emails=["casey@example.com"],
                 cc_emails=[],
                 embedding=_near_query(0.99 - i * 0.01),
                 sent_at=now,
@@ -72,7 +72,7 @@ async def test_search_similar_returns_five_known_neighbors(db_session) -> None:
                 mailbox=MAILBOX,
                 conversation_id=f"far-{i}",
                 sender_email="other@example.com",
-                recipient_emails=["elise@example.com"],
+                recipient_emails=["casey@example.com"],
                 cc_emails=[],
                 embedding=_unit(10 + i),
                 sent_at=now,
@@ -113,7 +113,7 @@ async def test_apostrophe_folded_matches_o_mason_omason(db_session) -> None:
             mailbox=MAILBOX,
             conversation_id="conv-omason",
             sender_email="ashley@sample-materials.example.com",
-            recipient_emails=["elise@example.com"],
+            recipient_emails=["casey@example.com"],
             cc_emails=[],
             embedding=_unit(0),
             sent_at=datetime(2026, 8, 14, tzinfo=UTC),

@@ -1,6 +1,6 @@
 """Sibling/associated matching oracles. Independent of search_threads SQL.
 
-Worked example (Elise / SampleClient drips):
+Worked example (Casey / SampleClient drips):
   Source:  SampleClient follow-up 8/9  from rep@sample-client.example.com  cosine 0.50
   Sibling: SampleClient follow-up 8/14 from rep@sample-client.example.com  cosine 0.50 → IN (date-stripped subject)
   Invoice: January invoice          from rep@sample-client.example.com  cosine 0.40 → OUT

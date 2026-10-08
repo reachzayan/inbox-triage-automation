@@ -14,7 +14,7 @@ from tests.evals.dataset_io import DATASET_V1, cases_for_suite, list_v1_cases, l
 def test_v1_dataset_has_expected_cases() -> None:
     cases = list_v1_cases()
     ids = {c["id"] for c in cases}
-    assert "samplelab-harmeyer-rebilling" in ids
+    assert "samplelab-samplepartner-rebilling" in ids
     assert "scheduling-decoy-no-samplelab" in ids
     assert "flow-b-prior-thread" in ids
     assert "simple-no-context" in ids
@@ -32,8 +32,8 @@ def test_v1_dataset_has_expected_cases() -> None:
 
 def test_suite_tags_partition() -> None:
     assert {c["id"] for c in cases_for_suite("A")} == {"flow-b-prior-thread"}
-    assert "samplelab-harmeyer-rebilling" in {c["id"] for c in cases_for_suite("B")}
-    assert "samplelab-harmeyer-rebilling" in {c["id"] for c in cases_for_suite("C")}
+    assert "samplelab-samplepartner-rebilling" in {c["id"] for c in cases_for_suite("B")}
+    assert "samplelab-samplepartner-rebilling" in {c["id"] for c in cases_for_suite("C")}
     assert "simple-no-context" in {c["id"] for c in cases_for_suite("B")}
     assert "simple-no-context" not in {c["id"] for c in cases_for_suite("C")}
 
@@ -81,7 +81,7 @@ def test_grounding_contexts_include_skill_and_flow_b() -> None:
 
 
 def test_expected_tools_from_samplelab_case() -> None:
-    case = load_case(DATASET_V1 / "samplelab_harmeyer_rebilling.json")
+    case = load_case(DATASET_V1 / "samplelab_samplepartner_rebilling.json")
     tools = expected_tools_from_case(case)
     assert tools
     assert tools[0]["name"] == "read_skill_reference"

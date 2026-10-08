@@ -380,7 +380,7 @@ async def apply_urgency_feedback(
             "human": {
                 "title": "Automatic urgency bump marked wrong",
                 "body": ("Reverted this thread. This alert fingerprint will not auto-bump again."),
-                "actor_kind": "elise",
+                "actor_kind": "casey",
             },
         },
         actor=actor,

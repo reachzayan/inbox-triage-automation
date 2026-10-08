@@ -228,14 +228,14 @@ async def test_thread_view_assembles_detail() -> None:
 
 @pytest.mark.asyncio
 async def test_thread_view_sender_salute_names_match_draft_salutations() -> None:
-    """Dev@ / Sample Developer is not a person; mailbox owner still labels Elise."""
+    """Dev@ / Sample Developer is not a person; mailbox owner still labels Casey."""
     from app.repositories.message_repo import MessageSchema
     from app.repositories.thread_repo import ThreadSchema
 
     settings = Settings(
         environment="local",
         target_mailboxes="sampleagent@sample-site.example.com",
-        mailbox_owners="sampleagent@sample-site.example.com:Elise",
+        mailbox_owners="sampleagent@sample-site.example.com:Casey",
         salute_directory_enabled=False,
     )
     thread_id = uuid.uuid4()
@@ -254,7 +254,7 @@ async def test_thread_view_sender_salute_names_match_draft_salutations() -> None
     summary = ThreadSummary(
         id=thread_id,
         mailbox="sampleagent@sample-site.example.com",
-        mailbox_key="elise",
+        mailbox_key="casey",
         subject="Broken link",
         state="NEW",
         urgency="NORMAL",
@@ -284,7 +284,7 @@ async def test_thread_view_sender_salute_names_match_draft_salutations() -> None
         direction="outbound",
         sender="sampleagent@sample-site.example.com",
         sender_name="SampleSite Support",
-        body_text="Hey Div,\nLooks like the link is broken.\nThanks,\nElise\n",
+        body_text="Hey Div,\nLooks like the link is broken.\nThanks,\nCasey\n",
         body_preview="Hey Div",
         received_at=now,
         to_recipients=["Dev@sample-site.example.com"],
@@ -337,7 +337,7 @@ async def test_thread_view_sender_salute_names_match_draft_salutations() -> None
 
     by_sender = {row.sender.lower(): row.sender_salute_name for row in detail.messages}
     assert by_sender["dev@sample-site.example.com"] is None
-    assert by_sender["sampleagent@sample-site.example.com"] == "Elise"
+    assert by_sender["sampleagent@sample-site.example.com"] == "Casey"
 
 
 @pytest.mark.asyncio
@@ -581,7 +581,7 @@ async def test_thread_view_omits_sent_reply_when_newer_inbound_is_tip() -> None:
                             "human": {
                                 "title": "Marked resolved",
                                 "body": "You marked this thread resolved. Actions taken: Handled offline.",
-                                "actor_kind": "elise",
+                                "actor_kind": "casey",
                             }
                         },
                     }
@@ -1008,7 +1008,7 @@ async def test_thread_view_proposed_skips_outlook_catchup_latest() -> None:
         graph_message_id="AAMkAG-msg-sent",
         direction="outbound",
         sender="sales@example.com",
-        body_text="Thanks for the follow-up Beau. This helps us adjust.",
+        body_text="Thanks for the follow-up Taylor. This helps us adjust.",
         body_preview="Thanks for the follow-up",
         received_at=now,
         to_recipients=["client@example.com"],
@@ -1020,7 +1020,7 @@ async def test_thread_view_proposed_skips_outlook_catchup_latest() -> None:
             "thread_id": thread_id,
             "created_at": now,
             "subject_line": "Re: Hello",
-            "reply_body": "Hi Beau,\n\nThank you for checking on that.",
+            "reply_body": "Hi Taylor,\n\nThank you for checking on that.",
             "teaching_note": llm_teaching,
             "urgency": "NORMAL",
             "urgency_reason": "Clarifying question",
@@ -1034,7 +1034,7 @@ async def test_thread_view_proposed_skips_outlook_catchup_latest() -> None:
         thread_id=thread_id,
         message_id=message_id,
         draft_id=llm_draft_id,
-        sent_body_snapshot="Thanks for the follow-up Beau. This helps us adjust.",
+        sent_body_snapshot="Thanks for the follow-up Taylor. This helps us adjust.",
         sent_at=now,
         matched_by="time_window",
         created_at=now,
@@ -1085,11 +1085,11 @@ async def test_thread_view_proposed_skips_outlook_catchup_latest() -> None:
         detail = await thread_view_service.get_thread_detail(session, settings, thread_id)
 
     assert detail.draft is not None
-    assert detail.draft.body == "Hi Beau,\n\nThank you for checking on that."
+    assert detail.draft.body == "Hi Taylor,\n\nThank you for checking on that."
     assert detail.draft.teaching_note == llm_teaching
     assert detail.draft_vs_sent_diff is not None
-    assert "Thanks for the follow-up Beau. This helps us adjust." in detail.draft_vs_sent_diff.added
-    assert "Hi Beau," in detail.draft_vs_sent_diff.removed or (
+    assert "Thanks for the follow-up Taylor. This helps us adjust." in detail.draft_vs_sent_diff.added
+    assert "Hi Taylor," in detail.draft_vs_sent_diff.removed or (
         "Thank you for checking on that." in detail.draft_vs_sent_diff.removed
     )
 
@@ -1170,7 +1170,7 @@ async def test_list_thread_messages_uses_directory_salute() -> None:
     settings = Settings(
         environment="local",
         target_mailboxes="sampleagent@sample-site.example.com",
-        mailbox_owners="sampleagent@sample-site.example.com:Elise",
+        mailbox_owners="sampleagent@sample-site.example.com:Casey",
         salute_directory_enabled=True,
         _env_file=None,
     )

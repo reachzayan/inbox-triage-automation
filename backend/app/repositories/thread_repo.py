@@ -38,7 +38,7 @@ from app.repositories.thread_disposition_sql import (
     is_fyi_briefing,
     is_reply_review,
     latest_draft_ranked,
-    needs_elise_action,
+    needs_casey_action,
 )
 from app.repositories.thread_list_helpers import (
     card_preview,
@@ -53,7 +53,7 @@ from app.repositories.thread_mailbox_previews import (  # noqa: F401
 #: Real actionable states — a message reached the pipeline and either has a
 #: draft awaiting review or needs a human because generation failed. ``NEW``
 #: (not yet triaged) and the terminal filtered outcomes (``SPAM`` /
-#: ``NO_ACTION``) are deliberately excluded: they are not "awaiting Elise's
+#: ``NO_ACTION``) are deliberately excluded: they are not "awaiting Casey's
 #: action".
 _AWAITING_STATES = (
     ThreadStateEnum.DRAFTED.value,
@@ -63,7 +63,7 @@ _AWAITING_STATES = (
     ThreadStateEnum.AWAITING_PARTNER.value,
 )
 
-#: Dashboard Needs Attention — Elise still must act. ``AWAITING_*`` means
+#: Dashboard Needs Attention — Casey still must act. ``AWAITING_*`` means
 #: waiting on someone else. Finished in-app review (approved or no-reply
 #: ``wrong``) drops even while ``threads.state`` is still ``DRAFTED``.
 _NEEDS_ATTENTION_STATES = (
@@ -71,7 +71,7 @@ _NEEDS_ATTENTION_STATES = (
     ThreadStateEnum.REQUIRES_HUMAN.value,
 )
 
-#: Terminal triage outcomes that carry no action for Elise — counted on the
+#: Terminal triage outcomes that carry no action for Casey — counted on the
 #: dashboard as ``filtered_count``; mailbox list shows them by default.
 _FILTERED_STATES = (ThreadStateEnum.SPAM.value,)
 
@@ -721,16 +721,16 @@ def _apply_mailbox_list_filters(
             latest_draft,
             (latest_draft.c.tid == Thread.id) & (latest_draft.c.rn == 1),
         )
-        needs_elise = needs_elise_action(latest_draft)
+        needs_casey = needs_casey_action(latest_draft)
         if state == _STALE_FILTER:
             cutoff = now - timedelta(hours=stale_after_hours)
             stmt = stmt.where(
-                needs_elise,
+                needs_casey,
                 Thread.last_message_at.is_not(None),
                 Thread.last_message_at < cutoff,
             )
         else:
-            stmt = stmt.where(needs_elise)
+            stmt = stmt.where(needs_casey)
     elif state == _FILTERED_FILTER:
         stmt = stmt.where(Thread.state.in_(_FILTERED_STATES))
     elif state == _REPLY_REVIEW_FILTER:
@@ -947,7 +947,7 @@ async def ids_needing_attention(
         )
         .where(
             Thread.id.in_(list(thread_ids)),
-            needs_elise_action(latest_draft),
+            needs_casey_action(latest_draft),
         )
     )
     result = await session.execute(stmt)
@@ -983,7 +983,7 @@ async def list_needs_attention(
     return await _list_thread_summaries(
         session,
         mailbox_emails,
-        match=lambda latest_draft, _now: needs_elise_action(latest_draft),
+        match=lambda latest_draft, _now: needs_casey_action(latest_draft),
         limit=limit,
         sort=sort,
     )
@@ -1170,35 +1170,35 @@ async def aggregate_overview(
         return []
 
     latest_draft = latest_draft_ranked()
-    needs_elise = needs_elise_action(latest_draft)
+    needs_casey = needs_casey_action(latest_draft)
     open_fyi = is_fyi_briefing(latest_draft)
     draftassistant_recent = draftassistant_resolved_recently(now)
     stmt = (
         select(
             Thread.mailbox,
             func.count(Thread.id).label("thread_count"),
-            func.count(case((needs_elise, 1))).label("awaiting_action_count"),
+            func.count(case((needs_casey, 1))).label("awaiting_action_count"),
             func.count(case((Thread.state.in_(_FILTERED_STATES), 1))).label("filtered_count"),
             func.count(
                 case(
                     (
-                        (Thread.last_message_at < cutoff) & needs_elise,
+                        (Thread.last_message_at < cutoff) & needs_casey,
                         1,
                     )
                 )
             ).label("stale_count"),
             func.count(case((open_fyi, 1))).label("open_fyi_count"),
             func.count(case((draftassistant_recent, 1))).label("recently_resolved_draftassistant_count"),
-            func.count(case((and_(needs_elise, Thread.urgency == "CRITICAL"), 1))).label(
+            func.count(case((and_(needs_casey, Thread.urgency == "CRITICAL"), 1))).label(
                 "urgency_critical"
             ),
-            func.count(case((and_(needs_elise, Thread.urgency == "HIGH"), 1))).label(
+            func.count(case((and_(needs_casey, Thread.urgency == "HIGH"), 1))).label(
                 "urgency_high"
             ),
-            func.count(case((and_(needs_elise, Thread.urgency == "NORMAL"), 1))).label(
+            func.count(case((and_(needs_casey, Thread.urgency == "NORMAL"), 1))).label(
                 "urgency_normal"
             ),
-            func.count(case((and_(needs_elise, Thread.urgency == "LOW"), 1))).label("urgency_low"),
+            func.count(case((and_(needs_casey, Thread.urgency == "LOW"), 1))).label("urgency_low"),
         )
         .outerjoin(
             latest_draft,

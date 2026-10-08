@@ -71,7 +71,7 @@ async def test_download_returns_pdf(app) -> None:
     kwargs = gen.await_args.kwargs
     assert kwargs["persist"] is False
     assert kwargs["send_email"] is False
-    assert kwargs["generated_by"] == "elise@example.com"
+    assert kwargs["generated_by"] == "casey@example.com"
 
 
 @pytest.mark.asyncio
@@ -95,4 +95,4 @@ async def test_generate_returns_metadata(app) -> None:
     assert body["content_type"] == "application/pdf"
     assert gen.await_args.kwargs["persist"] is True
     assert gen.await_args.kwargs["send_email"] is False
-    assert gen.await_args.kwargs["generated_by"] == "elise@example.com"
+    assert gen.await_args.kwargs["generated_by"] == "casey@example.com"

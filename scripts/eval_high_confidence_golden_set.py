@@ -5,7 +5,7 @@ Proves two things without using the model as its own oracle:
 
 1. Inventory — 20 human-verified cases, 0 invented urgencies, 8 no-reply, 12 replies.
 2. Preference-pair oracles — DraftAssistant's rejected draft violates a hand-written constraint;
-   Elise's send does not. Literals from reading the mail, not from production code.
+   Casey's send does not. Literals from reading the mail, not from production code.
 
 Usage (repo root):
   python scripts/eval_high_confidence_golden_set.py

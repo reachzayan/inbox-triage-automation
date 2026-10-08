@@ -37,16 +37,16 @@ def test_mailbox_routing_category_scope() -> None:
     """mailbox+routing_category scope includes both mailbox and routing_category."""
     result = scope_key_for(
         "mailbox+routing_category",
-        mailbox="elise@x.com",
+        mailbox="casey@x.com",
         routing_category="billing",
     )
-    assert result == "mailbox:elise@x.com:billing"
+    assert result == "mailbox:casey@x.com:billing"
 
 
 def test_mailbox_scope() -> None:
     """mailbox scope includes only the mailbox address."""
-    result = scope_key_for("mailbox", mailbox="elise@x.com")
-    assert result == "mailbox:elise@x.com"
+    result = scope_key_for("mailbox", mailbox="casey@x.com")
+    assert result == "mailbox:casey@x.com"
 
 
 def test_global_scope() -> None:
@@ -57,7 +57,7 @@ def test_global_scope() -> None:
 
 def test_global_scope_ignores_extra_kwargs() -> None:
     """global scope returns 'global:' even when extra kwargs are passed."""
-    result = scope_key_for("global", mailbox="elise@x.com", sender_domain="x.com")
+    result = scope_key_for("global", mailbox="casey@x.com", sender_domain="x.com")
     assert result == "global:"
 
 
@@ -82,7 +82,7 @@ def test_sender_address_missing_raises() -> None:
 def test_mailbox_routing_category_missing_category_raises() -> None:
     """mailbox+routing_category without routing_category raises ValueError."""
     with pytest.raises(ValueError, match="routing_category is required"):
-        scope_key_for("mailbox+routing_category", mailbox="elise@x.com")
+        scope_key_for("mailbox+routing_category", mailbox="casey@x.com")
 
 
 def test_all_scope_literals() -> None:

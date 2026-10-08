@@ -16,7 +16,7 @@ describe("stripPlainTextArtifacts", () => {
 
   it("drops cid image placeholders and keeps the surrounding prose", () => {
     const cleaned = stripPlainTextArtifacts(
-      "Thanks,\nElise\n\n[cid:image004.png@01DD3549.0D900550]\n\nwww.sample-site.example.com",
+      "Thanks,\nCasey\n\n[cid:image004.png@01DD3549.0D900550]\n\nwww.sample-site.example.com",
     )
 
     expect(cleaned).toContain("Thanks,")

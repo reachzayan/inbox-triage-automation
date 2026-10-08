@@ -1,6 +1,6 @@
 """Draft rewrite status is persisted on the thread (survives reload).
 
-Worked example: Elise confirms rewrite → thread.draft_regen_status becomes
+Worked example: Casey confirms rewrite → thread.draft_regen_status becomes
 "running" before Sonnet finishes. Reload still shows regenerating; when the
 new draft lands, status returns to "idle".
 """
@@ -58,7 +58,7 @@ async def test_begin_regen_persists_running_on_thread(db_session) -> None:
     started = await draft_regen_job_service.begin_regen(
         db_session,
         thread.id,
-        instruction="Process the SampleLab invoice and tell Beau.",
+        instruction="Process the SampleLab invoice and tell Taylor.",
     )
     await db_session.commit()
 
@@ -139,7 +139,7 @@ async def test_regenerate_endpoint_returns_202_and_marks_running(
     async def fake_user() -> UserMe:
         return UserMe(
             id=uuid.UUID("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-            email="elise@sample-site.example.com",
+            email="casey@sample-site.example.com",
             role="user",
             created_at=datetime.now(UTC),
         )
@@ -161,7 +161,7 @@ async def test_regenerate_endpoint_returns_202_and_marks_running(
         ) as client:
             resp = await client.post(
                 f"/api/threads/{thread.id}/regenerate-draft",
-                json={"instruction": "Process the SampleLab invoice and tell Beau."},
+                json={"instruction": "Process the SampleLab invoice and tell Taylor."},
             )
 
     application.dependency_overrides.clear()

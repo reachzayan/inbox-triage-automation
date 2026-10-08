@@ -134,7 +134,7 @@ describe("ContactsSection", () => {
     const user = userEvent.setup()
     listMock.mockImplementation((_mailbox: string, params: { q?: string } = {}) => {
       const all = [
-        contact({ email: "kelvin@example.com", first_name: "Kelvin" }),
+        contact({ email: "jordan@example.com", first_name: "Jordan" }),
         contact({ email: "other@example.com", first_name: "Other" }),
       ]
       const q = params.q?.toLowerCase()
@@ -144,12 +144,12 @@ describe("ContactsSection", () => {
       return Promise.resolve({ total: items.length, items })
     })
     renderSection()
-    expect(await screen.findByText("kelvin@example.com")).toBeInTheDocument()
+    expect(await screen.findByText("jordan@example.com")).toBeInTheDocument()
     expect(screen.getByText("other@example.com")).toBeInTheDocument()
-    await user.type(screen.getByLabelText("Filter by name or email"), "kelvin")
+    await user.type(screen.getByLabelText("Filter by name or email"), "jordan")
     await waitFor(() => {
       expect(screen.queryByText("other@example.com")).not.toBeInTheDocument()
-      expect(screen.getByText("kelvin@example.com")).toBeInTheDocument()
+      expect(screen.getByText("jordan@example.com")).toBeInTheDocument()
     })
   })
 
@@ -194,15 +194,15 @@ describe("ContactsSection", () => {
     expect(await screen.findByText(/No saved contacts yet/i)).toBeInTheDocument()
     await user.click(screen.getByRole("button", { name: "Add contact" }))
     const createDialog = await screen.findByRole("dialog")
-    await user.type(within(createDialog).getByLabelText("Contact email"), "kelvin@example.com")
-    await user.type(within(createDialog).getByLabelText("Contact first name"), "Kelvin")
-    await user.type(within(createDialog).getByLabelText("Contact full name"), "Kelvin Collado")
+    await user.type(within(createDialog).getByLabelText("Contact email"), "jordan@example.com")
+    await user.type(within(createDialog).getByLabelText("Contact first name"), "Jordan")
+    await user.type(within(createDialog).getByLabelText("Contact full name"), "Jordan Collado")
     await user.click(within(createDialog).getByRole("button", { name: "Save contact" }))
-    expect(await screen.findByText("Kelvin Collado")).toBeInTheDocument()
+    expect(await screen.findByText("Jordan Collado")).toBeInTheDocument()
 
-    await user.click(screen.getByRole("button", { name: "Edit contact kelvin@example.com" }))
+    await user.click(screen.getByRole("button", { name: "Edit contact jordan@example.com" }))
     const editDialog = await screen.findByRole("dialog")
-    expect(within(editDialog).getByLabelText("Contact full name")).toHaveValue("Kelvin Collado")
+    expect(within(editDialog).getByLabelText("Contact full name")).toHaveValue("Jordan Collado")
   })
 
   it("prefills full name when editing a contact from Settings", async () => {
@@ -211,18 +211,18 @@ describe("ContactsSection", () => {
       total: 1,
       items: [
         contact({
-          email: "kelvin@example.com",
-          first_name: "Kelvin",
-          full_name: "Kelvin Collado",
+          email: "jordan@example.com",
+          first_name: "Jordan",
+          full_name: "Jordan Collado",
         }),
       ],
     })
     renderSection()
-    expect(await screen.findByText("Kelvin Collado")).toBeInTheDocument()
-    await user.click(screen.getByRole("button", { name: "Edit contact kelvin@example.com" }))
+    expect(await screen.findByText("Jordan Collado")).toBeInTheDocument()
+    await user.click(screen.getByRole("button", { name: "Edit contact jordan@example.com" }))
     const dialog = await screen.findByRole("dialog")
-    expect(within(dialog).getByLabelText("Contact first name")).toHaveValue("Kelvin")
-    expect(within(dialog).getByLabelText("Contact full name")).toHaveValue("Kelvin Collado")
+    expect(within(dialog).getByLabelText("Contact first name")).toHaveValue("Jordan")
+    expect(within(dialog).getByLabelText("Contact full name")).toHaveValue("Jordan Collado")
   })
 
   it("edits an existing first name in the table", async () => {

@@ -22,7 +22,7 @@ describe("stateTone", () => {
 })
 
 describe("dispositionTone and dispositionLabel", () => {
-  it("maps each disposition to the Elise-facing badge copy", () => {
+  it("maps each disposition to the Casey-facing badge copy", () => {
     expect(dispositionLabel("reply_review")).toBe("Reply ready")
     expect(dispositionLabel("action_no_draft")).toBe("Action needed")
     expect(dispositionLabel("fyi_briefing")).toBe("FYI")
@@ -30,7 +30,7 @@ describe("dispositionTone and dispositionLabel", () => {
     expect(dispositionLabel("needs_human")).toBe("Needs human")
     expect(dispositionLabel("processing")).toBe("Processing")
     expect(dispositionLabel("resolved_draftassistant")).toBe("Resolved by DraftAssistant")
-    expect(dispositionLabel("resolved_elise")).toBe("Resolved by Elise")
+    expect(dispositionLabel("resolved_casey")).toBe("Resolved by Casey")
     expect(dispositionLabel("spam")).toBe("Spam")
   })
 
@@ -43,7 +43,7 @@ describe("dispositionTone and dispositionLabel", () => {
       "needs_human",
       "processing",
       "resolved_draftassistant",
-      "resolved_elise",
+      "resolved_casey",
       "spam",
     ]
     for (const kind of kinds) {
@@ -51,9 +51,9 @@ describe("dispositionTone and dispositionLabel", () => {
     }
   })
 
-  it("uses distinct tones for DraftAssistant, Elise, reply, action, and FYI", () => {
+  it("uses distinct tones for DraftAssistant, Casey, reply, action, and FYI", () => {
     expect(dispositionTone("resolved_draftassistant")).toBe("green")
-    expect(dispositionTone("resolved_elise")).toBe("teal")
+    expect(dispositionTone("resolved_casey")).toBe("teal")
     expect(dispositionTone("reply_review")).toBe("green")
     expect(dispositionTone("action_no_draft")).toBe("amber")
     expect(dispositionTone("fyi_briefing")).toBe("neutral")

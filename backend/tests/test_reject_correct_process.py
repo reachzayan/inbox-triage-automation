@@ -1,6 +1,6 @@
 """Reject with a process sentence pins it on the thread.
 
-Worked example: SampleLab invoice — Elise writes what she would do; that exact
+Worked example: SampleLab invoice — Casey writes what she would do; that exact
 sentence is the thread pin. The why-note stays on the draft, not in pins.
 """
 
@@ -23,7 +23,7 @@ SALES = "sales@example.com"
 T_OPEN = datetime(2026, 8, 18, 11, 0, tzinfo=UTC)
 WHY = "DraftAssistant drafted a letter. This is an SampleLab invoice."
 PROCESS = (
-    "In this case I would process the SampleLab invoice and tell Beau the rebill is with Harmeyer."
+    "In this case I would process the SampleLab invoice and tell Taylor the rebill is with SamplePartner."
 )
 
 
@@ -63,7 +63,7 @@ async def test_reject_with_process_note_pins_that_sentence(db_session) -> None:
         draft.id,
         feedback_note=WHY,
         reason_code="incomplete",
-        actor="elise@example.com",
+        actor="casey@example.com",
         process_note=PROCESS,
     )
     await db_session.commit()
@@ -93,7 +93,7 @@ async def test_reject_process_note_appends_after_existing_pins(db_session) -> No
         draft.id,
         feedback_note=WHY,
         reason_code="incomplete",
-        actor="elise@example.com",
+        actor="casey@example.com",
         process_note=PROCESS,
     )
     await db_session.commit()
@@ -112,7 +112,7 @@ async def test_reject_without_process_note_does_not_create_pins(db_session) -> N
         draft.id,
         feedback_note=WHY,
         reason_code="incomplete",
-        actor="elise@example.com",
+        actor="casey@example.com",
     )
     await db_session.commit()
 

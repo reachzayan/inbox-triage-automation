@@ -34,7 +34,7 @@ def local_settings() -> Settings:
         enable_dev_routes=False,
         anthropic_api_key="test-key",
         draft_model="claude-sonnet-4-6",
-        target_mailboxes="elise@example.com",
+        target_mailboxes="casey@example.com",
         database_url="postgresql+asyncpg://postgres:postgres@localhost:5432/inbox_triage_test",
         redis_url="redis://localhost:6379/15",
     )
@@ -49,11 +49,11 @@ async def test_import_fixture_then_draft_reads_client_rules(
     import_result = ImportSkillResultSchema(
         skill_id=skill_id,
         name="samplelab-rebilling",
-        description="Handle SampleLab rebilling for Harmeyer departments",
+        description="Handle SampleLab rebilling for SamplePartner departments",
         reference_files=[
             "references/client_rules.md",
             "references/output_format.md",
-            "references/harmeyer_departments.csv",
+            "references/samplepartner_departments.csv",
         ],
         asset_files=[],
         warnings=[],
@@ -63,7 +63,7 @@ async def test_import_fixture_then_draft_reads_client_rules(
     selection_row = SkillSelectionRow(
         id=skill_id,
         name="samplelab-rebilling",
-        description="Handle SampleLab rebilling for Harmeyer departments",
+        description="Handle SampleLab rebilling for SamplePartner departments",
         content="Use client rules when rebilling SampleLab invoices.",
         category="billing",
         always_apply=False,
@@ -72,7 +72,7 @@ async def test_import_fixture_then_draft_reads_client_rules(
         reference_manifest=[
             "references/client_rules.md",
             "references/output_format.md",
-            "references/harmeyer_departments.csv",
+            "references/samplepartner_departments.csv",
         ],
         has_assets=False,
     )
@@ -97,7 +97,7 @@ async def test_import_fixture_then_draft_reads_client_rules(
         async def fake_user() -> UserMe:
             return UserMe(
                 id=uuid.uuid4(),
-                email="elise@example.com",
+                email="casey@example.com",
                 role="admin",
                 created_at=datetime.now(UTC),
             )
@@ -139,14 +139,14 @@ async def test_import_fixture_then_draft_reads_client_rules(
     email = EmailMessageSchema(
         message_id="m-bill-1",
         conversation_id="c-bill-1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="client@example.com",
-        subject="SampleLab invoice rebilling for Harmeyer",
-        body_text="Please rebill this SampleLab invoice to the correct Harmeyer department.",
+        subject="SampleLab invoice rebilling for SamplePartner",
+        body_text="Please rebill this SampleLab invoice to the correct SamplePartner department.",
         body_preview="Please rebill",
         received_at=datetime.now(UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=[],
     )
     triage = TriageResultSchema(
@@ -206,9 +206,9 @@ async def test_import_fixture_then_draft_reads_client_rules(
 
     parsed = MagicMock()
     parsed.parsed_output = DraftSchema(
-        subject_line="Re: SampleLab invoice rebilling for Harmeyer",
+        subject_line="Re: SampleLab invoice rebilling for SamplePartner",
         reply_body=(
-            "We will rebill the SampleLab invoice to the correct Harmeyer "
+            "We will rebill the SampleLab invoice to the correct SamplePartner "
             "department per client billing rules."
         ),
         suggested_recipients=[],
@@ -223,7 +223,7 @@ async def test_import_fixture_then_draft_reads_client_rules(
         assert sid == skill_id
         assert path == "references/client_rules.md"
         return {
-            "content": "# Client rules\nAlways confirm Harmeyer department codes.",
+            "content": "# Client rules\nAlways confirm SamplePartner department codes.",
             "bytes": 60,
             "is_error": False,
         }
@@ -251,6 +251,6 @@ async def test_import_fixture_then_draft_reads_client_rules(
     assert result.tool_calls[0]["path"] == "references/client_rules.md"
     lowered = result.draft.reply_body.lower()
     assert "billing" in lowered or "rebill" in lowered or "samplelab" in lowered
-    assert "harmeyer" in lowered
+    assert "samplepartner" in lowered
     # Prove SKILL.md body from fixture mentions billing vocabulary used in draft path
     assert "bill" in body.lower() or "rebil" in body.lower()

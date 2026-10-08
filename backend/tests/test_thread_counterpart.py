@@ -1,8 +1,8 @@
 """Thread last_sender is the other party, not our mailbox after we reply.
 
 Worked examples from live mailboxes:
-- notarysdca@gmail.com inbound, then info@ replies → From is gmail, not Internal
-- outbound-only to nealdavien@yahoo.com → From is yahoo, not the mailbox
+- notary@example.com inbound, then info@ replies → From is gmail, not Internal
+- outbound-only to jamie.smith@example.com → From is yahoo, not the mailbox
 """
 
 from __future__ import annotations
@@ -69,7 +69,7 @@ async def test_outbound_only_summary_from_is_yahoo_not_mailbox(db_session) -> No
             thread,
             direction="outbound",
             sender=MAILBOX,
-            to_recipients=["nealdavien@yahoo.com"],
+            to_recipients=["jamie.smith@example.com"],
             received_at=T_OUT,
         )
     )
@@ -78,7 +78,7 @@ async def test_outbound_only_summary_from_is_yahoo_not_mailbox(db_session) -> No
     summary = await thread_repo.build_thread_summary(
         db_session, thread_repo.ThreadSchema.model_validate(thread)
     )
-    assert summary.last_sender == "nealdavien@yahoo.com"
+    assert summary.last_sender == "jamie.smith@example.com"
     assert summary.triage is None or summary.triage.is_internal is not True
 
 
@@ -96,7 +96,7 @@ async def test_gmail_thread_is_not_internal_after_mailbox_reply(db_session) -> N
             _message(
                 thread,
                 direction="inbound",
-                sender="notarysdca@gmail.com",
+                sender="notary@example.com",
                 to_recipients=[MAILBOX],
                 received_at=datetime(2026, 8, 18, 20, 38, tzinfo=UTC),
             ),
@@ -104,7 +104,7 @@ async def test_gmail_thread_is_not_internal_after_mailbox_reply(db_session) -> N
                 thread,
                 direction="outbound",
                 sender=MAILBOX,
-                to_recipients=["notarysdca@gmail.com"],
+                to_recipients=["notary@example.com"],
                 received_at=datetime(2026, 8, 18, 21, 22, tzinfo=UTC),
             ),
         ]
@@ -114,5 +114,5 @@ async def test_gmail_thread_is_not_internal_after_mailbox_reply(db_session) -> N
     summary = await thread_repo.build_thread_summary(
         db_session, thread_repo.ThreadSchema.model_validate(thread)
     )
-    assert summary.last_sender == "notarysdca@gmail.com"
+    assert summary.last_sender == "notary@example.com"
     assert summary.triage is None or summary.triage.is_internal is not True

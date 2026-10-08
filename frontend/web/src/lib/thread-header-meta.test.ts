@@ -32,11 +32,11 @@ describe("thread header meta", () => {
           {
             direction: "outbound",
             sender: "info@sample-services.example.com",
-            to: ["nealdavien@yahoo.com"],
+            to: ["jamie.smith@example.com"],
           },
         ],
       }),
-    ).toBe("nealdavien@yahoo.com")
+    ).toBe("jamie.smith@example.com")
   })
 
   it("labels sender and mailbox so outbound replies do not look like a duplicate mystery", () => {
@@ -69,10 +69,10 @@ describe("thread header meta", () => {
           {
             direction: "outbound",
             sender: "info@sample-services.example.com",
-            to: ["nealdavien@yahoo.com"],
+            to: ["jamie.smith@example.com"],
           },
         ],
       }),
-    ).toBe("From nealdavien@yahoo.com · 1 message · Inbox info@sample-services.example.com")
+    ).toBe("From jamie.smith@example.com · 1 message · Inbox info@sample-services.example.com")
   })
 })

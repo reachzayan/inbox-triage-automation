@@ -1,4 +1,4 @@
-"""Needs Attention queue: Elise still must act. Hand-counted fixtures.
+"""Needs Attention queue: Casey still must act. Hand-counted fixtures.
 
 Oracle (not derived from list_needs_attention SQL):
 
@@ -11,7 +11,7 @@ Mailbox sales@example.com
   T_approved:           DRAFTED, latest draft approved_at set → OUT
   T_resolved:           RESOLVED → OUT
   T_no_action:          NO_ACTION → OUT
-  T_awaiting_client:    AWAITING_CLIENT, no feedback → OUT (not Elise's action)
+  T_awaiting_client:    AWAITING_CLIENT, no feedback → OUT (not Casey's action)
 Isolation
   T_other:              other@example.com DRAFTED, no feedback → not in sales queue
 """
@@ -230,7 +230,7 @@ async def test_needs_attention_sorts_by_most_recent(db_session) -> None:
 
 
 @pytest.mark.asyncio
-async def test_needs_attention_is_the_four_threads_elise_must_act_on(db_session) -> None:
+async def test_needs_attention_is_the_four_threads_casey_must_act_on(db_session) -> None:
     ids = await _seed(db_session)
 
     rows = await thread_repo.list_needs_attention(db_session, [SALES], limit=20)
@@ -420,7 +420,7 @@ async def test_wrong_action_sets_no_action_and_leaves_queue(db_session) -> None:
         draft.id,
         feedback_note="No reply needed for this drip.",
         reason_code="wrong_action",
-        actor="elise@example.com",
+        actor="casey@example.com",
     )
     await db_session.commit()
 
@@ -453,7 +453,7 @@ async def test_tone_reject_keeps_thread_in_queue(db_session) -> None:
         draft.id,
         feedback_note="Too casual.",
         reason_code="tone",
-        actor="elise@example.com",
+        actor="casey@example.com",
     )
     await db_session.commit()
 
@@ -517,7 +517,7 @@ async def test_fyi_briefing_without_letter_is_out_of_needs_attention(db_session)
 
 @pytest.mark.asyncio
 async def test_automated_alert_without_letter_stays_in_needs_attention(db_session) -> None:
-    """Daily Drivers: offline action, empty letter, still Elise's queue."""
+    """Daily Drivers: offline action, empty letter, still Casey's queue."""
     from app.models.db.audit_event import AuditEvent
 
     t_alert = _thread(
@@ -742,8 +742,8 @@ async def test_list_by_mailbox_reply_review_is_letter_only(db_session) -> None:
 
 
 @pytest.mark.asyncio
-async def test_recently_resolved_by_draftassistant_is_48h_excluding_elise(db_session) -> None:
-    """48h DraftAssistant resolves in; Elise resolve and 72h-old DraftAssistant resolve out."""
+async def test_recently_resolved_by_draftassistant_is_48h_excluding_casey(db_session) -> None:
+    """48h DraftAssistant resolves in; Casey resolve and 72h-old DraftAssistant resolve out."""
     from app.models.db.audit_event import AuditEvent
 
     now = datetime.now(UTC)
@@ -754,9 +754,9 @@ async def test_recently_resolved_by_draftassistant_is_48h_excluding_elise(db_ses
         urgency="LOW",
         last_message_at=now - timedelta(hours=2),
     )
-    t_elise = _thread(
+    t_casey = _thread(
         mailbox=SALES,
-        conversation_id="t-elise-recent",
+        conversation_id="t-casey-recent",
         state=ThreadStateEnum.RESOLVED.value,
         urgency="NORMAL",
         last_message_at=now - timedelta(hours=1),
@@ -768,18 +768,18 @@ async def test_recently_resolved_by_draftassistant_is_48h_excluding_elise(db_ses
         urgency="LOW",
         last_message_at=now - timedelta(hours=72),
     )
-    db_session.add_all([t_draftassistant, t_elise, t_old])
+    db_session.add_all([t_draftassistant, t_casey, t_old])
     await db_session.flush()
     t_draftassistant.last_updated_at = now - timedelta(hours=2)
-    t_elise.last_updated_at = now - timedelta(hours=1)
+    t_casey.last_updated_at = now - timedelta(hours=1)
     t_old.last_updated_at = now - timedelta(hours=72)
     db_session.add(
         AuditEvent(
             event_type="thread.resolved.reviewer",
-            conversation_id=t_elise.conversation_id,
+            conversation_id=t_casey.conversation_id,
             mailbox=SALES,
-            payload={"resolved_by": "elise"},
-            actor="elise@example.com",
+            payload={"resolved_by": "casey"},
+            actor="casey@example.com",
         )
     )
     await db_session.commit()

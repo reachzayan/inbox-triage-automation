@@ -128,7 +128,7 @@ async def test_access_token_works_without_override(local_settings: Settings) -> 
     token, _ = create_access_token(user_id, local_settings)
     user = UserRead(
         id=user_id,
-        email="elise@example.com",
+        email="casey@example.com",
         password_hash="x",
         password_updated_at=now,
         token_version=0,

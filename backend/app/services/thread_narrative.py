@@ -118,7 +118,7 @@ def provenance_from_events(events: list[Mapping[str, Any]]) -> dict[str, str | N
             if isinstance(payload.get("resolve_snapshot"), Mapping)
             else {}
         )
-        resolved_by = "elise" if event_type == "thread.resolved.reviewer" else "draftassistant"
+        resolved_by = "casey" if event_type == "thread.resolved.reviewer" else "draftassistant"
         if isinstance(snapshot.get("resolved_by"), str) and snapshot["resolved_by"]:
             resolved_by = str(snapshot["resolved_by"])
         reason = snapshot.get("resolution_reason") or payload.get("resolution_reason")
@@ -337,7 +337,7 @@ def _collapse_repeats(entries: list[NarrativeEntry]) -> list[NarrativeEntry]:
 
 
 def build_activity(events: list[Mapping[str, Any]]) -> list[NarrativeEntry]:
-    """Map audit-like dicts to Elise-facing timeline entries (newest last ok)."""
+    """Map audit-like dicts to Casey-facing timeline entries (newest last ok)."""
     out: list[NarrativeEntry] = []
     for row in events:
         event_type = str(row.get("event_type") or row.get("event") or "")
@@ -352,7 +352,7 @@ def build_activity(events: list[Mapping[str, Any]]) -> list[NarrativeEntry]:
         human_body = str(human.get("body") or "").strip() if human else ""
         actor = str((human or {}).get("actor_kind") or "") if human else ""
         if not actor:
-            actor = "elise" if event_type in _USER_ACTORS else "agent"
+            actor = "casey" if event_type in _USER_ACTORS else "agent"
         title = _title_for(event_type, human_title or None)
         body = _body_for(event_type, payload, human_body)
         if body.strip() == title.strip():

@@ -1,6 +1,6 @@
 """Independent oracles for thread presentation policy.
 
-Worked example (Elise Sample case):
+Worked example (Casey Sample case):
   state=RESOLVED, urgency=HIGH, triage.has_action_items=True, is_internal=True
   → open_work False; Now badges exclude Action needed; urgency_active False;
     assessed urgency still HIGH; history may still show action needed.
@@ -328,7 +328,7 @@ def test_no_action_state_is_resolved_by_draftassistant_with_banner() -> None:
     assert "No action" not in [b.label for b in view.badges_now]
 
 
-def test_elise_manual_resolve_badge_and_banner() -> None:
+def test_casey_manual_resolve_badge_and_banner() -> None:
     view = derive_presentation(
         ThreadPolicyInput(
             state="RESOLVED",
@@ -338,12 +338,12 @@ def test_elise_manual_resolve_badge_and_banner() -> None:
             is_spam=False,
             is_internal=False,
             is_automated=False,
-            resolved_by="elise",
+            resolved_by="casey",
         )
     )
     assert view.disposition == DispositionKind.RESOLVED_ELISE
     assert view.primary_badge is not None
-    assert view.primary_badge.label == "Resolved by Elise"
+    assert view.primary_badge.label == "Resolved by Casey"
     assert view.show_resolution_banner is True
     assert view.resolution_mode == "manual"
 

@@ -1,4 +1,4 @@
-"""Logical contract tests for Elise's samplelab-rebilling Claude Skill.
+"""Logical contract tests for Casey's samplelab-rebilling Claude Skill.
 
 These assert Claude-style progressive disclosure as adapted in this app:
 
@@ -45,7 +45,7 @@ from tests.live_helpers import env_flag
 EXPECTED_REFS = {
     "references/client_rules.md",
     "references/output_format.md",
-    "references/harmeyer_departments.csv",
+    "references/samplepartner_departments.csv",
 }
 
 
@@ -96,14 +96,14 @@ def _email(*, subject: str, body: str) -> EmailMessageSchema:
     return EmailMessageSchema(
         message_id="m-samplelab-1",
         conversation_id="c-samplelab-1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="accounting@client.com",
         subject=subject,
         body_text=body,
         body_preview=body[:120],
         received_at=datetime.now(UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=[],
     )
 
@@ -147,7 +147,7 @@ def test_fixture_packages_like_claude_agent_skill() -> None:
     paths = {str(f["relative_path"]) for f in files}
     assert paths == EXPECTED_REFS
     assert all(f["kind"] == "reference" for f in files)
-    # No scripts shipped in Elise's package (and none should ever execute).
+    # No scripts shipped in Casey's package (and none should ever execute).
     assert not any(str(f["relative_path"]).startswith("scripts/") for f in files)
 
 
@@ -180,8 +180,8 @@ def test_level1_selector_prompt_exposes_name_description_not_body() -> None:
     )
     schema = skill_selection_service._to_selector_schema(row)
     user = skill_selector._build_user_content(
-        subject="SampleLab rebilling for Harmeyer",
-        body_preview="Please process the samplelab invoice and rebill Harmeyer.",
+        subject="SampleLab rebilling for SamplePartner",
+        body_preview="Please process the samplelab invoice and rebill SamplePartner.",
         triage=_billing_triage(),
         candidates=[schema],
     )
@@ -226,7 +226,7 @@ def test_level2_activation_injects_body_and_manifest_not_reference_bytes() -> No
         if f["relative_path"] == "references/output_format.md":
             assert "Collection Date" in text and "SSN Last 4" in text
             assert "SSN Last 4" not in block
-        if f["relative_path"] == "references/harmeyer_departments.csv":
+        if f["relative_path"] == "references/samplepartner_departments.csv":
             assert "Trolinder" in text or "Alvis" in text
             assert "Randy,Alvis,Maintenance" not in block
 
@@ -355,9 +355,9 @@ async def test_selection_funnel_offers_skill_to_haiku_for_billing_email() -> Non
             settings=_settings(),
             openai_client=None,
             email=_email(
-                subject="Process SampleLab invoice / rebill Harmeyer",
+                subject="Process SampleLab invoice / rebill SamplePartner",
                 body=(
-                    "Please process the samplelab invoice and rebill Harmeyer "
+                    "Please process the samplelab invoice and rebill SamplePartner "
                     "Transport for last month's screenings."
                 ),
             ),
@@ -376,7 +376,7 @@ async def test_selection_funnel_offers_skill_to_haiku_for_billing_email() -> Non
 
 @pytest.mark.asyncio
 async def test_draft_tool_loop_loads_client_rules_then_uses_content() -> None:
-    """Sonnet tool_use → tool_result with Elise client_rules → final draft."""
+    """Sonnet tool_use → tool_result with Casey client_rules → final draft."""
     name, description, body, _extras, files, _warnings = _parse_fixture()
     skill_id = uuid.uuid4()
     client_rules = next(
@@ -414,14 +414,14 @@ async def test_draft_tool_loop_loads_client_rules_then_uses_content() -> None:
 
     parsed = MagicMock()
     parsed.parsed_output = DraftSchema(
-        subject_line="Re: Process SampleLab invoice / rebill Harmeyer",
+        subject_line="Re: Process SampleLab invoice / rebill SamplePartner",
         reply_body=(
-            "We'll rebill Harmeyer Transport with department tabs "
+            "We'll rebill SamplePartner Transport with department tabs "
             "(Tank / HDV / Maintenance / Admin) and correct Trolinder spelling."
         ),
         suggested_recipients=[],
         forward_to=None,
-        teaching_note="SampleLab rebilling for Harmeyer; applied client rules.",
+        teaching_note="SampleLab rebilling for SamplePartner; applied client rules.",
         urgency="NORMAL",
         urgency_reason="Monthly billing workflow.",
     )
@@ -437,8 +437,8 @@ async def test_draft_tool_loop_loads_client_rules_then_uses_content() -> None:
     client.messages.parse = AsyncMock(return_value=parsed)
 
     email = _email(
-        subject="Process SampleLab invoice / rebill Harmeyer",
-        body="Please process the samplelab invoice and rebill Harmeyer Transport.",
+        subject="Process SampleLab invoice / rebill SamplePartner",
+        body="Please process the samplelab invoice and rebill SamplePartner Transport.",
     )
     result = await draft_llm.generate_draft(
         email,
@@ -457,25 +457,25 @@ async def test_draft_tool_loop_loads_client_rules_then_uses_content() -> None:
 
     assert result.tool_calls[0]["path"] == "references/client_rules.md"
     assert result.tool_calls[0]["is_error"] is False
-    # tool_result fed back into the conversation contains Elise's rules
+    # tool_result fed back into the conversation contains Casey's rules
     second_msgs = client.messages.create.await_args_list[1].kwargs["messages"]
     tool_user = next(
         m for m in second_msgs if m["role"] == "user" and isinstance(m["content"], list)
     )
     assert "Trolinder" in tool_user["content"][0]["content"]
-    assert "Harmeyer" in result.draft.reply_body
+    assert "SamplePartner" in result.draft.reply_body
     assert client.messages.parse.await_count == 1
 
 
 # ---------------------------------------------------------------------------
-# Live Anthropic — proves models behave as intended with Elise's skill
+# Live Anthropic — proves models behave as intended with Casey's skill
 # ---------------------------------------------------------------------------
 
 
 @pytest.fixture
 def live_skill_settings() -> Settings:
     if not env_flag("RUN_LIVE_SKILL"):
-        pytest.skip("Set RUN_LIVE_SKILL=1 to run live Elise skill logical tests")
+        pytest.skip("Set RUN_LIVE_SKILL=1 to run live Casey skill logical tests")
     settings = Settings()
     if not settings.anthropic_api_key.strip():
         pytest.skip("ANTHROPIC_API_KEY required in .env for RUN_LIVE_SKILL")
@@ -515,10 +515,10 @@ async def test_live_haiku_selects_samplelab_for_rebilling_email(
     selected = await skill_selector.select_skills(
         client=client,
         settings=live_skill_settings,
-        subject="Process SampleLab invoice and rebill Harmeyer",
+        subject="Process SampleLab invoice and rebill SamplePartner",
         body_preview=(
-            "Hi Elise — please process the samplelab invoice from SampleLabVendor and "
-            "rebill Harmeyer Transport for last month. Build the detail files."
+            "Hi Casey — please process the samplelab invoice from SampleLabVendor and "
+            "rebill SamplePartner Transport for last month. Build the detail files."
         ),
         triage=_billing_triage(),
         candidates=candidates,
@@ -565,10 +565,10 @@ async def test_live_haiku_rejects_samplelab_for_unrelated_scheduling_email(
 
 
 @pytest.mark.asyncio
-async def test_live_sonnet_reads_client_rules_for_harmeyer_draft(
+async def test_live_sonnet_reads_client_rules_for_samplepartner_draft(
     live_skill_settings: Settings,
 ) -> None:
-    """Real Sonnet: given Elise skill + Harmeyer ask, calls read_skill_reference.
+    """Real Sonnet: given Casey skill + SamplePartner ask, calls read_skill_reference.
 
     Uses an in-memory loader backed by the real zip (same bytes the DB would hold)
     so we prove the tool-loop contract without requiring a migrated DB.
@@ -604,9 +604,9 @@ async def test_live_sonnet_reads_client_rules_for_harmeyer_draft(
         return {"content": text, "bytes": len(text), "is_error": False}
 
     email = _email(
-        subject="Harmeyer SampleLab rebilling — department tabs",
+        subject="SamplePartner SampleLab rebilling — department tabs",
         body=(
-            "Please process the samplelab invoice and rebill Harmeyer Transport. "
+            "Please process the samplelab invoice and rebill SamplePartner Transport. "
             "Confirm department tabs and the Trolinder spelling before you reply "
             "with the plan for the monthly detail file."
         ),
@@ -636,17 +636,17 @@ async def test_live_sonnet_reads_client_rules_for_harmeyer_draft(
 
     paths_read = {c["path"] for c in result.tool_calls if not c.get("is_error")}
     assert paths_read & EXPECTED_REFS, (
-        "Sonnet should load at least one Elise reference via read_skill_reference "
+        "Sonnet should load at least one Casey reference via read_skill_reference "
         f"(got {result.tool_calls})"
     )
-    # Prefer client_rules for Harmeyer-specific ask; allow output_format as alternate.
+    # Prefer client_rules for SamplePartner-specific ask; allow output_format as alternate.
     assert (
         "references/client_rules.md" in paths_read
-        or "references/harmeyer_departments.csv" in paths_read
+        or "references/samplepartner_departments.csv" in paths_read
         or "references/output_format.md" in paths_read
     )
     lowered = result.draft.reply_body.lower()
-    assert "harmeyer" in lowered
+    assert "samplepartner" in lowered
     assert any(
         token in lowered
         for token in ("department", "tab", "rebill", "samplelab", "detail", "trolinder")

@@ -33,14 +33,14 @@ def test_resolve_does_not_salute_calendar_display_name() -> None:
 
 
 def test_resolve_salutes_person_shaped_display_on_normal_inbound() -> None:
-    mailbox = "elise@example.com"
+    mailbox = "casey@example.com"
     messages = [
         EmailMessageSchema(
             message_id="1",
             conversation_id="conv-1",
             mailbox=mailbox,
-            sender="kelvin@client.com",
-            sender_display_name="Kelvin Collado",
+            sender="jordan@client.com",
+            sender_display_name="Jordan Collado",
             subject="Screens updated",
             body_text="Both invoice screens are updated.",
             received_at=datetime(2026, 8, 28, 6, 27, tzinfo=UTC),
@@ -50,12 +50,12 @@ def test_resolve_salutes_person_shaped_display_on_normal_inbound() -> None:
     ]
     addressee = resolve_reply_addressee(mailbox=mailbox, messages=messages)
     assert addressee is not None
-    assert addressee.salute_name == "Kelvin"
+    assert addressee.salute_name == "Jordan"
     assert addressee.source_kind == "display"
 
 
 def test_resolve_rejects_org_shaped_display_name() -> None:
-    mailbox = "elise@example.com"
+    mailbox = "casey@example.com"
     messages = [
         EmailMessageSchema(
             message_id="1",
@@ -108,7 +108,7 @@ def test_resolve_does_not_salute_graph_name_on_empty_outbound_accept() -> None:
     addressee = resolve_reply_addressee(
         mailbox=mailbox,
         messages=messages,
-        mailbox_owner="Elise",
+        mailbox_owner="Casey",
     )
     assert addressee is not None
     assert addressee.email == "siddiq@sample-partner.example.com"
@@ -116,14 +116,14 @@ def test_resolve_does_not_salute_graph_name_on_empty_outbound_accept() -> None:
 
 
 def test_directory_overrides_display_name() -> None:
-    mailbox = "elise@example.com"
+    mailbox = "casey@example.com"
     messages = [
         EmailMessageSchema(
             message_id="1",
             conversation_id="conv-1",
             mailbox=mailbox,
-            sender="kelvin@client.com",
-            sender_display_name="Kelvin Collado",
+            sender="jordan@client.com",
+            sender_display_name="Jordan Collado",
             subject="Update",
             body_text="Done.",
             received_at=datetime(2026, 8, 28, 6, 27, tzinfo=UTC),
@@ -134,7 +134,7 @@ def test_directory_overrides_display_name() -> None:
     addressee = resolve_reply_addressee(
         mailbox=mailbox,
         messages=messages,
-        directory={"kelvin@client.com": "Kel"},
+        directory={"jordan@client.com": "Kel"},
     )
     assert addressee is not None
     assert addressee.salute_name == "Kel"

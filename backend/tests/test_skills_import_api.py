@@ -47,7 +47,7 @@ def local_settings() -> Settings:
 def _user(*, role: str = "admin") -> UserMe:
     return UserMe(
         id=uuid.uuid4(),
-        email="elise@example.com",
+        email="casey@example.com",
         role=role,  # type: ignore[arg-type]
         created_at=datetime.now(UTC),
     )
@@ -120,7 +120,7 @@ async def test_import_valid_zip_201(app_factory) -> None:
         reference_files=[
             "references/client_rules.md",
             "references/output_format.md",
-            "references/harmeyer_departments.csv",
+            "references/samplepartner_departments.csv",
         ],
         asset_files=[],
         warnings=[],

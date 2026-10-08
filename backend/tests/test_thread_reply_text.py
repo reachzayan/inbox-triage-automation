@@ -56,7 +56,7 @@ ZENDESK_UNIQUE_WALL = (
     "reply to this email.\n\n"
     "Alex Taylor (SampleHelpdesk)\n\n"
     "Aug 25, 2026, 8:55 AM MDT\n\n"
-    "Elise,\n\n"
+    "Casey,\n\n"
     "Can you provide a search ID that I can look into?\n\n"
     "Alex Taylor\n"
     "Customer Support\n\n"
@@ -67,7 +67,7 @@ ZENDESK_UNIQUE_WALL = (
     "Hi there.\n\n"
     "I updated the method for delivery last week.\n\n"
     "Thanks,\n"
-    "Elise\n"
+    "Casey\n"
 )
 
 
@@ -82,7 +82,7 @@ def test_reply_text_quote_splits_stored_zendesk_unique_wall() -> None:
     assert "Alex Taylor" in reply
     assert "follow-up to your previous request" not in reply
     assert "I updated the method for delivery" not in reply
-    assert "Thanks,\nElise" not in reply
+    assert "Thanks,\nCasey" not in reply
 
 
 # Worked example: SampleHelpdesk “solved” dump with three agent comments in a row.
@@ -91,14 +91,14 @@ ZENDESK_STACKED_AGENTS = (
     "[https://sample-helpdesk.example.com/system/photos/25898357572372/purple_flower_5.jpg]\n\n"
     "Alex Taylor (SampleHelpdesk)\n\n"
     "Aug 26, 2026, 3:48 PM MDT\n\n"
-    "Elise,\n\n"
+    "Casey,\n\n"
     "I am going to go ahead and close out this ticket.\n\n"
     "Alex Taylor\n"
     "Customer Support\n\n"
     "[https://sample-helpdesk.example.com/system/photos/25898357572372/purple_flower_5.jpg]\n\n"
     "Alex Taylor (SampleHelpdesk)\n\n"
     "Aug 25, 2026, 10:11 AM MDT\n\n"
-    "Elise,\n\n"
+    "Casey,\n\n"
     "I wanted to check in with you on this to see if you have further questions.\n\n"
     "Alex Taylor\n"
     "Customer Support\n\n"
@@ -214,7 +214,7 @@ async def test_thread_detail_reply_text_is_unique_content_not_quoted_wall(
     async def fake_user() -> UserMe:
         return UserMe(
             id=uuid.UUID("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-            email="elise@example.com",
+            email="casey@example.com",
             role="user",
             created_at=datetime.now(UTC),
         )

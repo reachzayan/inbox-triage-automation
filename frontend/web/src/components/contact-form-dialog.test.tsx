@@ -28,11 +28,11 @@ const renderDialog = (props: Partial<ComponentProps<typeof ContactFormDialog>> =
     <QueryClientProvider client={client}>
       <ContactFormDialog
         mode="edit"
-        mailbox="elise@example.com"
+        mailbox="casey@example.com"
         open
         onOpenChange={vi.fn()}
         initialEmail="samplecontact@example.com"
-        initialFirstName="Kelvin"
+        initialFirstName="Jordan"
         emailLocked
         {...props}
       />
@@ -48,18 +48,18 @@ describe("ContactFormDialog", () => {
   it("loads saved full name when reopening an existing contact", async () => {
     getOneMock.mockResolvedValue({
       email: "samplecontact@example.com",
-      first_name: "Kelvin",
-      full_name: "Kelvin Collado",
+      first_name: "Jordan",
+      full_name: "Jordan Collado",
       notes: "Goes by Kel",
       created_at: "2026-08-01T12:00:00Z",
       updated_at: "2026-08-25T12:00:00Z",
     })
     renderDialog({ initialFullName: "" })
     await waitFor(() => {
-      expect(screen.getByLabelText("Contact full name")).toHaveValue("Kelvin Collado")
+      expect(screen.getByLabelText("Contact full name")).toHaveValue("Jordan Collado")
     })
     expect(screen.getByLabelText("Contact notes")).toHaveValue("Goes by Kel")
-    expect(getOneMock).toHaveBeenCalledWith("elise@example.com", "samplecontact@example.com")
+    expect(getOneMock).toHaveBeenCalledWith("casey@example.com", "samplecontact@example.com")
   })
 
   it("keeps an explicitly passed full name even before fetch settles", async () => {
@@ -69,7 +69,7 @@ describe("ContactFormDialog", () => {
           /* never resolves */
         }),
     )
-    renderDialog({ initialFullName: "Kelvin Collado" })
-    expect(await screen.findByLabelText("Contact full name")).toHaveValue("Kelvin Collado")
+    renderDialog({ initialFullName: "Jordan Collado" })
+    expect(await screen.findByLabelText("Contact full name")).toHaveValue("Jordan Collado")
   })
 })

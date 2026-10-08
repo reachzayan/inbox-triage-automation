@@ -3,7 +3,7 @@
     "type": "header",
     "text": {
       "type": "plain_text",
-      "text": "\ud83d\udfe0 HIGH \u00b7 elise@sample-company.example.com \u00b7 Re: Need screening packet",
+      "text": "\ud83d\udfe0 HIGH \u00b7 casey@sample-company.example.com \u00b7 Re: Need screening packet",
       "emoji": true
     }
   },
@@ -55,7 +55,7 @@
         },
         "style": "primary",
         "action_id": "inbox_triage_approve",
-        "value": "elise@sample-company.example.com|AAMkAG-msg-001"
+        "value": "casey@sample-company.example.com|AAMkAG-msg-001"
       },
       {
         "type": "button",
@@ -65,7 +65,7 @@
           "emoji": true
         },
         "action_id": "inbox_triage_edit",
-        "value": "elise@sample-company.example.com|AAMkAG-msg-001"
+        "value": "casey@sample-company.example.com|AAMkAG-msg-001"
       },
       {
         "type": "button",
@@ -76,7 +76,7 @@
         },
         "style": "danger",
         "action_id": "inbox_triage_reject",
-        "value": "elise@sample-company.example.com|AAMkAG-msg-001"
+        "value": "casey@sample-company.example.com|AAMkAG-msg-001"
       }
     ]
   }

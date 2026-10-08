@@ -31,7 +31,7 @@ def test_empty_body_is_not_closing() -> None:
 # Worked example: Sample Case 70300 follow-up (latest inbound asks to proceed;
 # quoted prior email starts with "Thank you again").
 _METHOD_PS_FOLLOW_UP = (
-    "Hi Elise and Brad,\n"
+    "Hi Casey and Brad,\n"
     "\n"
     "I wanted to follow up on my previous email regarding the payment sync "
     "issues and the complimentary hour of Professional Services time we "
@@ -69,7 +69,7 @@ def test_courtesy_close_above_quoted_ask_is_still_closing() -> None:
 # (thread 1b7d02b5-7b16-44a9-9976-3f6e05fdef37). Asks for approval; "Thank you!"
 # is a sign-off, not a courtesy close. Spanish Outlook quote sits below.
 _KAROL_CALENDAR_FOLLOW_UP = (
-    "Hi Elise and Jodi,\n"
+    "Hi Casey and Jodi,\n"
     "Just following up on Weeks 3 and 4 of the SampleSite content calendar\n"
     "No rush, but if possible, it would be great to have your approval by the "
     "end of the week so we can keep things moving\n"
@@ -83,7 +83,7 @@ _KAROL_CALENDAR_FOLLOW_UP = (
     "Enviado: martes, 18 de agosto de 2026 15:23\n"
     "Asunto: Content Calendar - (FB-IG-LK)\n"
     "\n"
-    "Hi Elise and Jodi,\n"
+    "Hi Casey and Jodi,\n"
     "I\u2019m sharing Weeks 3 and 4 of the SampleSite content calendar for your review\n"
     "Thank you!\n"
 )

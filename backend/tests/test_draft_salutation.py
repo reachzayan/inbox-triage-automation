@@ -10,7 +10,7 @@ from app.core.draft_salutation import format_opening_salutation, rewrite_opening
 @pytest.mark.parametrize(
     ("salute_name", "expected"),
     [
-        ("Kelvin", "Hi Kelvin,"),
+        ("Jordan", "Hi Jordan,"),
         ("team", "Hi team,"),
         ("", "Hi,"),
         ("  ", "Hi,"),
@@ -21,31 +21,31 @@ def test_format_opening_salutation(salute_name: str, expected: str) -> None:
 
 
 def test_rewrite_replaces_named_hi_greeting() -> None:
-    body = "Hi Samplecontact,\n\nThanks for reaching out.\n\nBest,\nElise\n"
-    assert rewrite_opening_salutation(body, "Kelvin") == (
-        "Hi Kelvin,\n\nThanks for reaching out.\n\nBest,\nElise\n"
+    body = "Hi Samplecontact,\n\nThanks for reaching out.\n\nBest,\nCasey\n"
+    assert rewrite_opening_salutation(body, "Jordan") == (
+        "Hi Jordan,\n\nThanks for reaching out.\n\nBest,\nCasey\n"
     )
 
 
 def test_rewrite_replaces_bare_hi() -> None:
     body = "Hi,\n\nThanks for the note.\n"
-    assert rewrite_opening_salutation(body, "Kelvin") == "Hi Kelvin,\n\nThanks for the note.\n"
+    assert rewrite_opening_salutation(body, "Jordan") == "Hi Jordan,\n\nThanks for the note.\n"
 
 
 def test_rewrite_to_bare_hi_when_name_cleared() -> None:
-    body = "Hi Kelvin,\n\nBody here.\n"
+    body = "Hi Jordan,\n\nBody here.\n"
     assert rewrite_opening_salutation(body, "") == "Hi,\n\nBody here.\n"
 
 
 def test_rewrite_hello_greeting_normalized_to_hi() -> None:
-    body = "Hello Beau,\n\nChecking in.\n"
-    assert rewrite_opening_salutation(body, "Kelvin") == "Hi Kelvin,\n\nChecking in.\n"
+    body = "Hello Taylor,\n\nChecking in.\n"
+    assert rewrite_opening_salutation(body, "Jordan") == "Hi Jordan,\n\nChecking in.\n"
 
 
 def test_rewrite_prepends_when_no_greeting_line() -> None:
     body = "Thanks for reaching out about pricing.\n"
-    assert rewrite_opening_salutation(body, "Kelvin") == (
-        "Hi Kelvin,\n\nThanks for reaching out about pricing.\n"
+    assert rewrite_opening_salutation(body, "Jordan") == (
+        "Hi Jordan,\n\nThanks for reaching out about pricing.\n"
     )
 
 

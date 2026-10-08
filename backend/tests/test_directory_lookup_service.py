@@ -19,7 +19,7 @@ def _msg(
     sender: str,
     to: list[str],
     cc: list[str] | None = None,
-    mailbox: str = "elise@example.com",
+    mailbox: str = "casey@example.com",
 ) -> EmailMessageSchema:
     return EmailMessageSchema(
         message_id=message_id,
@@ -37,7 +37,7 @@ def _msg(
 
 
 async def test_build_directory_one_query_and_global_share(db_session) -> None:
-    mailbox = "elise@example.com"
+    mailbox = "casey@example.com"
     for i in range(8):
         await mailbox_contact_repo.upsert(
             db_session,
@@ -88,7 +88,7 @@ async def test_build_directory_one_query_and_global_share(db_session) -> None:
     select_count = sum(1 for q in queries if "SELECT" in q.upper() and "mailbox_contacts" in q)
     assert select_count == 1
 
-    # Contact saved under Elise must greet the same person on Bob's mailbox.
+    # Contact saved under Casey must greet the same person on Bob's mailbox.
     bob_dir = await directory_lookup_service.build_directory(
         db_session,
         "bob@example.com",

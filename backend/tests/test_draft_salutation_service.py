@@ -71,13 +71,13 @@ async def test_apply_rewrites_body_and_upserts_contact() -> None:
     thread = _thread(draft.thread_id)
     contact = MailboxContactView(
         email="samplecontact@sample-vendor.example.com",
-        full_name="Kelvin Collado",
-        first_name="Kelvin",
+        full_name="Jordan Collado",
+        first_name="Jordan",
         notes=None,
         created_at=datetime.now(UTC),
         updated_at=datetime.now(UTC),
     )
-    rewritten = draft.model_copy(update={"edited_body": "Hi Kelvin,\n\nThanks for reaching out."})
+    rewritten = draft.model_copy(update={"edited_body": "Hi Jordan,\n\nThanks for reaching out."})
 
     with (
         patch(
@@ -106,19 +106,19 @@ async def test_apply_rewrites_body_and_upserts_contact() -> None:
             _settings(),
             draft.id,
             email="samplecontact@sample-vendor.example.com",
-            first_name="Kelvin",
-            full_name="Kelvin Collado",
+            first_name="Jordan",
+            full_name="Jordan Collado",
             notes=None,
             actor_user_id=None,
         )
 
-    assert draft_view.body == "Hi Kelvin,\n\nThanks for reaching out."
-    assert addressee.salute_name == "Kelvin"
+    assert draft_view.body == "Hi Jordan,\n\nThanks for reaching out."
+    assert addressee.salute_name == "Jordan"
     assert addressee.directory_hit is True
-    assert saved_contact.first_name == "Kelvin"
+    assert saved_contact.first_name == "Jordan"
     upsert.assert_awaited_once()
     set_body.assert_awaited_once()
-    assert set_body.await_args.kwargs["edited_body"] == "Hi Kelvin,\n\nThanks for reaching out."
+    assert set_body.await_args.kwargs["edited_body"] == "Hi Jordan,\n\nThanks for reaching out."
 
 
 @pytest.mark.asyncio

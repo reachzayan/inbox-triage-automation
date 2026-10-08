@@ -7,7 +7,7 @@ describe("reviewer dates", () => {
     vi.useRealTimers()
   })
 
-  it("prints 8/10/2026 for Kelvin's August 10 example, not 10/8", () => {
+  it("prints 8/10/2026 for Jordan's August 10 example, not 10/8", () => {
     const text = formatReviewerDate("2026-08-10T14:00:00Z")
     expect(text).toContain("8/10/2026")
     expect(text).not.toMatch(/10\/8/)

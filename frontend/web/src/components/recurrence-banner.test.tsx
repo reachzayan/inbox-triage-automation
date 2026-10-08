@@ -29,7 +29,7 @@ const escalated: ActivityEntry = {
 const markedWrong: ActivityEntry = {
   title: "Automatic urgency bump marked wrong",
   body: "We reverted this thread and will not auto-bump this alert fingerprint again.",
-  actor_kind: "elise",
+  actor_kind: "casey",
   event_type: "thread.urgency.recurrence_wrong",
   timestamp: "2026-08-21T16:05:00Z",
 }

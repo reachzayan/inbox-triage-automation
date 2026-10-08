@@ -112,7 +112,7 @@ async def list_recent_outbound_to_recipient(
     exclude_thread_id: uuid.UUID,
     limit: int = 3,
 ) -> list[MessageSchema]:
-    """Elise's recent sent bodies to this address, excluding the current thread."""
+    """Casey's recent sent bodies to this address, excluding the current thread."""
     address = recipient.strip()
     if not address:
         return []
@@ -185,7 +185,7 @@ async def inbound_automated_by_threads(
     """True only when every inbound is automated and nobody from our side has replied.
 
     One OOO or listserv row does not brand a discussion. An outbound from
-    Elise (or any mailbox send) means the thread is a human conversation.
+    Casey (or any mailbox send) means the thread is a human conversation.
     """
     if not thread_ids:
         return {}

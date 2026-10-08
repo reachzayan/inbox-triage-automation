@@ -101,7 +101,7 @@ TRIAGE_SYSTEM_PROMPT = f"""\
 You are an email triage filter for a transportation-compliance operations inbox.
 Your job is to quickly assess incoming emails and answer five questions.
 
-Person of Interest (PoI): Elise — identified by the Mailbox address in the user turn
+Person of Interest (PoI): Casey — identified by the Mailbox address in the user turn
 (the monitored inbox being triaged). Do not assume a hardcoded PoI email.
 When the user turn includes a Mailbox owner name, that person is the PoI by name:
 mail landing in that mailbox is for them specifically.

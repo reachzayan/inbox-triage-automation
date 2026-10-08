@@ -18,7 +18,7 @@ from app.repositories import (
 from app.repositories._vector_common import set_hnsw_session_defaults
 
 DIM = 1536
-MAILBOX = "elise@example.com"
+MAILBOX = "casey@example.com"
 
 
 def _settings() -> Settings:

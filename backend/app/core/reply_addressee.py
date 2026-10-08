@@ -31,7 +31,7 @@ _AGENT_BYLINE = re.compile(
     + "\u2019"
     + r"\-]{1,40})?\s*\([^)\n]{2,80}\)\s*$"
 )
-# Bare closing: "Alex Taylor\nCustomer Support" or "Cydney Blumenthal\nDirector of …"
+# Bare closing: "Alex Taylor\nCustomer Support" or "Casey Parker\nDirector of …"
 # Title vocabulary follows common business-signature patterns (Director/VP/Manager/…).
 _TITLE_CLOSING = re.compile(
     r"(?im)\n([A-Z][a-zA-Z'"
@@ -439,7 +439,7 @@ def participant_first_names(
     confident person name from that address's sign-off, then gated Graph From
     display. Never the email local-part or a role/org mailbox label. The
     configured mailbox owner is used for the mailbox address so outbound
-    timeline rows can say ``Elise replied`` rather than a Graph role name.
+    timeline rows can say ``Casey replied`` rather than a Graph role name.
     """
     if not messages:
         return {}

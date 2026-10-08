@@ -6,7 +6,7 @@ import { CourtesyCloseBanner } from "@/components/courtesy-close-banner"
 const OLIVIA =
   "Sounds good, thanks! Let me know if you're unable to join Friday. Otherwise we are all set."
 const BILLING =
-  "Hi Elise — please process the samplelab invoice from SampleLabVendor and rebill Harmeyer Transport for last month."
+  "Hi Casey — please process the samplelab invoice from SampleLabVendor and rebill SamplePartner Transport for last month."
 
 describe("CourtesyCloseBanner", () => {
   it("shows the no-reply hint for a drafted courtesy close", () => {

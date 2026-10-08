@@ -1,7 +1,7 @@
 /** Reviewer-facing dates.
 
 The Vercel i18n guideline is to use the browser locale. This product pins
-`en-US` instead so calendar dates stay month/day (Kelvin: 8/10, not 10/8).
+`en-US` instead so calendar dates stay month/day (Jordan: 8/10, not 10/8).
 Ops-report YMD (`en-CA`) is unchanged.
 */
 

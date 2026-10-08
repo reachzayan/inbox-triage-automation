@@ -14,7 +14,7 @@ from app.models.db.message import Message
 from app.models.db.thread import Thread
 from app.models.schemas.dashboard import ThreadSummary
 from app.repositories import audit_repo, draft_repo, message_repo
-from app.repositories.thread_disposition_sql import latest_draft_ranked, needs_elise_action
+from app.repositories.thread_disposition_sql import latest_draft_ranked, needs_casey_action
 from app.repositories.thread_list_helpers import (
     card_preview,
     display_state,
@@ -108,7 +108,7 @@ async def list_recent_for_mailboxes(
         )
         .where(
             Thread.mailbox.in_(mailbox_emails),
-            needs_elise_action(latest_draft),
+            needs_casey_action(latest_draft),
         )
         .subquery()
     )

@@ -84,7 +84,7 @@ _ZENDESK_UNIQUE_WALL = (
     "reply to this email.\n\n"
     "Alex Taylor (SampleHelpdesk)\n\n"
     "Aug 25, 2026, 8:55 AM MDT\n\n"
-    "Elise,\n\n"
+    "Casey,\n\n"
     "Can you provide a search ID that I can look into?\n\n"
     "Alex Taylor\n"
     "Customer Support\n\n"
@@ -95,7 +95,7 @@ _ZENDESK_UNIQUE_WALL = (
     "Hi there.\n\n"
     "I updated the method for delivery last week.\n\n"
     "Thanks,\n"
-    "Elise\n"
+    "Casey\n"
 )
 
 
@@ -113,7 +113,7 @@ def test_zendesk_graph_unique_body_is_quote_split_to_newest_comment() -> None:
     assert "Alex Taylor" in email.unique_body_text
     assert "follow-up to your previous request" not in email.unique_body_text
     assert "I updated the method for delivery" not in email.unique_body_text
-    assert "Thanks,\nElise" not in email.unique_body_text
+    assert "Thanks,\nCasey" not in email.unique_body_text
 
 
 def test_html_unique_body_is_stored_as_plain_text() -> None:
@@ -149,7 +149,7 @@ def test_graph_schema_parses_meeting_message_fields() -> None:
             "body": {"contentType": "text", "content": ""},
             "meetingMessageType": "meetingAccepted",
             "responseType": "accepted",
-            "from": {"emailAddress": {"name": "Elise", "address": MAILBOX}},
+            "from": {"emailAddress": {"name": "Casey", "address": MAILBOX}},
             "receivedDateTime": "2026-08-26T15:39:54Z",
             "conversationId": CONVERSATION_ID,
         }
@@ -171,7 +171,7 @@ def test_meeting_accepted_is_mapped_onto_email_schema() -> None:
                 "body": {"contentType": "text", "content": ""},
                 "meetingMessageType": "meetingAccepted",
                 "responseType": "accepted",
-                "from": {"emailAddress": {"name": "Elise", "address": MAILBOX}},
+                "from": {"emailAddress": {"name": "Casey", "address": MAILBOX}},
                 "receivedDateTime": "2026-08-20T16:05:08Z",
                 "conversationId": CONVERSATION_ID,
             }

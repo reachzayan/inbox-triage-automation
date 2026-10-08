@@ -14,7 +14,7 @@ def _embedding_row(**overrides: object) -> MagicMock:
     row = MagicMock()
     row.id = overrides.get("id", uuid.uuid4())
     row.draft_id = overrides.get("draft_id", uuid.uuid4())
-    row.mailbox = overrides.get("mailbox", "elise@example.com")
+    row.mailbox = overrides.get("mailbox", "casey@example.com")
     row.reply_text = overrides.get("reply_text", "Thanks — sending now.")
     row.original_email_preview = overrides.get("original_email_preview")
     row.learning_note = overrides.get("learning_note")
@@ -35,7 +35,7 @@ async def test_store_returns_existing_when_present() -> None:
     stored = await reply_embedding_repo.store_reply_embedding(
         session,
         draft_id=draft_id,
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         embedding=[0.1, 0.2],
         reply_text="ignored",
     )
@@ -59,7 +59,7 @@ async def test_store_inserts_when_missing() -> None:
     stored = await reply_embedding_repo.store_reply_embedding(
         session,
         draft_id=draft_id,
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         embedding=[0.1, 0.2],
         reply_text="New reply",
     )
@@ -83,7 +83,7 @@ async def test_store_conflict_refetches() -> None:
     stored = await reply_embedding_repo.store_reply_embedding(
         session,
         draft_id=draft_id,
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         embedding=[0.1],
         reply_text="loser",
     )
@@ -116,7 +116,7 @@ async def test_find_similar_with_mailbox() -> None:
     texts = await reply_embedding_repo.find_similar_replies(
         session,
         query_embedding=[0.1, 0.2],
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         limit=3,
     )
     assert texts == ["Similar reply"]
@@ -149,7 +149,7 @@ async def test_set_excluded_updates_row() -> None:
     update_result.scalar_one_or_none.return_value = updated
     list_result = MagicMock()
     list_result.all.return_value = [
-        (updated, thread_id, "Re: Quote", "similar", "kelvin@example.com"),
+        (updated, thread_id, "Re: Quote", "similar", "jordan@example.com"),
     ]
     session = AsyncMock()
     session.execute = AsyncMock(side_effect=[update_result, list_result])
@@ -197,7 +197,7 @@ async def test_list_reply_embeddings() -> None:
 
     listed = await reply_embedding_repo.list_reply_embeddings(
         session,
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         limit=10,
     )
     assert len(listed) == 2

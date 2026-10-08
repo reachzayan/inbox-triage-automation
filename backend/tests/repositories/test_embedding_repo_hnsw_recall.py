@@ -12,7 +12,7 @@ from app.models.db.email_embedding import EmailEmbedding
 from app.repositories import embedding_repo
 
 DIM = 1536
-MAILBOX = "elise@example.com"
+MAILBOX = "casey@example.com"
 
 
 def _unit(index: int) -> list[float]:
@@ -42,7 +42,7 @@ async def test_hnsw_recall_at_10_is_non_decreasing_with_ef_search(db_session) ->
                 mailbox=MAILBOX,
                 conversation_id=f"near-{i}",
                 sender_email="vendor@example.com",
-                recipient_emails=["elise@example.com"],
+                recipient_emails=["casey@example.com"],
                 cc_emails=[],
                 embedding=_near(0.99 - i * 0.005),
                 sent_at=now,
@@ -56,7 +56,7 @@ async def test_hnsw_recall_at_10_is_non_decreasing_with_ef_search(db_session) ->
                 mailbox=MAILBOX,
                 conversation_id=f"far-{i}",
                 sender_email="other@example.com",
-                recipient_emails=["elise@example.com"],
+                recipient_emails=["casey@example.com"],
                 cc_emails=[],
                 embedding=_unit(20 + i),
                 sent_at=now,
@@ -121,7 +121,7 @@ async def test_recall_meets_baseline_after_migration(db_session) -> None:
                 mailbox=MAILBOX,
                 conversation_id=f"near-{i}",
                 sender_email="vendor@example.com",
-                recipient_emails=["elise@example.com"],
+                recipient_emails=["casey@example.com"],
                 cc_emails=[],
                 embedding=vec,
                 sent_at=now,
@@ -139,7 +139,7 @@ async def test_recall_meets_baseline_after_migration(db_session) -> None:
                 mailbox=MAILBOX,
                 conversation_id=f"far-{i}",
                 sender_email="other@example.com",
-                recipient_emails=["elise@example.com"],
+                recipient_emails=["casey@example.com"],
                 cc_emails=[],
                 embedding=vec,
                 sent_at=now,
@@ -194,7 +194,7 @@ async def test_contains_filter_uses_trgm_index(db_session) -> None:
                 mailbox=MAILBOX,
                 conversation_id=f"trgm-{i}",
                 sender_email="vendor@example.com",
-                recipient_emails=["elise@example.com"],
+                recipient_emails=["casey@example.com"],
                 cc_emails=[],
                 embedding=_unit(i),
                 sent_at=now,
@@ -243,7 +243,7 @@ async def test_recency_fallback_uses_composite_index(db_session) -> None:
                 mailbox=MAILBOX if i % 2 == 0 else "other@example.com",
                 conversation_id=f"recency-{i}",
                 sender_email="vendor@example.com",
-                recipient_emails=["elise@example.com"],
+                recipient_emails=["casey@example.com"],
                 cc_emails=[],
                 embedding=_unit(i),
                 sent_at=now,

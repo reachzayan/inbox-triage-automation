@@ -42,7 +42,7 @@ async def test_store_rejection_skips_without_openai() -> None:
         openai_client=None,
         settings=settings,
         draft_id=uuid.uuid4(),
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         routing_category="billing",
         reason_code="tone",
         note="Too curt",
@@ -58,7 +58,7 @@ async def test_find_negative_constraints_uses_recent_when_few() -> None:
         RejectionMemorySchema(
             id=uuid.uuid4(),
             draft_id=uuid.uuid4(),
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             routing_category="billing",
             reason_code="tone",
             note="Too curt",
@@ -73,7 +73,7 @@ async def test_find_negative_constraints_uses_recent_when_few() -> None:
             openai_client=MagicMock(),
             settings=settings,
             email_text="Invoice overdue",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             routing_category="billing",
             limit=3,
         )
@@ -90,7 +90,7 @@ async def test_find_negative_constraints_empty_without_openai() -> None:
         openai_client=None,
         settings=settings,
         email_text="hello",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         routing_category="general",
     )
     assert constraints == []

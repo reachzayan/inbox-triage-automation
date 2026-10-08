@@ -25,7 +25,7 @@ def _msg(
     return EmailMessageSchema(
         message_id=mid,
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="a@example.com",
         subject="Subj",
         body_text=body,
@@ -41,7 +41,7 @@ def test_pack_short_thread_uses_full_bodies() -> None:
     packed = pack_same_thread(
         ThreadContextSchema(
             conversation_id="c1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             subject="S",
             messages=msgs,
         ),
@@ -56,7 +56,7 @@ def test_pack_long_thread_summarizes_older() -> None:
     packed = pack_same_thread(
         ThreadContextSchema(
             conversation_id="c1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             subject="S",
             messages=msgs,
         ),
@@ -115,10 +115,10 @@ def _long_thread() -> list[EmailMessageSchema]:
             EmailMessageSchema(
                 message_id=mid,
                 conversation_id="c1",
-                mailbox="elise@example.com",
+                mailbox="casey@example.com",
                 sender="buyer@acme.com"
                 if direction == EmailDirectionEnum.INBOUND
-                else "elise@example.com",
+                else "casey@example.com",
                 subject="Subj",
                 body_text=body,
                 body_clean=body,
@@ -134,11 +134,11 @@ def test_working_memory_pack_orders_pins_facts_first_inbound_outbound_tail() -> 
     """Pins and facts at the start; original ask then her send; latest last."""
     pin = "Do not CC legal"
     fact_a = "Check 11111 is for driver Ames"
-    fact_b = "Elise cancelled check 11111 in the portal"
+    fact_b = "Casey cancelled check 11111 in the portal"
     packed = pack_same_thread(
         ThreadContextSchema(
             conversation_id="c1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             subject="S",
             messages=_long_thread(),
         ),
@@ -173,7 +173,7 @@ def test_pack_without_pins_or_facts_keeps_one_liners_for_long_thread() -> None:
     packed = pack_same_thread(
         ThreadContextSchema(
             conversation_id="c1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             subject="S",
             messages=_long_thread(),
         ),
@@ -190,7 +190,7 @@ def test_working_memory_pack_includes_recipient_prior_sends_after_facts() -> Non
     packed = pack_same_thread(
         ThreadContextSchema(
             conversation_id="c1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             subject="S",
             messages=_long_thread(),
         ),
@@ -207,7 +207,7 @@ def test_org_identity_omitted_when_empty() -> None:
     packed = pack_same_thread(
         ThreadContextSchema(
             conversation_id="c1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             subject="S",
             messages=_long_thread(),
         ),
@@ -223,7 +223,7 @@ def test_org_identity_included_when_set() -> None:
     packed = pack_same_thread(
         ThreadContextSchema(
             conversation_id="c1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             subject="S",
             messages=_long_thread(),
         ),

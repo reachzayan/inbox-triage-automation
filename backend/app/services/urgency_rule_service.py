@@ -219,17 +219,17 @@ async def record_overrides_if_edited(
 
     pred = await urgency_prediction_repo.get_urgency_prediction_by_draft_id(session, draft_id)
     if pred is None or not pred.applied_rule_ids:
-        await urgency_prediction_repo.set_elise_edited_to(session, draft_id, new_urgency)
+        await urgency_prediction_repo.set_casey_edited_to(session, draft_id, new_urgency)
         return
     if pred.final_urgency != previous_urgency:
-        await urgency_prediction_repo.set_elise_edited_to(session, draft_id, new_urgency)
+        await urgency_prediction_repo.set_casey_edited_to(session, draft_id, new_urgency)
         return
     for rule_id in pred.applied_rule_ids:
         try:
             await urgency_rule_repo.increment_override_count(session, rule_id)
         except Exception:
             logger.warning("urgency_rule_override_increment_failed", rule_id=str(rule_id))
-    await urgency_prediction_repo.set_elise_edited_to(session, draft_id, new_urgency)
+    await urgency_prediction_repo.set_casey_edited_to(session, draft_id, new_urgency)
 
 
 def _embedding_nonzero(vec: object) -> bool:
@@ -298,10 +298,10 @@ async def _backfill_precision(
     for pred in traces:
         if (pred.sender_domain or "").lower() != domain.lower():
             continue
-        if not pred.elise_edited_to:
+        if not pred.casey_edited_to:
             continue
         den += 1
-        if pred.elise_edited_to == new_urgency:
+        if pred.casey_edited_to == new_urgency:
             num += 1
     if den == 0:
         return None, None

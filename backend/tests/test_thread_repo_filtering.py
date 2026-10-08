@@ -46,7 +46,7 @@ def _compiled(stmt: object) -> str:
 @pytest.mark.asyncio
 async def test_list_by_mailbox_includes_filtered_states_by_default() -> None:
     session = _CapturingSession()
-    await thread_repo.list_by_mailbox(session, "elise@example.com")  # type: ignore[arg-type]
+    await thread_repo.list_by_mailbox(session, "casey@example.com")  # type: ignore[arg-type]
 
     sql = _compiled(session.statements[0])
     assert "threads.state NOT IN" not in sql
@@ -56,7 +56,7 @@ async def test_list_by_mailbox_includes_filtered_states_by_default() -> None:
 async def test_list_by_mailbox_explicit_state_filters_single_state() -> None:
     session = _CapturingSession()
     await thread_repo.list_by_mailbox(  # type: ignore[arg-type]
-        session, "elise@example.com", state=ThreadStateEnum.SPAM.value
+        session, "casey@example.com", state=ThreadStateEnum.SPAM.value
     )
 
     sql = _compiled(session.statements[0])
@@ -69,7 +69,7 @@ async def test_list_by_mailbox_date_from_bounds_last_message_at() -> None:
     session = _CapturingSession()
     await thread_repo.list_by_mailbox(  # type: ignore[arg-type]
         session,
-        "elise@example.com",
+        "casey@example.com",
         date_from=date(2026, 8, 1),
     )
 
@@ -82,7 +82,7 @@ async def test_list_by_mailbox_date_to_is_exclusive_end_of_day() -> None:
     session = _CapturingSession()
     await thread_repo.list_by_mailbox(  # type: ignore[arg-type]
         session,
-        "elise@example.com",
+        "casey@example.com",
         date_to=date(2026, 8, 28),
     )
 
@@ -94,7 +94,7 @@ def _fake_thread_row(thread_id: uuid.UUID, *, state: str, urgency: str | None) -
     now = datetime.now(UTC)
     return SimpleNamespace(
         id=thread_id,
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         conversation_id="c1",
         subject="Subject",
         state=state,

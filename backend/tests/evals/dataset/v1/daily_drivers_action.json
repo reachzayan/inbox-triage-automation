@@ -17,5 +17,5 @@
   },
   "use_samplelab_skill": false,
   "expected_tools": [],
-  "geval_criteria": "Automated operational alert: Elise must act in the portal; no email reply. has_action_items true, draft_needed false."
+  "geval_criteria": "Automated operational alert: Casey must act in the portal; no email reply. has_action_items true, draft_needed false."
 }

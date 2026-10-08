@@ -20,14 +20,14 @@ def _email() -> EmailMessageSchema:
     return EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="client@example.com",
         subject="Process SampleLab invoice",
-        body_text="Please rebill Harmeyer.",
+        body_text="Please rebill SamplePartner.",
         body_preview="Please rebill",
         received_at=datetime.now(UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=[],
     )
 

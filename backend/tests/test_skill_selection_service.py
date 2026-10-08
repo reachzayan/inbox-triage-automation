@@ -32,14 +32,14 @@ def _email() -> EmailMessageSchema:
     return EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="client@example.com",
         subject="Invoice question",
         body_text="Please clarify the invoice.",
         body_preview="Please clarify",
         received_at=datetime.now(UTC),
         direction=EmailDirectionEnum.INBOUND,
-        to_recipients=["elise@example.com"],
+        to_recipients=["casey@example.com"],
         cc_recipients=[],
         has_attachments=False,
     )

@@ -22,22 +22,22 @@ from app.repositories.audit_repo import triage_flags_from_event
 
 def test_same_mailbox_domain_is_internal() -> None:
     assert is_internal_sender(
-        "kelvin@sample-site.example.com",
-        "elise@sample-site.example.com",
+        "jordan@sample-site.example.com",
+        "casey@sample-site.example.com",
     )
 
 
 def test_display_name_and_case_still_internal() -> None:
     assert is_internal_sender(
-        "Kelvin Holt <Kelvin@sample-site.example.com>",
-        "elise@sample-site.example.com",
+        "Jordan Holt <Jordan@sample-site.example.com>",
+        "casey@sample-site.example.com",
     )
 
 
 def test_allowlisted_extra_domain_is_internal() -> None:
     assert is_internal_sender(
         "ops@sisterco.example",
-        "elise@sample-site.example.com",
+        "casey@sample-site.example.com",
         extra_domains=["sisterco.example"],
     )
 
@@ -46,14 +46,14 @@ def test_body_keyword_is_irrelevant_to_internal_flag() -> None:
     """INTERNAL in a body is not an input to is_internal_sender."""
     assert not is_internal_sender(
         "customer@gmail.com",
-        "elise@sample-site.example.com",
+        "casey@sample-site.example.com",
         extra_domains=[],
     )
 
 
 def test_gmail_customer_is_not_internal() -> None:
     assert not is_internal_sender(
-        "notarysdca@gmail.com",
+        "notary@example.com",
         "info@sample-services.example.com",
     )
 
@@ -67,9 +67,9 @@ def test_mailbox_sending_itself_is_not_internal() -> None:
 
 
 def test_missing_or_unknown_sender_is_not_internal() -> None:
-    assert not is_internal_sender("", "elise@sample-site.example.com")
-    assert not is_internal_sender("unknown", "elise@sample-site.example.com")
-    assert not is_internal_sender("not-an-email", "elise@sample-site.example.com")
+    assert not is_internal_sender("", "casey@sample-site.example.com")
+    assert not is_internal_sender("unknown", "casey@sample-site.example.com")
+    assert not is_internal_sender("not-an-email", "casey@sample-site.example.com")
 
 
 def test_internal_policy_clears_llm_spam_flag() -> None:
@@ -87,7 +87,7 @@ def test_internal_policy_clears_llm_spam_flag() -> None:
     result = apply_internal_mail_policy(
         llm,
         sender="hr@sample-site.example.com",
-        mailbox="elise@sample-site.example.com",
+        mailbox="casey@sample-site.example.com",
     )
     assert result.is_spam is False
     assert result.spam_reason is None
@@ -109,7 +109,7 @@ def test_internal_policy_keeps_specific_routing_category() -> None:
     result = apply_internal_mail_policy(
         llm,
         sender="finance@sample-site.example.com",
-        mailbox="elise@sample-site.example.com",
+        mailbox="casey@sample-site.example.com",
     )
     assert result.is_spam is False
     assert result.routing_category == "billing"
@@ -130,7 +130,7 @@ def test_external_policy_leaves_spam_untouched() -> None:
     result = apply_internal_mail_policy(
         llm,
         sender="promo@spam.example",
-        mailbox="elise@sample-site.example.com",
+        mailbox="casey@sample-site.example.com",
     )
     assert result.is_spam is True
     assert result.spam_reason == "Marketing blast"
@@ -146,8 +146,8 @@ def test_enrich_flags_tags_internal_and_clears_stored_spam() -> None:
     )
     enriched = enrich_triage_flags(
         flags,
-        sender="kelvin@sample-site.example.com",
-        mailbox="elise@sample-site.example.com",
+        sender="jordan@sample-site.example.com",
+        mailbox="casey@sample-site.example.com",
     )
     assert enriched is not None
     assert enriched.is_internal is True
@@ -158,8 +158,8 @@ def test_enrich_flags_tags_internal_and_clears_stored_spam() -> None:
 def test_enrich_flags_creates_internal_tag_without_prior_triage() -> None:
     enriched = enrich_triage_flags(
         None,
-        sender="kelvin@sample-site.example.com",
-        mailbox="elise@sample-site.example.com",
+        sender="jordan@sample-site.example.com",
+        mailbox="casey@sample-site.example.com",
     )
     assert enriched is not None
     assert enriched.is_internal is True
@@ -171,7 +171,7 @@ def test_enrich_flags_does_not_invent_triage_for_external_sender() -> None:
         enrich_triage_flags(
             None,
             sender="orders@vendor.example",
-            mailbox="elise@sample-site.example.com",
+            mailbox="casey@sample-site.example.com",
         )
         is None
     )
@@ -192,8 +192,8 @@ def test_internal_spam_state_displays_as_no_action() -> None:
     assert (
         display_state_for_internal_mail(
             "SPAM",
-            sender="kelvin@sample-site.example.com",
-            mailbox="elise@sample-site.example.com",
+            sender="jordan@sample-site.example.com",
+            mailbox="casey@sample-site.example.com",
         )
         == "NO_ACTION"
     )
@@ -204,7 +204,7 @@ def test_external_spam_state_stays_spam() -> None:
         display_state_for_internal_mail(
             "SPAM",
             sender="promo@spam.example",
-            mailbox="elise@sample-site.example.com",
+            mailbox="casey@sample-site.example.com",
         )
         == "SPAM"
     )
@@ -214,8 +214,8 @@ def test_internal_drafted_state_is_unchanged() -> None:
     assert (
         display_state_for_internal_mail(
             "DRAFTED",
-            sender="kelvin@sample-site.example.com",
-            mailbox="elise@sample-site.example.com",
+            sender="jordan@sample-site.example.com",
+            mailbox="casey@sample-site.example.com",
         )
         == "DRAFTED"
     )
@@ -239,9 +239,9 @@ def test_outbound_counterpart_is_the_to_recipient() -> None:
             mailbox="info@sample-services.example.com",
             sender="info@sample-services.example.com",
             direction="outbound",
-            to_recipients=["nealdavien@yahoo.com"],
+            to_recipients=["jamie.smith@example.com"],
         )
-        == "nealdavien@yahoo.com"
+        == "jamie.smith@example.com"
     )
 
 
@@ -251,9 +251,9 @@ def test_inbound_counterpart_is_the_customer_sender() -> None:
     assert (
         thread_counterpart(
             mailbox="info@sample-services.example.com",
-            sender="notarysdca@gmail.com",
+            sender="notary@example.com",
             direction="inbound",
             to_recipients=["info@sample-services.example.com"],
         )
-        == "notarysdca@gmail.com"
+        == "notary@example.com"
     )

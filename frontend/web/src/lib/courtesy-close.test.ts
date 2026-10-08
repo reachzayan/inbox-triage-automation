@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest"
 import { looksLikeCourtesyClose } from "@/lib/courtesy-close"
 
 const METHOD_PS_FOLLOW_UP =
-  "Hi Elise and Brad,\n" +
+  "Hi Casey and Brad,\n" +
   "\n" +
   "I wanted to follow up on my previous email regarding the payment sync " +
   "issues and the complimentary hour of Professional Services time we " +
@@ -42,7 +42,7 @@ describe("looksLikeCourtesyClose", () => {
   it("keeps a real billing ask as needing a reply", () => {
     expect(
       looksLikeCourtesyClose(
-        "Hi Elise — please process the samplelab invoice from SampleLabVendor and rebill Harmeyer Transport for last month.",
+        "Hi Casey — please process the samplelab invoice from SampleLabVendor and rebill SamplePartner Transport for last month.",
       ),
     ).toBe(false)
   })
@@ -58,7 +58,7 @@ describe("looksLikeCourtesyClose", () => {
   it("does not treat a follow-up that ends with Thank you as a courtesy close", () => {
     expect(
       looksLikeCourtesyClose(
-        "Hi Elise and Jodi,\n" +
+        "Hi Casey and Jodi,\n" +
           "Just following up on Weeks 3 and 4 of the SampleSite content calendar\n" +
           "No rush, but if possible, it would be great to have your approval by the " +
           "end of the week so we can keep things moving\n" +
@@ -72,7 +72,7 @@ describe("looksLikeCourtesyClose", () => {
           "Enviado: martes, 18 de agosto de 2026 15:23\n" +
           "Asunto: Content Calendar - (FB-IG-LK)\n" +
           "\n" +
-          "Hi Elise and Jodi,\n" +
+          "Hi Casey and Jodi,\n" +
           "I’m sharing Weeks 3 and 4 of the SampleSite content calendar for your review\n" +
           "Thank you!\n",
       ),

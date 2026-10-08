@@ -1,7 +1,7 @@
 """Draft (letter) is optional. Teaching notes are not.
 
 Oracles are staging-shaped: PHMSA listserv, Siddiq RSVP-only invite,
-and an invite whose unique body asks Elise to do something besides RSVP.
+and an invite whose unique body asks Casey to do something besides RSVP.
 """
 
 from __future__ import annotations
@@ -52,7 +52,7 @@ def test_empty_invite_body_is_not_a_personal_message() -> None:
 def test_invite_ask_to_present_is_a_personal_message() -> None:
     assert (
         invite_has_personal_message(
-            "Hi Elise, can you walk through the IDME demo for ten minutes after we join?"
+            "Hi Casey, can you walk through the IDME demo for ten minutes after we join?"
         )
         is True
     )
@@ -82,7 +82,7 @@ def test_invite_greeting_plus_note_is_a_personal_message() -> None:
     """Organizer prose counts even without a question mark."""
     assert (
         invite_has_personal_message(
-            "Hi Elise, looking forward to walking you through the IDME demo after we join."
+            "Hi Casey, looking forward to walking you through the IDME demo after we join."
         )
         is True
     )
@@ -92,7 +92,7 @@ def test_empty_unique_body_still_sees_ask_in_full_body() -> None:
     email = _email(
         meeting_message_type="meetingRequest",
         unique_body_text="",
-        body_text="Hi Elise, can you walk through the IDME demo after we join?",
+        body_text="Hi Casey, can you walk through the IDME demo after we join?",
         is_automated=False,
     )
     assert resolve_draft_needed(email=email, triage=_triage(draft_needed=False)) is True
@@ -149,7 +149,7 @@ def test_meeting_request_with_a_written_ask_needs_a_letter() -> None:
     email = _email(
         meeting_message_type="meetingRequest",
         unique_body_text=(
-            "Hi Elise, can you walk through the IDME demo for ten minutes after we join?"
+            "Hi Casey, can you walk through the IDME demo for ten minutes after we join?"
         ),
         is_automated=False,
     )

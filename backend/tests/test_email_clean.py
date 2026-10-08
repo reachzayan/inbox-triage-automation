@@ -137,7 +137,7 @@ _SAMPLEHELPDESK_ALEX = (
     "[https://sample-helpdesk.example.com/system/photos/25898357572372/purple_flower_5.jpg]\n\n"
     "Alex Taylor (SampleHelpdesk)\n\n"
     "Aug 19, 2026, 10:54 AM MDT\n\n"
-    "Elise,\n\n"
+    "Casey,\n\n"
     "Can you give me a search ID example where a completed report email was not received?\n\n"
     "Alex Taylor\n"
     "Customer Support\n\n"

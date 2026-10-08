@@ -1,6 +1,6 @@
 """Mark-as-not-spam: un-hide the thread, allowlist the sender, never touch Outlook.
 
-Worked example: Elise's mailbox received SampleLab billing, Haiku marked it
+Worked example: Casey's mailbox received SampleLab billing, Haiku marked it
 SPAM. Reviewer corrects it. The thread must leave the filtered bucket and
 future mail from orders@sample-lab.example.com on that mailbox must not be discarded.
 Mail on another mailbox is unaffected. Outlook Junk is unchanged.
@@ -26,7 +26,7 @@ from app.services import not_spam_service
 
 pytestmark = pytest.mark.db
 
-ELISE = "elise@sample-site.example.com"
+ELISE = "casey@sample-site.example.com"
 CR = "clientrelations@example.com"
 SAMPLELAB = "orders@sample-lab.example.com"
 T_NOW = datetime(2026, 8, 20, 14, 0, tzinfo=UTC)
@@ -71,13 +71,13 @@ async def test_allowlist_is_isolated_by_mailbox(db_session) -> None:
         mailbox=ELISE,
         sender_address=SAMPLELAB,
         thread_id=None,
-        actor="elise@sample-site.example.com",
+        actor="casey@sample-site.example.com",
     )
     await db_session.commit()
 
-    elise = await spam_allowlist_repo.addresses_for_mailbox(db_session, ELISE)
+    casey = await spam_allowlist_repo.addresses_for_mailbox(db_session, ELISE)
     cr = await spam_allowlist_repo.addresses_for_mailbox(db_session, CR)
-    assert elise == frozenset({SAMPLELAB})
+    assert casey == frozenset({SAMPLELAB})
     assert cr == frozenset()
 
 
@@ -119,7 +119,7 @@ async def test_mark_not_spam_unhides_thread_and_allowlists_sender(db_session) ->
             db_session,
             settings=_settings(),
             thread_id=thread.id,
-            actor="elise@sample-site.example.com",
+            actor="casey@sample-site.example.com",
             redis=AsyncMock(),
             client=AsyncMock(),
             openai_client=None,
@@ -143,7 +143,7 @@ async def test_mark_not_spam_unhides_thread_and_allowlists_sender(db_session) ->
 async def test_not_spam_calls_public_context_builder(db_session) -> None:
     """H3: not-spam rebuilds triage context through the public ingestion API.
 
-    Independent oracle (worked example): after Elise un-hides the SampleLab
+    Independent oracle (worked example): after Casey un-hides the SampleLab
     billing thread, the response reports NEW (or any non-SPAM) and the
     allowlisted sender is orders@sample-lab.example.com. The rebuild helper must be
     importable as ``build_thread_context_from_db`` — a leading-underscore
@@ -189,7 +189,7 @@ async def test_not_spam_calls_public_context_builder(db_session) -> None:
             db_session,
             settings=_settings(),
             thread_id=thread.id,
-            actor="elise@sample-site.example.com",
+            actor="casey@sample-site.example.com",
             redis=AsyncMock(),
             client=AsyncMock(),
             openai_client=None,
@@ -215,7 +215,7 @@ async def test_mark_not_spam_rejects_non_spam_thread(db_session) -> None:
             db_session,
             settings=_settings(),
             thread_id=thread.id,
-            actor="elise@sample-site.example.com",
+            actor="casey@sample-site.example.com",
             redis=AsyncMock(),
             client=AsyncMock(),
             openai_client=None,
@@ -279,7 +279,7 @@ async def test_mark_not_spam_invalidates_chat_cache_for_thread(db_session) -> No
             db_session,
             settings=_settings(),
             thread_id=thread.id,
-            actor="elise@sample-site.example.com",
+            actor="casey@sample-site.example.com",
             redis=AsyncMock(),
             client=AsyncMock(),
             openai_client=None,
@@ -298,7 +298,7 @@ async def test_mark_not_spam_invalidates_chat_cache_for_thread(db_session) -> No
             db_session,
             settings=_settings(),
             thread_id=uuid.uuid4(),
-            actor="elise@sample-site.example.com",
+            actor="casey@sample-site.example.com",
             redis=AsyncMock(),
             client=AsyncMock(),
             openai_client=None,

@@ -278,7 +278,7 @@ async def test_chat_ask_rate_limited_per_user_not_per_ip() -> None:
         async def fake_user() -> UserMe:
             return UserMe(
                 id=user_id,
-                email="elise@example.com",
+                email="casey@example.com",
                 role="user",
                 created_at=datetime.now(UTC),
             )

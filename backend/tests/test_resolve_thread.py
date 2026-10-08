@@ -81,7 +81,7 @@ async def test_resolve_api_rejects_missing_actions_taken(db_session) -> None:
 
         return UserMe(
             id=uuid.uuid4(),
-            email="elise@example.com",
+            email="casey@example.com",
             role="user",
             created_at=datetime.now(UTC),
         )
@@ -129,7 +129,7 @@ async def test_resolve_api_persists_actions_taken_and_involved(db_session) -> No
 
         return UserMe(
             id=uuid.uuid4(),
-            email="elise@example.com",
+            email="casey@example.com",
             role="user",
             created_at=datetime.now(UTC),
         )
@@ -227,7 +227,7 @@ async def test_resolve_removes_thread_from_needs_attention(db_session) -> None:
             db_session,
             settings,
             thread.id,
-            actor="elise@example.com",
+            actor="casey@example.com",
             actions_taken="No reply needed; logged in portal",
             involved="n/a",
         )
@@ -262,7 +262,7 @@ async def test_resolve_already_resolved_still_records_capture(db_session) -> Non
             db_session,
             settings,
             thread.id,
-            actor="elise@example.com",
+            actor="casey@example.com",
             actions_taken="Logged the driver change in portal",
             involved="accounting team",
             anthropic_client=object(),
@@ -329,7 +329,7 @@ async def test_resolve_calls_workflow_extraction_with_learning_text(db_session) 
             db_session,
             settings,
             thread.id,
-            actor="elise@example.com",
+            actor="casey@example.com",
             actions_taken="Checked portal and confirmed no client action needed",
             involved="accounting team",
             anthropic_client=anthropic,
@@ -371,7 +371,7 @@ async def test_manual_resolve_stores_resolve_snapshot(db_session) -> None:
             db_session,
             settings,
             thread.id,
-            actor="elise@example.com",
+            actor="casey@example.com",
             actions_taken="Logged in portal",
             involved="accounting",
         )
@@ -390,7 +390,7 @@ async def test_manual_resolve_stores_resolve_snapshot(db_session) -> None:
         .payload
     )
     snapshot = payload["resolve_snapshot"]
-    assert snapshot["resolved_by"] == "elise"
+    assert snapshot["resolved_by"] == "casey"
     assert snapshot["resolution_reason"] == "manual"
     assert snapshot["had_draft"] is False
     assert snapshot["actions_taken"] == "Logged in portal"
@@ -437,7 +437,7 @@ async def test_reopen_courtesy_close_returns_to_needs_attention(db_session) -> N
         settings,
         thread.id,
         action="reopen",
-        actor="elise@example.com",
+        actor="casey@example.com",
     )
     await db_session.commit()
 

@@ -276,7 +276,7 @@ async def test_simulate_ingest_rejects_mailbox_outside_allowlist(
         environment="local",
         enable_dev_routes=True,
         dev_api_key="test-dev-key",
-        target_mailboxes="elise@example.com",
+        target_mailboxes="casey@example.com",
     )
     app.dependency_overrides[get_settings] = lambda: settings
     app.dependency_overrides[get_db] = lambda: AsyncMock()

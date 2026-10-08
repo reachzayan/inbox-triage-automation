@@ -40,7 +40,7 @@ def _email() -> EmailMessageSchema:
     return EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="As discussed — need docs",
         body_text="Following up on our earlier thread",
@@ -70,7 +70,7 @@ def _cross() -> CrossThreadContextSchema:
     prior = EmailMessageSchema(
         message_id="prior-1",
         conversation_id="conv-matched",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="Intake kickoff",
         body_text="Let's start intake.",

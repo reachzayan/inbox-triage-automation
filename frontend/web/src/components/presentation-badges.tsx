@@ -26,7 +26,7 @@ const LABEL_TO_DISPOSITION: Record<string, string> = {
   "Needs human": "needs_human",
   Processing: "processing",
   "Resolved by DraftAssistant": "resolved_draftassistant",
-  "Resolved by Elise": "resolved_elise",
+  "Resolved by Casey": "resolved_casey",
   Spam: "spam",
 }
 

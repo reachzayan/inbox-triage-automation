@@ -1,7 +1,7 @@
 """Workflow extraction on resolve (feedback loops v2, plan §15).
 
 After a thread is RESOLVED, one Haiku call classifies ROUTINE_WORKFLOW vs
-SPECIAL_CASE vs ADMIN. ROUTINE only: atomize Elise's resolve actions and
+SPECIAL_CASE vs ADMIN. ROUTINE only: atomize Casey's resolve actions and
 queue a promotion proposal. Humans accept; nothing auto-enters live retrieval.
 """
 

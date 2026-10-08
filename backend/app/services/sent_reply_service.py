@@ -199,7 +199,7 @@ async def resolve_thread_from_outbound(
     """Link an outbound message to a draft (when possible) and set RESOLVED.
 
     Idempotent on ``message.id`` via unique constraint. Never logs body text.
-    Calendar accepts/declines/cancels still resolve (Elise acted) but do not
+    Calendar accepts/declines/cancels still resolve (Casey acted) but do not
     attach a drafted letter — they are not email replies to learn from.
 
     Does not set RESOLVED when a newer message is already the tip (inbound

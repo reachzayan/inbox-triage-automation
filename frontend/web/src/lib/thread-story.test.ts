@@ -38,21 +38,21 @@ describe("buildThreadStory salute names", () => {
           direction: "outbound",
           sender: "sampleagent@sample-site.example.com",
           sender_name: "SampleSite Support",
-          sender_salute_name: "Elise",
+          sender_salute_name: "Casey",
           to: ["Dev@sample-site.example.com"],
           received_at: "2026-09-03T18:31:00Z",
         }),
       ],
     })
 
-    expect(events.map((event) => event.headline)).toEqual(["Elise wrote", "Someone wrote to Elise"])
+    expect(events.map((event) => event.headline)).toEqual(["Casey wrote", "Someone wrote to Casey"])
     expect(events.some((event) => event.headline.includes("Sample"))).toBe(false)
     expect(events.some((event) => event.headline.includes("Dev"))).toBe(false)
   })
 
   it("uses the mailbox owner when no outbound salute exists yet", () => {
     const events = buildThreadStory({
-      mailboxOwner: "Elise",
+      mailboxOwner: "Casey",
       messages: [
         message({
           id: "m1",
@@ -66,7 +66,7 @@ describe("buildThreadStory salute names", () => {
       ],
     })
 
-    expect(events.map((event) => event.headline)).toEqual(["Jordan wrote to Elise"])
+    expect(events.map((event) => event.headline)).toEqual(["Jordan wrote to Casey"])
   })
 
   it("omits the counterparty when the mailbox owner is unknown", () => {
@@ -102,7 +102,7 @@ describe("buildThreadStory salute names", () => {
           id: "m2",
           direction: "outbound",
           sender: "sampleagent@sample-site.example.com",
-          sender_salute_name: "Elise",
+          sender_salute_name: "Casey",
           to: ["Dev@sample-site.example.com"],
           received_at: "2026-09-04T12:39:00Z",
         }),
@@ -110,8 +110,8 @@ describe("buildThreadStory salute names", () => {
     })
 
     expect(events.map((event) => event.headline)).toEqual([
-      "Divyansh wrote to Elise",
-      "Elise replied to Divyansh",
+      "Divyansh wrote to Casey",
+      "Casey replied to Divyansh",
     ])
   })
 })

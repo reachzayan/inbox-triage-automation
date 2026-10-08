@@ -460,7 +460,7 @@ async def test_mark_as_wrong_reverts_this_thread_and_suppresses_later_floor(
         db_session,
         thread_id=thread_c.id,
         action="wrong_escalation",
-        actor="elise@example.com",
+        actor="casey@example.com",
     )
     await db_session.commit()
 
@@ -684,7 +684,7 @@ async def test_mark_as_wrong_after_ratchet_reverts_to_pre_recurrence(
         db_session,
         thread_id=thread_b.id,
         action="wrong_escalation",
-        actor="elise@example.com",
+        actor="casey@example.com",
     )
     await db_session.commit()
     b = await thread_repo.get_by_id(db_session, thread_b.id, TenantScope.single(thread_b.mailbox))
@@ -708,7 +708,7 @@ async def test_mark_as_wrong_without_escalation_is_rejected(db_session) -> None:
             db_session,
             thread_id=thread.id,
             action="wrong_escalation",
-            actor="elise@example.com",
+            actor="casey@example.com",
         )
     fresh = await thread_repo.get_by_id(db_session, thread.id, TenantScope.single(thread.mailbox))
     assert fresh is not None and fresh.urgency == "NORMAL"

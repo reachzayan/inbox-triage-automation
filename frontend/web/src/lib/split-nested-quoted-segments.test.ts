@@ -6,14 +6,14 @@ describe("splitNestedQuotedSegments", () => {
   it("splits Outlook From/Sent layers so older mail is a deeper segment", () => {
     const quoted =
       "________________________________\n" +
-      "From: Beau Norris <beau.norris@sample-lab-vendor.example.com>\n" +
+      "From: Taylor Morgan <taylor.morgan@sample-lab-vendor.example.com>\n" +
       "Sent: Wednesday, August 26, 2026 4:49 PM\n" +
-      "To: Elise Chouest <sampleagent@sample-site.example.com>\n" +
+      "To: Casey Chouest <sampleagent@sample-site.example.com>\n" +
       "Subject: RE: Open Items\n\n" +
       "I just wanted to double check on definitions.\n\n" +
-      "From: Elise Chouest <sampleagent@sample-site.example.com>\n" +
+      "From: Casey Chouest <sampleagent@sample-site.example.com>\n" +
       "Sent: Wednesday, August 26, 2026 11:56 AM\n" +
-      "To: Beau Norris <beau.norris@sample-lab-vendor.example.com>\n" +
+      "To: Taylor Morgan <taylor.morgan@sample-lab-vendor.example.com>\n" +
       "Subject: Open Items\n\n" +
       "Hi Ruth and Jeremy,\n\n" +
       "We're working through our build spec.\n"
@@ -22,10 +22,10 @@ describe("splitNestedQuotedSegments", () => {
 
     expect(segments).toHaveLength(2)
     expect(segments[0]).toContain("I just wanted to double check on definitions.")
-    expect(segments[0]).toContain("From: Beau Norris")
+    expect(segments[0]).toContain("From: Taylor Morgan")
     expect(segments[0]).not.toContain("We're working through our build spec.")
     expect(segments[1]).toContain("We're working through our build spec.")
-    expect(segments[1]).toContain("From: Elise Chouest")
+    expect(segments[1]).toContain("From: Casey Chouest")
   })
 
   it("splits Zendesk prior comments at default-avatar boundaries", () => {

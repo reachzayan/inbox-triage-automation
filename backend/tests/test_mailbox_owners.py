@@ -9,17 +9,17 @@ from app.core.mailbox_keys import mailbox_label, owner_for_mailbox
 def test_owner_map_parses_email_colon_name_pairs() -> None:
     settings = Settings(
         environment="local",
-        mailbox_owners="sampleagent@sample-site.example.com:Elise,ops@example.com:Ops Desk",
+        mailbox_owners="sampleagent@sample-site.example.com:Casey,ops@example.com:Ops Desk",
     )
     assert settings.mailbox_owner_map == {
-        "sampleagent@sample-site.example.com": "Elise",
+        "sampleagent@sample-site.example.com": "Casey",
         "ops@example.com": "Ops Desk",
     }
 
 
 def test_owner_for_mailbox_is_case_insensitive() -> None:
-    owners = {"sampleagent@sample-site.example.com": "Elise"}
-    assert owner_for_mailbox("Sampleagent@sample-site.example.com", owners) == "Elise"
+    owners = {"sampleagent@sample-site.example.com": "Casey"}
+    assert owner_for_mailbox("Sampleagent@sample-site.example.com", owners) == "Casey"
     assert owner_for_mailbox("other@sample-site.example.com", owners) is None
 
 
@@ -32,9 +32,9 @@ def test_mailbox_label_uses_owner_name_when_present() -> None:
     assert (
         mailbox_label(
             "sampleagent@sample-site.example.com",
-            owners={"sampleagent@sample-site.example.com": "Elise"},
+            owners={"sampleagent@sample-site.example.com": "Casey"},
         )
-        == "Elise"
+        == "Casey"
     )
 
 

@@ -572,7 +572,7 @@ async def ingest_graph_message(
             persisted_by_graph_id[thread_msg.id] = persisted
 
         # Tip outbound (shared mailbox send or reviewer copy) closes the loop.
-        # Reviewer-from alone is not enough: Elise often sends as the shared
+        # Reviewer-from alone is not enough: Casey often sends as the shared
         # address, which conversation sync marks Sent without Sent Items resolve.
         tip = _newest_message(context_messages)
         tip_persisted = (

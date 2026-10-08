@@ -34,7 +34,7 @@ class UrgencyPrediction(Base):
         ARRAY(UUID(as_uuid=True)), nullable=True
     )
     final_urgency: Mapped[str] = mapped_column(String(16), nullable=False)
-    elise_edited_to: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    casey_edited_to: Mapped[str | None] = mapped_column(String(16), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),

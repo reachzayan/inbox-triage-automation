@@ -18,7 +18,7 @@ def _msg(
     sender: str,
     direction: EmailDirectionEnum,
     to: list[str] | None = None,
-    mailbox: str = "elise@example.com",
+    mailbox: str = "casey@example.com",
     body_text: str = "Body",
 ) -> EmailMessageSchema:
     return EmailMessageSchema(
@@ -40,11 +40,11 @@ def test_resolve_reply_addressee_stays_synchronous() -> None:
 
 
 def test_directory_overrides_display_name() -> None:
-    mailbox = "elise@example.com"
+    mailbox = "casey@example.com"
     messages = [
         _msg(
             message_id="1",
-            sender='"Kelvin C." <samplecontact@sample-vendor.example.com>',
+            sender='"Jordan C." <samplecontact@sample-vendor.example.com>',
             direction=EmailDirectionEnum.INBOUND,
             to=[mailbox],
             mailbox=mailbox,
@@ -53,16 +53,16 @@ def test_directory_overrides_display_name() -> None:
     addressee = resolve_reply_addressee(
         mailbox=mailbox,
         messages=messages,
-        directory={"samplecontact@sample-vendor.example.com": "Kelvin"},
+        directory={"samplecontact@sample-vendor.example.com": "Jordan"},
     )
     assert addressee is not None
-    assert addressee.salute_name == "Kelvin"
+    assert addressee.salute_name == "Jordan"
     assert addressee.directory_hit is True
     assert addressee.source_kind == "directory"
 
 
 def test_directory_overrides_signature() -> None:
-    mailbox = "elise@example.com"
+    mailbox = "casey@example.com"
     messages = [
         _msg(
             message_id="1",
@@ -76,17 +76,17 @@ def test_directory_overrides_signature() -> None:
     addressee = resolve_reply_addressee(
         mailbox=mailbox,
         messages=messages,
-        directory={"samplecontact@sample-vendor.example.com": "Kelvin"},
+        directory={"samplecontact@sample-vendor.example.com": "Jordan"},
     )
     assert addressee is not None
-    assert addressee.salute_name == "Kelvin"
+    assert addressee.salute_name == "Jordan"
     assert addressee.directory_hit is True
     assert addressee.source_kind == "directory"
 
 
 def test_bare_email_without_directory_uses_empty_sentinel() -> None:
     """samplecontact@ with no display/signature/directory must not leak 'Samplecontact'."""
-    mailbox = "elise@example.com"
+    mailbox = "casey@example.com"
     messages = [
         _msg(
             message_id="1",
@@ -106,7 +106,7 @@ def test_bare_email_without_directory_uses_empty_sentinel() -> None:
 
 def test_signature_sourced_salute_not_emptied_even_if_equals_local_part() -> None:
     """Signature 'Samplecontact' that matches local-part stays (source_kind=signature)."""
-    mailbox = "elise@example.com"
+    mailbox = "casey@example.com"
     messages = [
         _msg(
             message_id="1",
@@ -126,7 +126,7 @@ def test_signature_sourced_salute_not_emptied_even_if_equals_local_part() -> Non
 
 def test_directory_overrides_role_mailbox() -> None:
     """Contacts win first — a taught alias for Dev@ should not stay 'team'."""
-    mailbox = "elise@example.com"
+    mailbox = "casey@example.com"
     messages = [
         _msg(
             message_id="1",
@@ -149,7 +149,7 @@ def test_directory_overrides_role_mailbox() -> None:
 
 
 def test_role_mailbox_without_directory_uses_bare_hi() -> None:
-    mailbox = "elise@example.com"
+    mailbox = "casey@example.com"
     messages = [
         _msg(
             message_id="1",
@@ -168,7 +168,7 @@ def test_role_mailbox_without_directory_uses_bare_hi() -> None:
 
 def test_priority_contacts_before_signature() -> None:
     """Contacts → signature person name → bare Hi,. Never locals or roles."""
-    mailbox = "elise@example.com"
+    mailbox = "casey@example.com"
     messages = [
         _msg(
             message_id="1",
@@ -182,11 +182,11 @@ def test_priority_contacts_before_signature() -> None:
     with_contact = resolve_reply_addressee(
         mailbox=mailbox,
         messages=messages,
-        directory={"samplecontact@sample-vendor.example.com": "Kelvin"},
+        directory={"samplecontact@sample-vendor.example.com": "Jordan"},
     )
     without = resolve_reply_addressee(mailbox=mailbox, messages=messages)
     assert with_contact is not None and without is not None
-    assert with_contact.salute_name == "Kelvin"
+    assert with_contact.salute_name == "Jordan"
     assert with_contact.source_kind == "directory"
     # No contact → signature "Kel" beats display "Someone"
     assert without.salute_name == "Kel"
@@ -198,7 +198,7 @@ def test_mailbox_owner_not_saluted() -> None:
     messages = [
         _msg(
             message_id="1",
-            sender="Elise <elise@example.com>",
+            sender="Casey <casey@example.com>",
             direction=EmailDirectionEnum.INBOUND,
             to=[mailbox],
             mailbox=mailbox,
@@ -208,15 +208,15 @@ def test_mailbox_owner_not_saluted() -> None:
     addressee = resolve_reply_addressee(
         mailbox=mailbox,
         messages=messages,
-        mailbox_owner="Elise",
+        mailbox_owner="Casey",
     )
     assert addressee is not None
-    assert addressee.salute_name != "Elise"
-    assert addressee.salute_name.casefold() != "elise"
+    assert addressee.salute_name != "Casey"
+    assert addressee.salute_name.casefold() != "casey"
 
 
 def test_directory_case_insensitive_lookup() -> None:
-    mailbox = "elise@example.com"
+    mailbox = "casey@example.com"
     messages = [
         _msg(
             message_id="1",
@@ -230,10 +230,10 @@ def test_directory_case_insensitive_lookup() -> None:
     addressee = resolve_reply_addressee(
         mailbox=mailbox,
         messages=messages,
-        directory={"K@Example.com": "Kelvin"},
+        directory={"K@Example.com": "Jordan"},
     )
     assert addressee is not None
-    assert addressee.salute_name == "Kelvin"
+    assert addressee.salute_name == "Jordan"
     assert addressee.directory_hit is True
     assert addressee.source_kind == "directory"
 

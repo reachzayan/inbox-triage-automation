@@ -37,7 +37,7 @@ class DispositionKind(StrEnum):
     NEEDS_HUMAN = "needs_human"
     PROCESSING = "processing"
     RESOLVED_DRAFTASSISTANT = "resolved_draftassistant"
-    RESOLVED_ELISE = "resolved_elise"
+    RESOLVED_ELISE = "resolved_casey"
     SPAM = "spam"
 
 
@@ -49,7 +49,7 @@ _DISPOSITION_LABELS = {
     DispositionKind.NEEDS_HUMAN: "Needs human",
     DispositionKind.PROCESSING: "Processing",
     DispositionKind.RESOLVED_DRAFTASSISTANT: "Resolved by DraftAssistant",
-    DispositionKind.RESOLVED_ELISE: "Resolved by Elise",
+    DispositionKind.RESOLVED_ELISE: "Resolved by Casey",
     DispositionKind.SPAM: "Spam",
 }
 
@@ -146,7 +146,7 @@ def derive_disposition(inp: ThreadPolicyInput) -> DispositionKind:  # noqa: PLR0
     if state == ThreadStateEnum.SPAM.value:
         return DispositionKind.SPAM
     if state in _FINISHED_STATES:
-        if (inp.resolved_by or "").strip().lower() == "elise":
+        if (inp.resolved_by or "").strip().lower() == "casey":
             return DispositionKind.RESOLVED_ELISE
         return DispositionKind.RESOLVED_DRAFTASSISTANT
     if state == ThreadStateEnum.NEW.value:

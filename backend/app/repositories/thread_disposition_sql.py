@@ -109,12 +109,12 @@ def triage_informational() -> Any:
 
 
 def is_actionable_operational_alert() -> Any:
-    """Ops automated alert that still needs Elise — not domain-auth / FYI triage."""
+    """Ops automated alert that still needs Casey — not domain-auth / FYI triage."""
     return and_(is_operational_alert(), ~triage_informational())
 
 
 def is_reply_review(latest_draft: Any) -> Any:
-    """Disposition reply_review: DRAFTED with non-empty letter still awaiting Elise."""
+    """Disposition reply_review: DRAFTED with non-empty letter still awaiting Casey."""
     return and_(
         Thread.state == ThreadStateEnum.DRAFTED.value,
         has_letter_sql(latest_draft),
@@ -122,7 +122,7 @@ def is_reply_review(latest_draft: Any) -> Any:
     )
 
 
-def needs_elise_action(latest_draft: Any) -> Any:
+def needs_casey_action(latest_draft: Any) -> Any:
     """SQL: Needs Attention dispositions — letter review, offline action, or pipeline failure."""
     unanswered = draft_unanswered(latest_draft)
     no_draft = latest_draft.c.tid.is_(None)

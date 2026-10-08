@@ -22,7 +22,7 @@ def _email() -> EmailMessageSchema:
     return EmailMessageSchema(
         message_id="m1",
         conversation_id="c1",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="Need docs",
         body_text="Please send the packet",
@@ -197,7 +197,7 @@ async def test_run_draft_persists_context_match_confidence() -> None:
     prior = EmailMessageSchema(
         message_id="prior-1",
         conversation_id="conv-matched",
-        mailbox="elise@example.com",
+        mailbox="casey@example.com",
         sender="vendor@example.com",
         subject="Prior",
         body_text="Earlier",

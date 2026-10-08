@@ -37,7 +37,7 @@ def _draft(**overrides: object) -> DraftResponseSchema:
 OUTLOOK_QUOTED_TAIL = (
     "From: Alice <alice@example.com>\n"
     "Sent: Monday, August 22, 2022 10:43 AM\n"
-    "To: elise@example.com\n"
+    "To: casey@example.com\n"
     "Subject: Re: Deploy\n\n"
     "Can you check the deploy?"
 )
@@ -58,7 +58,7 @@ def _message(
         thread_id=thread_id,
         graph_message_id="AAMkAG-sent-001",
         direction="outbound",
-        sender="elise@example.com",
+        sender="casey@example.com",
         body_text=body_text,
         body_preview=body_preview,
         unique_body_text=unique_body_text,
@@ -110,7 +110,7 @@ async def _resolve_capturing_snapshot(message: MessageSchema) -> str:
             thread_id=thread_id,
             message=message,
             conversation_id="conv-1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
         )
     return insert_mock.await_args.kwargs["sent_body_snapshot"]
 
@@ -176,7 +176,7 @@ async def test_resolve_matches_approved_draft() -> None:
             thread_id=thread_id,
             message=message,
             conversation_id="conv-1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
         )
 
     assert result is not None
@@ -239,7 +239,7 @@ async def test_resolve_falls_back_to_time_window() -> None:
             thread_id=thread_id,
             message=message,
             conversation_id="conv-1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
         )
 
     assert result is not None
@@ -277,7 +277,7 @@ async def test_resolve_idempotent_skips_second_transition() -> None:
             thread_id=thread_id,
             message=message,
             conversation_id="conv-1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
         )
 
     assert result is existing
@@ -338,7 +338,7 @@ async def test_resolve_skips_approved_draft_already_linked() -> None:
             thread_id=thread_id,
             message=message,
             conversation_id="conv-1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
         )
 
     assert insert_mock.await_args.kwargs["matched_by"] == "time_window"
@@ -404,7 +404,7 @@ async def test_snapshot_empty_when_no_reply_text() -> None:
 
 @pytest.mark.asyncio
 async def test_meeting_accepted_resolves_thread() -> None:
-    """Elise RSVP'd in Calendar — that is the tip action, so the thread closes."""
+    """Casey RSVP'd in Calendar — that is the tip action, so the thread closes."""
     thread_id = uuid.uuid4()
     message = _message(
         thread_id=thread_id,
@@ -451,7 +451,7 @@ async def test_meeting_accepted_resolves_thread() -> None:
             thread_id=thread_id,
             message=message,
             conversation_id="conv-meeting-1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
         )
 
     assert result is not None
@@ -465,7 +465,7 @@ async def test_meeting_accepted_resolves_thread() -> None:
 
 @pytest.mark.asyncio
 async def test_resolve_does_not_close_thread_when_newer_inbound_exists() -> None:
-    """Sent Items copy of Elise's Aug 27 send must not RESOLVE Ruth's Aug 28 follow-up.
+    """Sent Items copy of Casey's Aug 27 send must not RESOLVE Ruth's Aug 28 follow-up.
 
     Graph assigns a new id in Sent Items, so this is a fresh sent_replies insert,
     not a Redis-heal duplicate. Closing is illegal while the tip is inbound.
@@ -568,7 +568,7 @@ async def test_meeting_accepted_does_not_link_unapproved_letter() -> None:
             thread_id=thread_id,
             message=message,
             conversation_id="conv-meeting-2",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
         )
 
     drafts_mock.assert_not_awaited()
@@ -611,7 +611,7 @@ async def test_meeting_cancelled_outbound_resolves_thread() -> None:
             thread_id=thread_id,
             message=message,
             conversation_id="conv-cancel-1",
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
         )
 
     assert result is not None
@@ -632,7 +632,7 @@ async def test_thread_tip_already_replied_true_when_tip_is_resolved_outbound() -
             sender="client@example.com",
             body_text="Question",
             received_at=datetime(2026, 8, 27, 18, 0, tzinfo=UTC),
-            to_recipients=["elise@example.com"],
+            to_recipients=["casey@example.com"],
             cc_recipients=[],
         ),
         MessageSchema(
@@ -640,7 +640,7 @@ async def test_thread_tip_already_replied_true_when_tip_is_resolved_outbound() -
             thread_id=thread_id,
             graph_message_id="out-1",
             direction="outbound",
-            sender="elise@example.com",
+            sender="casey@example.com",
             body_text="Answer",
             received_at=sent_at,
             to_recipients=["client@example.com"],
@@ -682,7 +682,7 @@ async def test_thread_tip_already_replied_false_when_newer_inbound_after_send() 
             thread_id=thread_id,
             graph_message_id="out-1",
             direction="outbound",
-            sender="elise@example.com",
+            sender="casey@example.com",
             body_text="Answer",
             received_at=sent_at,
             to_recipients=["client@example.com"],
@@ -693,10 +693,10 @@ async def test_thread_tip_already_replied_false_when_newer_inbound_after_send() 
             thread_id=thread_id,
             graph_message_id="in-2",
             direction="inbound",
-            sender="beau@example.com",
+            sender="taylor@example.com",
             body_text="Follow-up answers",
             received_at=datetime(2026, 8, 28, 0, 25, tzinfo=UTC),
-            to_recipients=["elise@example.com"],
+            to_recipients=["casey@example.com"],
             cc_recipients=[],
         ),
     ]
@@ -764,7 +764,7 @@ async def test_thread_tip_is_outbound_true_after_inbound_then_send() -> None:
             graph_message_id="msg-out",
             direction="outbound",
             received_at=t2,
-            sender="elise@example.com",
+            sender="casey@example.com",
         ),
     ]
     session = AsyncMock()
@@ -793,7 +793,7 @@ async def test_thread_tip_is_outbound_false_when_newer_inbound() -> None:
             graph_message_id="msg-out",
             direction="outbound",
             received_at=t1,
-            sender="elise@example.com",
+            sender="casey@example.com",
         ),
         _tip_message(
             thread_id=thread_id,
@@ -813,7 +813,7 @@ async def test_thread_tip_is_outbound_false_when_newer_inbound() -> None:
 
 @pytest.mark.asyncio
 async def test_thread_tip_is_outbound_true_with_no_sent_replies_row() -> None:
-    """The live gap: Elise sent, ingest never wrote sent_replies."""
+    """The live gap: Casey sent, ingest never wrote sent_replies."""
     thread_id = uuid.uuid4()
     messages = [
         _tip_message(
@@ -821,7 +821,7 @@ async def test_thread_tip_is_outbound_true_with_no_sent_replies_row() -> None:
             graph_message_id="msg-out",
             direction="outbound",
             received_at=datetime(2026, 9, 1, 15, 0, tzinfo=UTC),
-            sender="elise@example.com",
+            sender="casey@example.com",
         ),
     ]
     session = AsyncMock()
@@ -871,14 +871,14 @@ async def test_graph_outbound_tip_in_sync_when_newest_ids_match() -> None:
             graph_message_id="msg-out",
             direction="outbound",
             received_at=t2,
-            sender="elise@example.com",
+            sender="casey@example.com",
         ),
     ]
     graph_client = AsyncMock()
     graph_client.list_thread_messages = AsyncMock(
         return_value=[
             _graph_msg("msg-in", "2026-09-01T12:00:00Z", "client@example.com"),
-            _graph_msg("msg-out", "2026-09-01T13:00:00Z", "elise@example.com"),
+            _graph_msg("msg-out", "2026-09-01T13:00:00Z", "casey@example.com"),
         ]
     )
     session = AsyncMock()
@@ -890,7 +890,7 @@ async def test_graph_outbound_tip_in_sync_when_newest_ids_match() -> None:
             await sent_reply_service.graph_outbound_tip_in_sync(
                 session,
                 graph_client,
-                mailbox="elise@example.com",
+                mailbox="casey@example.com",
                 conversation_id="conv-1",
                 thread_id=thread_id,
                 trigger_graph_message_id="msg-out",
@@ -920,14 +920,14 @@ async def test_graph_outbound_tip_not_in_sync_when_graph_has_newer_inbound() -> 
             graph_message_id="msg-out",
             direction="outbound",
             received_at=t2,
-            sender="elise@example.com",
+            sender="casey@example.com",
         ),
     ]
     graph_client = AsyncMock()
     graph_client.list_thread_messages = AsyncMock(
         return_value=[
             _graph_msg("msg-in", "2026-09-01T12:00:00Z", "client@example.com"),
-            _graph_msg("msg-out", "2026-09-01T13:00:00Z", "elise@example.com"),
+            _graph_msg("msg-out", "2026-09-01T13:00:00Z", "casey@example.com"),
             _graph_msg("msg-followup", "2026-09-01T14:00:00Z", "client@example.com"),
         ]
     )
@@ -940,7 +940,7 @@ async def test_graph_outbound_tip_not_in_sync_when_graph_has_newer_inbound() -> 
             await sent_reply_service.graph_outbound_tip_in_sync(
                 session,
                 graph_client,
-                mailbox="elise@example.com",
+                mailbox="casey@example.com",
                 conversation_id="conv-1",
                 thread_id=thread_id,
                 trigger_graph_message_id="msg-out",
@@ -960,7 +960,7 @@ async def test_graph_outbound_tip_in_sync_false_on_graph_error() -> None:
             graph_message_id="msg-out",
             direction="outbound",
             received_at=datetime(2026, 9, 1, 13, 0, tzinfo=UTC),
-            sender="elise@example.com",
+            sender="casey@example.com",
         ),
     ]
     graph_client = AsyncMock()
@@ -974,7 +974,7 @@ async def test_graph_outbound_tip_in_sync_false_on_graph_error() -> None:
             await sent_reply_service.graph_outbound_tip_in_sync(
                 session,
                 graph_client,
-                mailbox="elise@example.com",
+                mailbox="casey@example.com",
                 conversation_id="conv-1",
                 thread_id=thread_id,
             )
@@ -990,7 +990,7 @@ async def test_graph_outbound_tip_in_sync_false_without_client() -> None:
         await sent_reply_service.graph_outbound_tip_in_sync(
             session,
             None,
-            mailbox="elise@example.com",
+            mailbox="casey@example.com",
             conversation_id="conv-1",
             thread_id=thread_id,
         )
