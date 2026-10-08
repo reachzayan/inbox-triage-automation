@@ -37,7 +37,7 @@ class DispositionKind(StrEnum):
     NEEDS_HUMAN = "needs_human"
     PROCESSING = "processing"
     RESOLVED_DRAFTASSISTANT = "resolved_draftassistant"
-    RESOLVED_ELISE = "resolved_casey"
+    RESOLVED_CASEY = "resolved_casey"
     SPAM = "spam"
 
 
@@ -49,7 +49,7 @@ _DISPOSITION_LABELS = {
     DispositionKind.NEEDS_HUMAN: "Needs human",
     DispositionKind.PROCESSING: "Processing",
     DispositionKind.RESOLVED_DRAFTASSISTANT: "Resolved by DraftAssistant",
-    DispositionKind.RESOLVED_ELISE: "Resolved by Casey",
+    DispositionKind.RESOLVED_CASEY: "Resolved by Casey",
     DispositionKind.SPAM: "Spam",
 }
 
@@ -64,7 +64,7 @@ _NEEDS_ATTENTION_DISPOSITIONS = frozenset(
 _RESOLVED_DISPOSITIONS = frozenset(
     {
         DispositionKind.RESOLVED_DRAFTASSISTANT,
-        DispositionKind.RESOLVED_ELISE,
+        DispositionKind.RESOLVED_CASEY,
     }
 )
 
@@ -147,7 +147,7 @@ def derive_disposition(inp: ThreadPolicyInput) -> DispositionKind:  # noqa: PLR0
         return DispositionKind.SPAM
     if state in _FINISHED_STATES:
         if (inp.resolved_by or "").strip().lower() == "casey":
-            return DispositionKind.RESOLVED_ELISE
+            return DispositionKind.RESOLVED_CASEY
         return DispositionKind.RESOLVED_DRAFTASSISTANT
     if state == ThreadStateEnum.NEW.value:
         return DispositionKind.PROCESSING
@@ -229,7 +229,7 @@ def derive_presentation(inp: ThreadPolicyInput) -> ThreadPresentation:
         suggest_resolve = bool(inp.closing_signal)
 
     resolution_mode: Literal["auto", "manual"] | None = None
-    if disposition == DispositionKind.RESOLVED_ELISE:
+    if disposition == DispositionKind.RESOLVED_CASEY:
         resolution_mode = "manual"
     elif disposition == DispositionKind.RESOLVED_DRAFTASSISTANT:
         resolution_mode = "auto"

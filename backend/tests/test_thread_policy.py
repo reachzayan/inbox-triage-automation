@@ -341,7 +341,7 @@ def test_casey_manual_resolve_badge_and_banner() -> None:
             resolved_by="casey",
         )
     )
-    assert view.disposition == DispositionKind.RESOLVED_ELISE
+    assert view.disposition == DispositionKind.RESOLVED_CASEY
     assert view.primary_badge is not None
     assert view.primary_badge.label == "Resolved by Casey"
     assert view.show_resolution_banner is True

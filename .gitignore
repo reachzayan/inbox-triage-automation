@@ -74,3 +74,6 @@ skills-lock.json
 # frontend/web), which would hide npm ci from git if that file were untracked.
 # https://git-scm.com/docs/gitignore
 /package-lock.json
+
+# Keep repository documentation tracked.
+!/README.md

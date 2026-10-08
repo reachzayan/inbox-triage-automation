@@ -119,7 +119,7 @@ _RESOLVE_PROVENANCE_EVENTS = (
     "thread.reopened.inbound_followup",
 )
 
-_ELISE_RESOLVE_EVENTS = frozenset({"thread.resolved.reviewer"})
+_CASEY_RESOLVE_EVENTS = frozenset({"thread.resolved.reviewer"})
 _REOPEN_PROVENANCE_EVENTS = frozenset(
     {
         "thread.reopened.resolution_feedback",
@@ -170,7 +170,7 @@ async def resolution_provenance_by_conversations(
         payload = event.payload if isinstance(event.payload, dict) else {}
         snapshot = payload.get("resolve_snapshot")
         snapshot_dict = snapshot if isinstance(snapshot, dict) else {}
-        resolved_by = "casey" if event.event_type in _ELISE_RESOLVE_EVENTS else "draftassistant"
+        resolved_by = "casey" if event.event_type in _CASEY_RESOLVE_EVENTS else "draftassistant"
         if isinstance(snapshot_dict.get("resolved_by"), str) and snapshot_dict["resolved_by"]:
             resolved_by = str(snapshot_dict["resolved_by"])
         reason = snapshot_dict.get("resolution_reason") or payload.get("resolution_reason")

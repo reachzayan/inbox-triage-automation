@@ -26,7 +26,7 @@ from app.services import not_spam_service
 
 pytestmark = pytest.mark.db
 
-ELISE = "casey@sample-site.example.com"
+CASEY = "casey@sample-site.example.com"
 CR = "clientrelations@example.com"
 SAMPLELAB = "orders@sample-lab.example.com"
 T_NOW = datetime(2026, 8, 20, 14, 0, tzinfo=UTC)
@@ -35,7 +35,7 @@ T_NOW = datetime(2026, 8, 20, 14, 0, tzinfo=UTC)
 def _settings() -> Settings:
     return Settings(
         environment="local",
-        target_mailboxes=f"{ELISE},{CR}",
+        target_mailboxes=f"{CASEY},{CR}",
     )
 
 
@@ -68,14 +68,14 @@ def _message(thread: Thread, *, sender: str) -> Message:
 async def test_allowlist_is_isolated_by_mailbox(db_session) -> None:
     await spam_allowlist_repo.upsert(
         db_session,
-        mailbox=ELISE,
+        mailbox=CASEY,
         sender_address=SAMPLELAB,
         thread_id=None,
         actor="casey@sample-site.example.com",
     )
     await db_session.commit()
 
-    casey = await spam_allowlist_repo.addresses_for_mailbox(db_session, ELISE)
+    casey = await spam_allowlist_repo.addresses_for_mailbox(db_session, CASEY)
     cr = await spam_allowlist_repo.addresses_for_mailbox(db_session, CR)
     assert casey == frozenset({SAMPLELAB})
     assert cr == frozenset()
@@ -83,7 +83,7 @@ async def test_allowlist_is_isolated_by_mailbox(db_session) -> None:
 
 @pytest.mark.asyncio
 async def test_mark_not_spam_unhides_thread_and_allowlists_sender(db_session) -> None:
-    thread = _thread(mailbox=ELISE, state=ThreadStateEnum.SPAM.value, conversation_id="c-samplelab")
+    thread = _thread(mailbox=CASEY, state=ThreadStateEnum.SPAM.value, conversation_id="c-samplelab")
     db_session.add(thread)
     await db_session.flush()
     db_session.add(_message(thread, sender=SAMPLELAB))
@@ -95,7 +95,7 @@ async def test_mark_not_spam_unhides_thread_and_allowlists_sender(db_session) ->
                 "original_email": {
                     "message_id": "m1",
                     "conversation_id": "c-samplelab",
-                    "mailbox": ELISE,
+                    "mailbox": CASEY,
                     "sender": SAMPLELAB,
                     "subject": "SampleLab invoice",
                     "body_text": "Please confirm",
@@ -103,7 +103,7 @@ async def test_mark_not_spam_unhides_thread_and_allowlists_sender(db_session) ->
                 },
                 "thread_context": {
                     "conversation_id": "c-samplelab",
-                    "mailbox": ELISE,
+                    "mailbox": CASEY,
                     "subject": "SampleLab invoice",
                     "messages": [],
                 },
@@ -135,7 +135,7 @@ async def test_mark_not_spam_unhides_thread_and_allowlists_sender(db_session) ->
     assert stored is not None
     assert stored.state != ThreadStateEnum.SPAM.value
 
-    allowlisted = await spam_allowlist_repo.addresses_for_mailbox(db_session, ELISE)
+    allowlisted = await spam_allowlist_repo.addresses_for_mailbox(db_session, CASEY)
     assert SAMPLELAB in allowlisted
 
 
@@ -153,7 +153,7 @@ async def test_not_spam_calls_public_context_builder(db_session) -> None:
 
     assert callable(build_thread_context_from_db)
 
-    thread = _thread(mailbox=ELISE, state=ThreadStateEnum.SPAM.value, conversation_id="c-public")
+    thread = _thread(mailbox=CASEY, state=ThreadStateEnum.SPAM.value, conversation_id="c-public")
     db_session.add(thread)
     await db_session.flush()
     db_session.add(_message(thread, sender=SAMPLELAB))
@@ -165,7 +165,7 @@ async def test_not_spam_calls_public_context_builder(db_session) -> None:
                 "original_email": {
                     "message_id": "m-public",
                     "conversation_id": "c-public",
-                    "mailbox": ELISE,
+                    "mailbox": CASEY,
                     "sender": SAMPLELAB,
                     "subject": "SampleLab invoice",
                     "body_text": "Please confirm",
@@ -173,7 +173,7 @@ async def test_not_spam_calls_public_context_builder(db_session) -> None:
                 },
                 "thread_context": {
                     "conversation_id": "c-public",
-                    "mailbox": ELISE,
+                    "mailbox": CASEY,
                     "subject": "SampleLab invoice",
                     "messages": [],
                 },
@@ -203,7 +203,7 @@ async def test_not_spam_calls_public_context_builder(db_session) -> None:
 @pytest.mark.asyncio
 async def test_mark_not_spam_rejects_non_spam_thread(db_session) -> None:
     thread = _thread(
-        mailbox=ELISE,
+        mailbox=CASEY,
         state=ThreadStateEnum.DRAFTED.value,
         conversation_id="c-drafted",
     )
@@ -229,7 +229,7 @@ async def test_mark_not_spam_invalidates_chat_cache_for_thread(db_session) -> No
 
     from app.repositories import chat_cache_repo
 
-    thread = _thread(mailbox=ELISE, state=ThreadStateEnum.SPAM.value, conversation_id="c-cache")
+    thread = _thread(mailbox=CASEY, state=ThreadStateEnum.SPAM.value, conversation_id="c-cache")
     db_session.add(thread)
     await db_session.flush()
     db_session.add(_message(thread, sender=SAMPLELAB))
@@ -239,7 +239,7 @@ async def test_mark_not_spam_invalidates_chat_cache_for_thread(db_session) -> No
     vec[0] = 1.0
     await chat_cache_repo.store(
         db_session,
-        mailbox_key=ELISE,
+        mailbox_key=CASEY,
         user_key="reviewer-a",
         query_normalized="samplelab invoice",
         query_embedding=vec,
@@ -255,7 +255,7 @@ async def test_mark_not_spam_invalidates_chat_cache_for_thread(db_session) -> No
                 "original_email": {
                     "message_id": "m-cache",
                     "conversation_id": "c-cache",
-                    "mailbox": ELISE,
+                    "mailbox": CASEY,
                     "sender": SAMPLELAB,
                     "subject": "SampleLab invoice",
                     "body_text": "Please confirm",
@@ -263,7 +263,7 @@ async def test_mark_not_spam_invalidates_chat_cache_for_thread(db_session) -> No
                 },
                 "thread_context": {
                     "conversation_id": "c-cache",
-                    "mailbox": ELISE,
+                    "mailbox": CASEY,
                     "subject": "SampleLab invoice",
                     "messages": [],
                 },
@@ -287,7 +287,7 @@ async def test_mark_not_spam_invalidates_chat_cache_for_thread(db_session) -> No
 
     hit = await chat_cache_repo.find_semantic_hit(
         db_session,
-        mailbox_key=ELISE,
+        mailbox_key=CASEY,
         user_key="reviewer-a",
         query_embedding=vec,
         similarity_threshold=0.5,
